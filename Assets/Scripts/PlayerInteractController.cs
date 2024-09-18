@@ -9,22 +9,44 @@ public class PlayerInteractController : MonoBehaviour
      * Every time an item is spawned it registers in StartTrackingItem
      * Every time an item leaves the scene it stops tracking
      */
-    private List<InteractableItem> trackedItems = new List<InteractableItem>();
-    [SerializeField] private Camera camera;
+    [SerializeField] private List<InteractableItem> trackedItems = new List<InteractableItem>();
+
+    [SerializeField] private Camera playerCamera;
 
     [SerializeField] private float selectedItemMaxAngle = 15;
 
+    private InteractionUIController interactionUIController;
+
     private InteractableItem selectedItem;
 
-    // Start is called before the first frame update
-    void Start()
+
+    public Camera GetPlayerCamera() { return playerCamera; }
+    public InteractableItem GetSelectedItem() { return selectedItem; }
+    
+    private void Start()
     {
+        interactionUIController = FindObjectOfType<InteractionUIController>();
+        if (interactionUIController == null)
+        {
+            throw new MissingComponentException("InteractionUIController");
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        UpdateSelectedItem(FindSelectedItem());
+        SetSelectedItem(FindSelectedItem());
+
+        if (selectedItem != null)
+        {
+            foreach (InteractionOptionInstance option in selectedItem.GetAvailabeleOptions())
+            {
+                if (Input.GetKeyDown(OptionsKeyMap.map[option.option].keyCode))
+                {
+                    selectedItem.Interact(option);
+                }
+            }
+
+        }
     }
 
     private InteractableItem FindSelectedItem()
@@ -34,8 +56,8 @@ public class PlayerInteractController : MonoBehaviour
 
         float bestMatch = -2;
 
-        Vector3 cameraPos = camera.transform.position;
-        Vector3 cameraDirection = camera.transform.rotation * Vector3.forward;
+        Vector3 cameraPos = playerCamera.transform.position;
+        Vector3 cameraDirection = playerCamera.transform.rotation * Vector3.forward;
         foreach (InteractableItem item in trackedItems)
         {
 
@@ -47,7 +69,7 @@ public class PlayerInteractController : MonoBehaviour
             }
 
             // Calculate dot product between camera direction vector and object direction vector
-            Vector3 directionToItem = (item.transform.position - cameraPos).normalized;
+            Vector3 directionToItem = (item.GetUILabelPosition() - cameraPos).normalized;
             float dotProduct = Vector3.Dot(cameraDirection, directionToItem);
 
             // Check if the object is within the range
@@ -66,7 +88,7 @@ public class PlayerInteractController : MonoBehaviour
         return foundItem;
     }
 
-    private void UpdateSelectedItem(InteractableItem item)
+    private void SetSelectedItem(InteractableItem item)
     {
         if (item == selectedItem)
         {
@@ -76,6 +98,7 @@ public class PlayerInteractController : MonoBehaviour
         if (selectedItem != null)
         {
             selectedItem.SetSelected(false);
+
         }
 
         if (item != null)
@@ -105,8 +128,9 @@ public class PlayerInteractController : MonoBehaviour
         }
         if (selectedItem == item)
         {
-            selectedItem = null;
+            SetSelectedItem(null);
         }
         item.SetSelected(false);
     }
+
 }

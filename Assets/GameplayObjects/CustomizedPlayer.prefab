@@ -93,8 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2953ca0a03ed50479d9a85b6a6f93af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 8897909658390012613}
-  itemsRange: 5
+  playerCamera: {fileID: 8897909658390012613}
   selectedItemMaxAngle: 15
 --- !u!20 &8897909658390012613 stripped
 Camera:

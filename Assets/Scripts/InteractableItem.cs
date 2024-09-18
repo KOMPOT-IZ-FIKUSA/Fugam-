@@ -4,34 +4,32 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InteractableItem : MonoBehaviour
+public abstract class InteractableItem : MonoBehaviour
 {
 
-    private Rigidbody rb;
-    private Outline outline;
+    protected Outline outline;
     private PlayerInteractController playerController;
 
-    [SerializeField] private float interactionRange = 3;
+    public Camera playerCamera => playerController.GetPlayerCamera();
+
+    [SerializeField] protected float interactionRange = 3;
 
     public float GetInteractionRange() {  return interactionRange; }
 
-    private void Awake()
+    protected virtual void Awake()
     {
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        if (rb is null)
-        {
-            throw new MissingComponentException("Error: Cannot find rigidbody for interactable object");
-        }
 
         outline = GetComponent<Outline>();
         if (outline is null)
         {
             outline = gameObject.AddComponent<Outline>();
+            outline.OutlineColor = Color.yellow;
+            outline.OutlineWidth = 5;
         }
 
         playerController = FindObjectOfType<PlayerInteractController>();
@@ -43,19 +41,31 @@ public class InteractableItem : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
 
         playerController.StopTrackingItem(this);
     }
 
-    public void SetSelected(bool selected)
+    public virtual void SetSelected(bool selected)
     {
         outline.enabled = selected;
+    }
+
+    public virtual void Interact(InteractionOptionInstance option)
+    {
+
+    }
+
+    public abstract List<InteractionOptionInstance> GetAvailabeleOptions();
+
+    public virtual Vector3 GetUILabelPosition()
+    {
+        return transform.position;
     }
 }
