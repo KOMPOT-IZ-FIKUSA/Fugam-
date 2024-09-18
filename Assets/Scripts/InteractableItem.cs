@@ -4,12 +4,12 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PickableItem : MonoBehaviour
+public class InteractableItem : MonoBehaviour
 {
 
     private Rigidbody rb;
     private Outline outline;
-    private PlayerPickupController playerController;
+    private PlayerInteractController playerController;
 
     [SerializeField] private float interactionRange = 3;
 
@@ -25,7 +25,7 @@ public class PickableItem : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         if (rb is null)
         {
-            throw new MissingComponentException("Error: Cannot find rigidbody for pickable object");
+            throw new MissingComponentException("Error: Cannot find rigidbody for interactable object");
         }
 
         outline = GetComponent<Outline>();
@@ -34,10 +34,10 @@ public class PickableItem : MonoBehaviour
             outline = gameObject.AddComponent<Outline>();
         }
 
-        playerController = FindObjectOfType<PlayerPickupController>();
+        playerController = FindObjectOfType<PlayerInteractController>();
         if (playerController == null)
         {
-            throw new System.Exception("Cannot find player controller for pickable object");
+            throw new System.Exception("Cannot find player controller for interactable object");
         }
         playerController.StartTrackingItem(this);
     }

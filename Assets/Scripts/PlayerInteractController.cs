@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPickupController : MonoBehaviour
+public class PlayerInteractController : MonoBehaviour
 {
     /*
-     * List of pickable items that are in the scene
+     * List of interactable items that are in the scene
      * Every time an item is spawned it registers in StartTrackingItem
      * Every time an item leaves the scene it stops tracking
      */
-    private List<PickableItem> trackedItems = new List<PickableItem>();
+    private List<InteractableItem> trackedItems = new List<InteractableItem>();
     [SerializeField] private Camera camera;
 
     [SerializeField] private float selectedItemMaxAngle = 15;
 
-    private PickableItem selectedItem;
+    private InteractableItem selectedItem;
 
     // Start is called before the first frame update
     void Start()
@@ -27,27 +27,27 @@ public class PlayerPickupController : MonoBehaviour
         UpdateSelectedItem(FindSelectedItem());
     }
 
-    private PickableItem FindSelectedItem()
+    private InteractableItem FindSelectedItem()
     {
         float maxAngleCos = Mathf.Cos(selectedItemMaxAngle / 180 * Mathf.PI);
-        PickableItem foundItem = null;
+        InteractableItem foundItem = null;
 
         float bestMatch = -2;
 
         Vector3 cameraPos = camera.transform.position;
         Vector3 cameraDirection = camera.transform.rotation * Vector3.forward;
-        foreach (PickableItem pickableItem in trackedItems)
+        foreach (InteractableItem item in trackedItems)
         {
 
             // Check if the object is close enough
-            float distance = Vector3.Distance(pickableItem.transform.position, cameraPos);
-            if (distance > pickableItem.GetInteractionRange())
+            float distance = Vector3.Distance(item.transform.position, cameraPos);
+            if (distance > item.GetInteractionRange())
             {
                 continue;
             }
 
             // Calculate dot product between camera direction vector and object direction vector
-            Vector3 directionToItem = (pickableItem.transform.position - cameraPos).normalized;
+            Vector3 directionToItem = (item.transform.position - cameraPos).normalized;
             float dotProduct = Vector3.Dot(cameraDirection, directionToItem);
 
             // Check if the object is within the range
@@ -60,13 +60,13 @@ public class PlayerPickupController : MonoBehaviour
             if (dotProduct > bestMatch)
             {
                 bestMatch = dotProduct;
-                foundItem = pickableItem;
+                foundItem = item;
             }
         }
         return foundItem;
     }
 
-    private void UpdateSelectedItem(PickableItem item)
+    private void UpdateSelectedItem(InteractableItem item)
     {
         if (item == selectedItem)
         {
@@ -86,7 +86,7 @@ public class PlayerPickupController : MonoBehaviour
         selectedItem = item;
     }
 
-    public void StartTrackingItem(PickableItem item)
+    public void StartTrackingItem(InteractableItem item)
     {
         if (trackedItems.Contains(item))
         {
@@ -96,7 +96,7 @@ public class PlayerPickupController : MonoBehaviour
         item.SetSelected(false);
     }
 
-    public void StopTrackingItem(PickableItem item)
+    public void StopTrackingItem(InteractableItem item)
     {
         bool success = trackedItems.Remove(item);
         if (!success)
