@@ -57,8 +57,24 @@ PrefabInstance:
       value: 66
       objectReference: {fileID: 0}
     - target: {fileID: 4459864850019384740, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: jumpPower
+      value: 3.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459864850019384740, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
       propertyPath: sprintFOV
       value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459864850019384740, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: walkSpeed
+      value: 1.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459864850019384740, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: bobAmount.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459864850019384740, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: sprintSpeed
+      value: 3.4
       objectReference: {fileID: 0}
     - target: {fileID: 4459864850019384740, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
       propertyPath: maxLookAngle
@@ -93,6 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2953ca0a03ed50479d9a85b6a6f93af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trackedItems: []
   playerCamera: {fileID: 8897909658390012613}
   selectedItemMaxAngle: 15
 --- !u!20 &8897909658390012613 stripped
