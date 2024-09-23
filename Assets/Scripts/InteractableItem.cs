@@ -8,7 +8,7 @@ public abstract class InteractableItem : MonoBehaviour
 {
 
     protected Outline outline;
-    private PlayerInteractController playerController;
+    public PlayerInteractController playerController { get; private set; }
 
     public Camera playerCamera => playerController.GetPlayerCamera();
 
