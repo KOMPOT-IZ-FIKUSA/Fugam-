@@ -8,7 +8,8 @@ public enum InteractionOption
 {
     PICK_UP,
     OPEN,
-    CLOSE
+    CLOSE,
+    PULL
 }
 
 public class OptionsKeyMap
@@ -16,7 +17,8 @@ public class OptionsKeyMap
     public static Dictionary<InteractionOption, NamedKey> map = new Dictionary<InteractionOption, NamedKey>() {
         {InteractionOption.PICK_UP, new NamedKey("LMB", KeyCode.Mouse0) },
         {InteractionOption.OPEN, new NamedKey("E", KeyCode.E)},
-        {InteractionOption.CLOSE, new NamedKey("E", KeyCode.E)}
+        {InteractionOption.CLOSE, new NamedKey("E", KeyCode.E)},
+        {InteractionOption.PULL, new NamedKey ("E", KeyCode.E)}
     };
 }
 
