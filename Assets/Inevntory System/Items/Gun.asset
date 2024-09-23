@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7c9517d19a2cd1499a8efaa8d8b4bfc, type: 3}
+  m_Name: Gun
+  m_EditorClassIdentifier: 
+  cooldown: 5
+  item_type: 2
+  item_sprite: {fileID: 21300000, guid: 979378e55ca5b0546a5b430cc3ca0616, type: 3}
