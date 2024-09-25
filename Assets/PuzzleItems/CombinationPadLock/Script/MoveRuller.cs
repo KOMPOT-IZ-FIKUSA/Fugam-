@@ -18,6 +18,7 @@ public class MoveRuller : MonoBehaviour
     private int _numberRuller = 0;
 
     private bool _isActveEmission = false;
+    private bool isCLicked = false;
 
 
     void Awake()
@@ -37,9 +38,13 @@ public class MoveRuller : MonoBehaviour
     }
     void Update()
     {
-        MoveRulles();
-        RotateRullers();
-        _lockPassword.Password();
+        if (isCLicked)
+        {
+            MoveRulles();
+            RotateRullers();
+            _lockPassword.Password();
+        }
+        
     }
 
     void MoveRulles()

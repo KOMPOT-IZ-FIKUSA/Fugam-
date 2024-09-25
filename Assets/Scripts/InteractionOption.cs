@@ -9,7 +9,8 @@ public enum InteractionOption
     PICK_UP,
     OPEN,
     CLOSE,
-    PULL
+    PULL,
+    ZOOM
 }
 
 public class OptionsKeyMap
@@ -18,7 +19,8 @@ public class OptionsKeyMap
         {InteractionOption.PICK_UP, new NamedKey("LMB", KeyCode.Mouse0) },
         {InteractionOption.OPEN, new NamedKey("E", KeyCode.E)},
         {InteractionOption.CLOSE, new NamedKey("E", KeyCode.E)},
-        {InteractionOption.PULL, new NamedKey ("E", KeyCode.E)}
+        {InteractionOption.PULL, new NamedKey ("E", KeyCode.E)},
+        {InteractionOption.ZOOM, new NamedKey("E", KeyCode.E) }
     };
 }
 
