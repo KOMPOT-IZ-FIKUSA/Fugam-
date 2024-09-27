@@ -2,6 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// TODO: implement raycasting
+/* example:
+ * 
+ * 
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hitInfo;
+        Debug.DrawLine(ray.origin, ray.direction);
+        if (Physics.Raycast(ray, out hitInfo, playerReach))
+        {
+            IPickable item = hitInfo.collider.GetComponent<IPickable>();
+            if (item != null)
+            {
+                pickUpItem_gameObject.SetActive(true);
+                if (Input.GetKey(pickItemKey))
+                {
+                    Items.Add(hitInfo.collider.GetComponent<ItemPickable>().itemScriptableObjects.item_type);
+                    item.PickItem();
+                }
+
+            }
+            else
+            {
+                pickUpItem_gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            pickUpItem_gameObject.SetActive(false);
+
+        }
+ * 
+ * 
+ */
+
+
+
 public class PlayerInteractController : MonoBehaviour
 {
     /*
