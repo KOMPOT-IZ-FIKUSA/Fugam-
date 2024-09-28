@@ -8,36 +8,54 @@ using static UnityEditor.Progress;
 public class PlayerInventory : MonoBehaviour
 {
     [Header("Items")]
-    public HotbarContainer Hotbar;
-    [SerializeField] private HotbarContainerUI hotbarContainerUI;
+    [SerializeField] private HotbarContainer _hotbar;
 
-    public int selectedSlot = -1;
-
-
+    public int SelectedSlot = -1;
+    
     [Space(20)]
     [Header("Keys")]
     [SerializeField] private KeyCode throwitemKey;
 
+    // Non-serializable camera and hotbarUI
+    private Camera cam;
+    private HotbarContainerUI hotbarContainerUI;
 
-    [SerializeField] Camera cam;//#2
-    [SerializeField] GameObject pickUpItem_gameObject;
+    public HotbarContainer GetHotbarContainer()
+    {
+        return _hotbar;
+    }
 
     private void Awake()
     {
-        if (Hotbar == null)
+        if (_hotbar == null)
         {
-            Hotbar = ScriptableObject.CreateInstance<HotbarContainer>();
-            Hotbar.Init();
+            _hotbar = ScriptableObject.CreateInstance<HotbarContainer>();
+            _hotbar.Init();
         }
     }
 
     private void Start()
     {
-        print(hotbarContainerUI.GetContainer() == Hotbar);
+        if (cam == null)
+        {
+            cam = FindObjectOfType<Camera>();
+            if (cam == null )
+            {
+                Debug.LogError("Cannot find player camera");
+            }
+        }
+        if (hotbarContainerUI == null)
+        {
+            hotbarContainerUI = FindObjectOfType<HotbarContainerUI>();
+            if (hotbarContainerUI == null )
+            {
+                Debug.LogError("Cannot find player camera");
+            }    
+        }
 
         for (int i = 0; i < HotbarContainer.MAX_HOTBAR_ITEMS; i++)
         {
-            SlotItem item = Hotbar.GetItem(i);
+            SlotItem item = _hotbar.GetItem(i);
             if (item == null) { continue; }
             GameObject itemUIGameObject = new GameObject();
             itemUIGameObject.name = "HotbarItem" + (i + 1);
@@ -63,45 +81,23 @@ public class PlayerInventory : MonoBehaviour
         // Item throw
         if (Input.GetKeyDown(throwitemKey))
         {
-            SlotItem item = Hotbar.GetItem(selectedSlot);
-            if (item is ThrowableItem)
+            SlotItem item = _hotbar.GetItem(SelectedSlot);
+            if (item is IThrowableItem)
             {
                 Vector3 lookDirection = cam.transform.rotation * Vector3.forward;
-                (item as ThrowableItem).CreateGameObject(cam.transform.position, lookDirection);
-                Hotbar.DeleteItem(selectedSlot);
+                (item as IThrowableItem).CreateGameObject(cam.transform.position, lookDirection);
+                _hotbar.DeleteItem(SelectedSlot);
             }
         }
-        /*
-         * 
-         * 
-        //UI
-        for (int i = 0; i < 9; i++)
-        {
-            if (i < Items.Count)
-            {
-                inventorySlotImage[i].sprite = itemSetActive[Items[i]].GetComponent<Item>().itemScriptableObject.item_sprite;
-                Debug.Log($"This is {i}");
-            }
-            else
-            {
-                inventorySlotImage[i].sprite = emptySlotSprite;
-            }
-        }
-         * 
-         */
 
 
         for (int i = 0; i < keyCodes.Length; i++)
         {
             if (Input.GetKeyDown(keyCodes[i]))
             {
-                selectedSlot = i;
+                SelectedSlot = i;
             }
         }
     }
 }
 
-public interface IPickable
-{
-    void PickItem();
-}

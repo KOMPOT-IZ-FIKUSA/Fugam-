@@ -1,7 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
+using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 
 public class SpriteItemUI : MonoBehaviour
@@ -13,7 +17,9 @@ public class SpriteItemUI : MonoBehaviour
     protected SlotContainer container => containerUI.GetContainer();
 
     // non-serializable
-    private SpriteRenderer spriteRenderer;
+    private Image imageComponent;
+    private RectTransform spriteRendererTransform;
+    private Rect previousFrameWorldRectSet;
 
     protected void Update()
     {
@@ -28,31 +34,43 @@ public class SpriteItemUI : MonoBehaviour
             return;
         }
 
-        if (spriteRenderer == null)
+        if (imageComponent == null)
         {
-            spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
-            spriteRenderer.sprite = item.GetSprite();
+            imageComponent = gameObject.AddComponent<Image>();
+            spriteRendererTransform = gameObject.GetComponent<RectTransform>();
+            imageComponent.sprite = item.GetSprite();
+        }
+
+    }
+
+    protected void LateUpdate()
+    {
+        if (imageComponent != null)
+        {
             int index = container.FindItem(item);
             if (index == -1)
             {
                 Debug.LogError("Handling slot item UI: missing item in the container");
             }
-            else
+            Rect worldRect = containerUI.GetWorldPositionRectForIndex(index);
+            if (worldRect != previousFrameWorldRectSet)
             {
-                Rect rect = containerUI.GetRectForIndex(index);
-                setSpriteToRect(rect);
+                setSpriteToRect(worldRect);
+                previousFrameWorldRectSet = worldRect;
             }
         }
     }
 
-    private void setSpriteToRect(Rect rect)
+    private void setSpriteToRect(Rect worldRect)
     {
-        Vector2 position = rect.center;
-        spriteRenderer.transform.localPosition = new Vector3(position.x, position.y, spriteRenderer.transform.position.z);
-
-        // Set the sprite's scale based on the size of the Rect
-        Vector2 size = rect.size;
-        spriteRenderer.transform.localScale = new Vector3(size.x, size.y, spriteRenderer.transform.localScale.z);
+        Vector2 worldLeftDown = worldRect.min;
+        Vector2 worldRightUp = worldRect.max;   
+        Vector2 localLeftDown = spriteRendererTransform.parent.InverseTransformPoint(worldLeftDown);
+        Vector2 localRightUp = spriteRendererTransform.parent.InverseTransformPoint(worldRightUp);
+        Vector2 localCenter = (localLeftDown + localRightUp) / 2;
+        spriteRendererTransform.localPosition = localCenter;
+        spriteRendererTransform.sizeDelta = 0.9f * (localRightUp - localLeftDown);
+        spriteRendererTransform.localScale = new Vector3(1, 1, 1);
     }
 
     public void Init(SpriteItem item, SlotContainerUI containerUI)

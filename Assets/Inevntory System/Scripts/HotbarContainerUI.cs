@@ -17,13 +17,61 @@ public class HotbarContainerUI : SlotContainerUI
         }
         if (container == null)
         {
-            container = inventory.Hotbar;
+            container = inventory.GetHotbarContainer();
+        }
+        validateSlots();
+        setupSlotsSelection();
+    }
+
+    private void validateSlots()
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i] == null)
+            {
+                Debug.LogError($"Hotbar slot {i} is null");
+            }
         }
     }
 
-    public override Rect GetRectForIndex(int index)
+    private void setupSlotsSelection()
     {
-        return (slots[index].transform as RectTransform).rect;
+        for (int i = 0; i < slots.Length; i++)
+        {
+            deselectSlot(i);
+        }
+        if (lastSelectedSlotIndex != -1)
+        {
+            selectSlot(lastSelectedSlotIndex);
+        }
+    }
+
+    private void updateSlotsSelection()
+    {
+        if (inventory == null)
+        {
+            Debug.LogError("inventory = null while updating hotbar slots selection");
+        }
+        if (inventory.SelectedSlot != lastSelectedSlotIndex)
+        {
+            if (lastSelectedSlotIndex != -1)
+            {
+                deselectSlot(lastSelectedSlotIndex);
+            }
+            if (inventory.SelectedSlot != -1)
+            {
+                selectSlot(inventory.SelectedSlot);
+            }
+            lastSelectedSlotIndex = inventory.SelectedSlot;
+        }
+    }
+
+    public override Rect GetWorldPositionRectForIndex(int index)
+    {
+        RectTransform rectTransform = slots[index].GetComponent<RectTransform>();
+        Vector2 leftDown = rectTransform.TransformPoint(rectTransform.rect.position);
+        Vector2 rightUp = rectTransform.TransformPoint(rectTransform.rect.position + rectTransform.rect.size);
+        return new Rect(leftDown, rightUp - leftDown);
     }
 
     protected void deselectSlot(int index)
@@ -38,18 +86,7 @@ public class HotbarContainerUI : SlotContainerUI
 
     protected void Update()
     {
-        if (inventory.selectedSlot != lastSelectedSlotIndex)
-        {
-            if (lastSelectedSlotIndex != -1)
-            {
-                deselectSlot(lastSelectedSlotIndex);
-            }
-            if (inventory.selectedSlot != -1)
-            {
-                selectSlot(inventory.selectedSlot);
-            }
-            lastSelectedSlotIndex = inventory.selectedSlot;
-        }
+        updateSlotsSelection();
 
     }
 }
