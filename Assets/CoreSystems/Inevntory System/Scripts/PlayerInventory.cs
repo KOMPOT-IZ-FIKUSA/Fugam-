@@ -52,16 +52,6 @@ public class PlayerInventory : MonoBehaviour
                 Debug.LogError("Cannot find player camera");
             }    
         }
-
-        for (int i = 0; i < HotbarContainer.MAX_HOTBAR_ITEMS; i++)
-        {
-            SlotItem item = _hotbar.GetItem(i);
-            if (item == null) { continue; }
-            GameObject itemUIGameObject = new GameObject();
-            itemUIGameObject.name = "HotbarItem" + (i + 1);
-            itemUIGameObject.transform.parent = hotbarContainerUI.transform;
-            item.CreateUI(itemUIGameObject, hotbarContainerUI);
-        }
     }
 
     private readonly KeyCode[] keyCodes = new KeyCode[]
@@ -97,6 +87,43 @@ public class PlayerInventory : MonoBehaviour
             {
                 SelectedSlot = i;
             }
+        }
+    }
+
+    public bool CanAddItem()
+    {
+        for (int i = 0; i < _hotbar.GetCapability(); i++)
+        {
+            // If a slot is epmty, return true
+            if (_hotbar.GetItem(i) == null)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void AddItem(SlotItem item)
+    {
+        if (item == null)
+        {
+            Debug.Log("Strange behavior: tried to add null item");
+            return;
+        }
+        bool success = false;
+        for (int i = 0; i < _hotbar.GetCapability(); i++)
+        {
+            // If a slot is epmty, return true
+            if (_hotbar.GetItem(i) == null)
+            {
+                _hotbar.SetItem(i, item);
+                success = true;
+                return;
+            }
+        }
+        if (!success)
+        {
+            Debug.LogError("Tried to add an object to a full inventory");
         }
     }
 }

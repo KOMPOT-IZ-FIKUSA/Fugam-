@@ -2,15 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractableDoor : InteractableItem
+public class InteractableDoor : InteractableObject
 {
 
     [SerializeField] private Transform door;
     [SerializeField] private Vector3 closedRotation;
     [SerializeField] private Vector3 openedRotationY;
     [SerializeField] private bool isOpen;
-
-    [SerializeField] private Transform labelPosition;
 
     [SerializeField] private AnimationCurve animationCurve;
     [SerializeField, HideInInspector] private float animationTime;
@@ -99,10 +97,5 @@ public class InteractableDoor : InteractableItem
             result.Add(new InteractionOptionInstance(InteractionOption.OPEN, "Open door"));
         }
         return result;
-    }
-
-    public override Vector3 GetUILabelPosition()
-    {
-        return labelPosition.position;
     }
 }

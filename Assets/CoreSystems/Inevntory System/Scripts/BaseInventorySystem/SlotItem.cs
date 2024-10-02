@@ -6,7 +6,13 @@ using UnityEngine.U2D;
 
 public abstract class SlotItem : ScriptableObject
 {
-    public abstract MonoBehaviour CreateUI(GameObject owner, SlotContainerUI container);
+    /// <summary>
+    /// Creates the UI components for current item.
+    /// </summary>
+    /// <param name="owner">The GameObject to attach the new component</param>
+    /// <param name="container">The container a SlotItem is bound to</param>
+    /// <returns>A component instance</returns>
+    public abstract MonoBehaviour CreateUI(SlotContainerUI container);
 }
 
 public abstract class SlotContainer : ScriptableObject
@@ -15,9 +21,9 @@ public abstract class SlotContainer : ScriptableObject
 
     public int FindItem(SlotItem item)
     {
-        for (int i = 0; i < getCapability(); i++)
+        for (int i = 0; i < GetCapability(); i++)
         {
-            if (getItem(i) == item)
+            if (GetItem(i) == item)
             {
 
                 return i;
@@ -45,7 +51,7 @@ public abstract class SlotContainer : ScriptableObject
         }
     }
 
-    protected int getCapability()
+    public int GetCapability()
     {
         if (items == null)
         {
@@ -71,7 +77,7 @@ public abstract class SlotContainer : ScriptableObject
         items[index] = item;
     }
 
-    protected SlotItem getItem(int index)
+    public SlotItem GetItem(int index)
     {
         if (items == null)
         {

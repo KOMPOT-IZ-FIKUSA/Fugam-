@@ -13,6 +13,9 @@ public enum InteractionOption
     ZOOM
 }
 
+/// <summary>
+/// The global mapping between InteractionOption's and a key that a player can press to start interaction.
+/// </summary>
 public class OptionsKeyMap
 {
     public static Dictionary<InteractionOption, NamedKey> map = new Dictionary<InteractionOption, NamedKey>() {
@@ -24,6 +27,9 @@ public class OptionsKeyMap
     };
 }
 
+/// <summary>
+/// A KeyCode with a user-friendly string name
+/// </summary>
 [Serializable]
 public struct NamedKey
 {
@@ -37,6 +43,9 @@ public struct NamedKey
     }
 }
 
+/// <summary>
+/// An InteractionOption with a user-friendly string name.
+/// </summary>
 [Serializable]
 public struct InteractionOptionInstance
 {

@@ -25,7 +25,7 @@ public class InteractionUIController : MonoBehaviour
     void LateUpdate()
     {
 
-        InteractableItem item = interactController.GetSelectedItem();
+        InteractableObject item = interactController.GetSelectedObject();
 
         if ( item == null)
         {
@@ -43,7 +43,7 @@ public class InteractionUIController : MonoBehaviour
     }
 
 
-    private string GetInteractionsFromItemAsString(InteractableItem item)
+    private string GetInteractionsFromItemAsString(InteractableObject item)
     {
         string labelContent = "";
         foreach (InteractionOptionInstance option in item.GetAvailabeleOptions())

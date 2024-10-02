@@ -19,14 +19,14 @@ public class HotbarContainer : SlotContainer
     }
 
 
-    public SlotItem GetItem(int index)
-    {
-        return getItem(index);
-    }
-
     public void DeleteItem(int index)
     {
         setItem(index, null);
+    }
+
+    public void SetItem(int index, SlotItem item)
+    {
+        setItem(index, item);
     }
 }
 

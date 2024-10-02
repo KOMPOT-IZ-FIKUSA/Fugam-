@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class HotbarContainerUI : SlotContainerUI
 {
     [SerializeField] protected Image[] slots = new Image[HotbarContainer.MAX_HOTBAR_ITEMS];
-    [SerializeField, HideInInspector] protected PlayerInventory inventory;
-    [SerializeField, HideInInspector] protected int lastSelectedSlotIndex = -1;
+    protected PlayerInventory inventory { get; private set; }
+    protected int lastSelectedSlotIndex = -1;
+
 
     private void Start()
     {
@@ -74,6 +75,8 @@ public class HotbarContainerUI : SlotContainerUI
         return new Rect(leftDown, rightUp - leftDown);
     }
 
+    
+
     protected void deselectSlot(int index)
     {
         slots[index].color = new Color32(219, 219, 219, 255);
@@ -84,9 +87,12 @@ public class HotbarContainerUI : SlotContainerUI
         slots[index].color = new Color32(145, 255, 126, 255);
     }
 
-    protected void Update()
+    protected override void Update()
     {
+        base.Update();
         updateSlotsSelection();
-
     }
+
+
+    
 }
