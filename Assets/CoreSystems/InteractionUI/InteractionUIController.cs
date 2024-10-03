@@ -5,44 +5,65 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// The class is responsible for positioning and serring text of the UI label when a player can interact with the InteractableObject
+/// </summary>
 public class InteractionUIController : MonoBehaviour
 {
-    // UI label object
+    // UI label object that shows signs line "[E] Pull object"
     [SerializeField] public Text text;
 
     private PlayerInteractController interactController;
-    private Camera playerCamera;
-
-
 
     void Start()
     {
         interactController = FindObjectOfType<PlayerInteractController>();
-        playerCamera = interactController.GetPlayerCamera();
     }
 
-
+    /// <summary>
+    /// Sets enabled property of the UI label depending on the selected object.
+    /// If an interactable object is selected, sets its screen position.
+    /// The screen position is calculated as a projection of the point an object returns.
+    /// The projection is done from 3D world space to camera space.
+    /// </summary>
     void LateUpdate()
     {
+        InteractableObject obj = interactController.GetSelectedObject();
 
-        InteractableObject item = interactController.GetSelectedObject();
+        // validate
+        if (interactController == null)
+        {
+            Debug.LogError("Cannot find " + typeof(PlayerInteractController).Name);
+        }
 
-        if ( item == null)
+        // If nothing is selected
+        if ( obj == null)
         {
             text.enabled = false;            
         } else
         {
             text.enabled = true;
-            string interactions = GetInteractionsFromItemAsString(item);
+            // Get interactions as string
+            string interactions = GetInteractionsFromItemAsString(obj);
+            // Update label content if necessary
             if (text.text != interactions)
             {
                 text.text = interactions;
             }
-            text.transform.position = playerCamera.WorldToScreenPoint(item.GetUILabelPosition());
+
+            Camera camera = interactController.GetPlayerCamera();
+            // Project 3D point from obj.GetUILabelPosition() to camera space and set to the UI label's position
+            text.transform.position = camera.WorldToScreenPoint(obj.GetUILabelPosition());
         }
     }
 
-
+    /// <summary>
+    /// Creates a string that contains all interactions that can be currently done for an item.
+    /// The string contains pairs of keys and names of interactions.
+    /// String example: "[E] Open\n[Y] Destroy\n"
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns>A string containing lines like: [Key] IntractionName</returns>
     private string GetInteractionsFromItemAsString(InteractableObject item)
     {
         string labelContent = "";

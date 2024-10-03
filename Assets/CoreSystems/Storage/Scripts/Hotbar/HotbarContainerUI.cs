@@ -35,6 +35,9 @@ public class HotbarContainerUI : SlotContainerUI
         }
     }
 
+    /// <summary>
+    /// Deselects every empty slot. Selects slot lastSelectedSlotIndex
+    /// </summary>
     private void setupSlotsSelection()
     {
         for (int i = 0; i < slots.Length; i++)
@@ -47,6 +50,10 @@ public class HotbarContainerUI : SlotContainerUI
         }
     }
 
+    /// <summary>
+    /// Uses lastSelectedSlotIndex and inventory.SelectedSlot to decide whick slots to select/deselect.
+    /// Sets lastSelectedSlotIndex to inventory.SelectedSlot
+    /// </summary>
     private void updateSlotsSelection()
     {
         if (inventory == null)

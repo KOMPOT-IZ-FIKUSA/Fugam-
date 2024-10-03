@@ -7,18 +7,16 @@ using UnityEngine.ProBuilder.Shapes;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 
-
+/// <summary>
+/// A UI component to draw SpriteItem s
+/// </summary>
 public class SpriteItemUI : MonoBehaviour
 {
-
-
-    [SerializeField] protected SpriteItem item;
-    [SerializeField] protected SlotContainerUI containerUI;
+    protected SpriteItem item;
+    protected SlotContainerUI containerUI;
     protected SlotContainer container => containerUI.GetContainer();
-
-    // non-serializable
     private Image imageComponent;
-    private RectTransform spriteRendererTransform;
+    private RectTransform imageTransform;
     private Rect previousFrameWorldRectSet;
 
     protected void Update()
@@ -37,7 +35,7 @@ public class SpriteItemUI : MonoBehaviour
         if (imageComponent == null)
         {
             imageComponent = gameObject.AddComponent<Image>();
-            spriteRendererTransform = gameObject.GetComponent<RectTransform>();
+            imageTransform = gameObject.GetComponent<RectTransform>();
             imageComponent.sprite = item.GetSprite();
         }
 
@@ -47,12 +45,18 @@ public class SpriteItemUI : MonoBehaviour
     {
         if (imageComponent != null)
         {
+            // Find index of the item in the container
             int index = container.FindItem(item);
+
+            // If is not in the container, destroy self. Item will be handled by some other container if still exists.
             if (index == -1)
             {
-                Debug.LogError("Handling slot item UI: missing item in the container");
+                Destroy(gameObject);
             }
+
+            // Find proper location
             Rect worldRect = containerUI.GetWorldPositionRectForIndex(index);
+            // If changed, set it
             if (worldRect != previousFrameWorldRectSet)
             {
                 setSpriteToRect(worldRect);
@@ -61,16 +65,20 @@ public class SpriteItemUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the position of the image with item's sprite to the argument
+    /// </summary>
+    /// <param name="worldRect">World position of the UI image slot</param>
     private void setSpriteToRect(Rect worldRect)
     {
         Vector2 worldLeftDown = worldRect.min;
         Vector2 worldRightUp = worldRect.max;   
-        Vector2 localLeftDown = spriteRendererTransform.parent.InverseTransformPoint(worldLeftDown);
-        Vector2 localRightUp = spriteRendererTransform.parent.InverseTransformPoint(worldRightUp);
+        Vector2 localLeftDown = imageTransform.parent.InverseTransformPoint(worldLeftDown);
+        Vector2 localRightUp = imageTransform.parent.InverseTransformPoint(worldRightUp);
         Vector2 localCenter = (localLeftDown + localRightUp) / 2;
-        spriteRendererTransform.localPosition = localCenter;
-        spriteRendererTransform.sizeDelta = 0.9f * (localRightUp - localLeftDown);
-        spriteRendererTransform.localScale = new Vector3(1, 1, 1);
+        imageTransform.localPosition = localCenter;
+        imageTransform.sizeDelta = 0.9f * (localRightUp - localLeftDown);
+        imageTransform.localScale = new Vector3(1, 1, 1);
     }
 
     public void Init(SpriteItem item, SlotContainerUI containerUI)

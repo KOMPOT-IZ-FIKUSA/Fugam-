@@ -7,18 +7,25 @@ using UnityEngine.U2D;
 public abstract class SlotItem : ScriptableObject
 {
     /// <summary>
-    /// Creates the UI components for current item.
+    /// For the item, creates the UI component.
     /// </summary>
-    /// <param name="owner">The GameObject to attach the new component</param>
-    /// <param name="container">The container a SlotItem is bound to</param>
+    /// <param name="container">The container that has the item</param>
     /// <returns>A component instance</returns>
     public abstract MonoBehaviour CreateUI(SlotContainerUI container);
 }
 
+/// <summary>
+/// A base container class for SlotItem s
+/// </summary>
 public abstract class SlotContainer : ScriptableObject
 {
     [SerializeField] private SlotItem[] items;
 
+    /// <summary>
+    /// Searches for an item in the container. If not found, returns -1.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns>An index of the item or -1 if not found</returns>
     public int FindItem(SlotItem item)
     {
         for (int i = 0; i < GetCapability(); i++)

@@ -5,6 +5,11 @@ using UnityEngine.UI;
 using System;
 using static UnityEditor.Progress;
 
+/// <summary>
+/// The main class that sets up player inventory.
+/// 1) Manages HotbarContainer
+/// 2) It handles user input to select a slot, throw an item, etc...
+/// </summary>
 public class PlayerInventory : MonoBehaviour
 {
     [Header("Items")]
@@ -30,7 +35,6 @@ public class PlayerInventory : MonoBehaviour
         if (_hotbar == null)
         {
             _hotbar = ScriptableObject.CreateInstance<HotbarContainer>();
-            _hotbar.Init();
         }
     }
 
@@ -54,7 +58,7 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
-    private readonly KeyCode[] keyCodes = new KeyCode[]
+    private readonly KeyCode[] slotsKeyCodes = new KeyCode[]
    {
         KeyCode.Alpha1,
         KeyCode.Alpha2,
@@ -68,7 +72,7 @@ public class PlayerInventory : MonoBehaviour
    };
     void Update()
     {
-        // Item throw
+        // Throw item if player pressed the button and throwable item is in selected slot
         if (Input.GetKeyDown(throwitemKey))
         {
             SlotItem item = _hotbar.GetItem(SelectedSlot);
@@ -80,16 +84,20 @@ public class PlayerInventory : MonoBehaviour
             }
         }
 
-
-        for (int i = 0; i < keyCodes.Length; i++)
+        // Iterate over keys and if one is pressed, select that slot
+        for (int i = 0; i < slotsKeyCodes.Length; i++)
         {
-            if (Input.GetKeyDown(keyCodes[i]))
+            if (Input.GetKeyDown(slotsKeyCodes[i]))
             {
+                // Here it doesn't do any special slot selection procedures.
+                // This class does not handle the UI.
+                // It's the responsibility of HotbarContainerUI to change the selection in UI by accessing this variable
                 SelectedSlot = i;
             }
         }
     }
 
+    // Is any slot free
     public bool CanAddItem()
     {
         for (int i = 0; i < _hotbar.GetCapability(); i++)
@@ -103,7 +111,12 @@ public class PlayerInventory : MonoBehaviour
         return false;
     }
 
-    public void AddItem(SlotItem item)
+    /// <summary>
+    /// Adds item to an empty slot
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="selectSlot">Whether a slot will be selected after item is added</param>
+    public void AddItem(SlotItem item, bool selectSlot = true)
     {
         if (item == null)
         {
@@ -117,6 +130,10 @@ public class PlayerInventory : MonoBehaviour
             if (_hotbar.GetItem(i) == null)
             {
                 _hotbar.SetItem(i, item);
+                if (selectSlot)
+                {
+                    SelectedSlot = i;
+                }
                 success = true;
                 return;
             }

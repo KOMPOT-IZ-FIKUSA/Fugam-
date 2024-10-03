@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A class to handle a door.
+/// TODO: Animation-based state change
+/// The class is not done
+/// </summary>
 public class InteractableDoor : InteractableObject
 {
 
@@ -18,6 +23,7 @@ public class InteractableDoor : InteractableObject
 
     protected override void Start()
     {
+        throw new System.NotImplementedException("Door code has to be finished to apply the component");
         base.Start();
         SetOpen(false);
     }
