@@ -77,7 +77,7 @@ public class SpriteItemUI : MonoBehaviour
         Vector2 localRightUp = imageTransform.parent.InverseTransformPoint(worldRightUp);
         Vector2 localCenter = (localLeftDown + localRightUp) / 2;
         imageTransform.localPosition = localCenter;
-        imageTransform.sizeDelta = 0.9f * (localRightUp - localLeftDown);
+        imageTransform.sizeDelta = localRightUp - localLeftDown;
         imageTransform.localScale = new Vector3(1, 1, 1);
     }
 

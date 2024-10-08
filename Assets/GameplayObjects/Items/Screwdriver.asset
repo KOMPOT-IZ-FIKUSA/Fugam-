@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5829818d70f60349b7aecb296714f49, type: 3}
   m_Name: Screwdriver
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 78f9f2eb3d74d994fbe6cdfab0ca5765, type: 3}
+  sprite: {fileID: 21300000, guid: cae53c3d9401c574cbbf49551653157b, type: 3}
   itemName: Screwdriver

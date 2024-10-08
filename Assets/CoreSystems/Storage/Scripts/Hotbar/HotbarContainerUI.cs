@@ -79,7 +79,16 @@ public class HotbarContainerUI : SlotContainerUI
         RectTransform rectTransform = slots[index].GetComponent<RectTransform>();
         Vector2 leftDown = rectTransform.TransformPoint(rectTransform.rect.position);
         Vector2 rightUp = rectTransform.TransformPoint(rectTransform.rect.position + rectTransform.rect.size);
-        return new Rect(leftDown, rightUp - leftDown);
+
+        Vector2 center = (leftDown + rightUp) / 2;
+        Vector2 size = (rightUp - leftDown);
+
+        float shrinkAlpha = 0.25f;
+        
+        Vector2 newSize = size * (1 - shrinkAlpha);
+        Vector2 newLeftDown = center - newSize / 2;
+
+        return new Rect(newLeftDown, newSize);
     }
 
     

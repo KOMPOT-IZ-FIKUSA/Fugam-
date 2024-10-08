@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractableVent : InteractableItem
+public class InteractableVent : InteractableObject
 {
     private Rigidbody ventRb;
     private bool isOpened = false;
