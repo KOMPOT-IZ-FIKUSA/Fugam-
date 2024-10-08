@@ -49,22 +49,22 @@ public class AngularInteractionSelector : MonoBehaviour
         Vector3 cameraPos = camera.transform.position;
         Vector3 cameraDirection = camera.transform.rotation * Vector3.forward;
         // Iterate over all objects to calculate deviation and distance to each
-        foreach (InteractableObject item in controller.GetAllObjects())
+        foreach (InteractableObject obj in controller.GetAllObjects())
         {
             // Check if the object is close enough
-            float distance = Vector3.Distance(item.transform.position, cameraPos);
-            if (distance > item.GetAngularSelectionRange())
+            float distance = Vector3.Distance(obj.transform.position, cameraPos);
+            if (distance > obj.GetAngularSelectionRange())
             {
                 continue;
             }
 
             // Calculate dot product between camera direction vector and object direction vector
-            Vector3 directionToItem = item.GetAngularSelectionCenter() - cameraPos;
+            Vector3 directionToItem = obj.GetAngularSelectionCenter() - cameraPos;
             
-            // If position of the item equals to the position of the camera
+            // If position of the obj equals to the position of the camera
             if (directionToItem == Vector3.zero)
             {
-                selectedObject = item;
+                selectedObject = obj;
                 distance = 0;
             }
 
@@ -74,8 +74,8 @@ public class AngularInteractionSelector : MonoBehaviour
             float angle = Mathf.Acos(cosine); // always positive by the definition of arccos
             angle = angle / Mathf.PI * 180;
 
-            // If angle is too big for the item, skip it
-            if (angle > item.GetAngularSelectionAngle())
+            // If angle is too big for the obj, skip it
+            if (angle > obj.GetAngularSelectionAngle())
             {
                 continue;
             }
@@ -86,14 +86,37 @@ public class AngularInteractionSelector : MonoBehaviour
                 continue;
             }
 
-            // If item can't be selected, skip it
-            if (!item.CanBeSelected())
+            // If obj can't be selected, skip it
+            if (!obj.CanBeSelected())
             {
                 continue;
             }
 
-            selectedObject = item;
+            if (checkObjectsBetweenCameraAndInteractable(camera, obj))
+            {
+                continue;
+            }
+
+            selectedObject = obj;
             distanceToSelected = distance;
         }
+    }
+
+    private static bool checkObjectsBetweenCameraAndInteractable(Camera camera, InteractableObject obj)
+    {
+        
+        Vector3 start = camera.transform.position;
+        Vector3 end = obj.transform.position;
+        Vector3 delta = end - start;
+        Ray ray = new Ray(start, delta);
+        RaycastHit result;
+        bool success = Physics.Raycast(ray, out result, delta.magnitude);
+        if (!success)
+        {
+            return false;
+        }
+        bool componentFound = result.collider.GetComponentInParent<InteractableObject>() == obj;
+        
+        return !componentFound;
     }
 }
