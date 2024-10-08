@@ -12,6 +12,10 @@ public abstract class SlotItem : ScriptableObject
     /// <param name="container">The container that has the item</param>
     /// <returns>A component instance</returns>
     public abstract MonoBehaviour CreateUI(SlotContainerUI container);
+
+    public virtual SlotItem Copy() {
+        return Instantiate(this);
+    }
 }
 
 /// <summary>
@@ -20,6 +24,8 @@ public abstract class SlotItem : ScriptableObject
 public abstract class SlotContainer : ScriptableObject
 {
     [SerializeField] private SlotItem[] items;
+
+
 
     /// <summary>
     /// Searches for an item in the container. If not found, returns -1.
@@ -98,6 +104,7 @@ public abstract class SlotContainer : ScriptableObject
         }
         return items[index];
     }
+
 }
 
 

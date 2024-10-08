@@ -28,6 +28,7 @@ public class RaycastInteractableSelector : MonoBehaviour
         
     }
 
+
     void Update()
     {
 
@@ -42,32 +43,46 @@ public class RaycastInteractableSelector : MonoBehaviour
             return;
         }
 
+        selectedObject = null;
+        distanceToSelected = float.PositiveInfinity;
+
         Vector3 reticlePositionOnScreen = centerScreenReticle.TransformPoint(Vector3.zero);
         Camera camera = controller.GetPlayerCamera();
         Ray ray = camera.ScreenPointToRay(reticlePositionOnScreen);
         Debug.DrawLine(ray.origin, ray.origin + ray.direction * maximumPlayerReach, Color.yellow, Time.deltaTime * 2);
-        RaycastHit[] hits = Physics.RaycastAll(ray, maximumPlayerReach);
+        RaycastHit hitinfo;
+        bool success = Physics.Raycast(ray, out hitinfo, maximumPlayerReach);
+        if (!success) return;
 
-        selectedObject = null;
-        distanceToSelected = float.PositiveInfinity;
+        InteractableObject interactableObject = hitinfo.collider.GetComponentInParent<InteractableObject>();
 
-        foreach (RaycastHit hitinfo in hits)
+        // Skip the collision if the object is not interractable
+        if (interactableObject == null) return;
+
+        // Skip the collision if it's farther than the last one found
+        if (hitinfo.distance > distanceToSelected) return;
+
+        // Skip the collision if it is further than the object can be interacted with
+        if (hitinfo.distance > interactableObject.GetRaycastSelectionRange()) return;
+
+        if (!interactableObject.CanBeSelected()) return;
+
+        selectedObject = interactableObject;
+        distanceToSelected = hitinfo.distance;
+    }
+
+    private static int compareDistances(RaycastHit hit1, RaycastHit hit2)
+    {
+        if (hit1.distance > hit2.distance)
         {
-            InteractableObject interactableObject = hitinfo.collider.GetComponentInParent<InteractableObject>();
-            
-            // Skip the collision if the object is not interractable
-            if (interactableObject == null) continue;
-
-            // Skip the collision if it's farther than the last one found
-            if (hitinfo.distance > distanceToSelected) continue;
-
-            // Skip the collision if it is further than the object can be interacted with
-            if (hitinfo.distance > interactableObject.GetRaycastSelectionRange()) continue;
-
-            if (!interactableObject.CanBeSelected()) continue;
-
-            selectedObject = interactableObject;
-            distanceToSelected = hitinfo.distance;
+            return 1;
+        }
+        else if (hit1.distance < hit2.distance)
+        {
+            return -1;
+        } else
+        {
+            return 0;
         }
     }
 
