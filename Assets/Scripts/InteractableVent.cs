@@ -6,6 +6,7 @@ public class InteractableVent : InteractableObject
 {
     private Rigidbody ventRb;
     private bool isOpened = false;
+    private PlayerInventory playerInventory;
 
     [SerializeField] private Vector3 pullVector;
     public override List<InteractionOptionInstance> GetAvailabeleOptions()
@@ -15,7 +16,7 @@ public class InteractableVent : InteractableObject
 
         if (!isOpened)
         {
-            interactionOptionInstances.Add(new InteractionOptionInstance(InteractionOption.PULL, "Pull Brick"));
+            interactionOptionInstances.Add(new InteractionOptionInstance(InteractionOption.PULL, "Open Vent?"));
         }
         return interactionOptionInstances;
 
@@ -26,11 +27,11 @@ public class InteractableVent : InteractableObject
         //TODO: If selected item is screwdriver open vent / else unable to open vent!
         if (option.option == InteractionOption.PULL)
         {
-
+                print("Opened Vent");
+                ventRb.AddForce(pullVector);
+                isOpened = true;                       
             // TODO: Go to player inventory, add and destroy this item
-            print("Opened Vent");
-            ventRb.AddForce(pullVector);
-            isOpened = true;
+            
 
         }
     }
@@ -52,6 +53,7 @@ public class InteractableVent : InteractableObject
     {
         base.Start();
         ventRb = GetComponent<Rigidbody>();
+        
 
     }
 
