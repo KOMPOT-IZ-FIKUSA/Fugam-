@@ -19,7 +19,7 @@ public class PlayerInventory : MonoBehaviour
     
     [Space(20)]
     [Header("Keys")]
-    public KeyCode throwitemKey;
+    [SerializeField] private KeyCode throwitemKey;
 
     // Non-serializable camera and hotbarUI
     private Camera cam;
