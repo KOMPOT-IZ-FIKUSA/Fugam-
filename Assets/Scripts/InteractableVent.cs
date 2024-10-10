@@ -6,7 +6,10 @@ public class InteractableVent : InteractableObject
 {
     private Rigidbody ventRb;
     private bool isOpened = false;
-    
+    private string ventHint = "You are missing a tool to open this!";
+
+
+    private InteractionUIController interactionUIController;
     [SerializeField] private Vector3 pullVector;
     private InteractableScrewdriver interactableScrewdriver;
     private PlayerInventory inventory;
@@ -30,12 +33,6 @@ public class InteractableVent : InteractableObject
 
         SlotItem selectedItem = inventory.GetHotbarContainer().GetItem(inventory.SelectedSlot);
 
-        // Debug logs to check the items
-        Debug.Log($"Selected Item: {selectedItem}");
-        Debug.Log($"Screwdriver Item Source: {interactableScrewdriver}");
-
-
-        //TODO: If selected item is screwdriver open vent / else unable to open vent!
         if (option.option == InteractionOption.PULL)
         {
 
@@ -47,6 +44,10 @@ public class InteractableVent : InteractableObject
             }
             else
             {
+                interactionUIController.hints.enabled = true;
+                interactionUIController.hints.text = ventHint;
+                interactionUIController.Invoke("HintMessage", interactionUIController.hintDelay);
+                
                 Debug.Log("You need a screwdriver to open this vent.");
             }
         }
@@ -69,6 +70,7 @@ public class InteractableVent : InteractableObject
     {
         base.Start();
         ventRb = GetComponent<Rigidbody>();
+        interactionUIController = FindObjectOfType<InteractionUIController>();
 
         //Finds screwdriver script
         interactableScrewdriver = FindObjectOfType<InteractableScrewdriver>();
@@ -80,6 +82,7 @@ public class InteractableVent : InteractableObject
         }
         else
         {
+            
             Debug.LogError("Cannot find screwdriver item");
         }
 
@@ -96,4 +99,7 @@ public class InteractableVent : InteractableObject
     {
         base.Update();
     }
+    
+    
+
 }
