@@ -6,9 +6,12 @@ public class InteractableVent : InteractableObject
 {
     private Rigidbody ventRb;
     private bool isOpened = false;
-    private PlayerInventory playerInventory;
-
+    
     [SerializeField] private Vector3 pullVector;
+    private InteractableScrewdriver interactableScrewdriver;
+    private PlayerInventory inventory;
+    private SlotItem screwdriver;
+
     public override List<InteractionOptionInstance> GetAvailabeleOptions()
     {
 
@@ -24,15 +27,28 @@ public class InteractableVent : InteractableObject
     public override void Interact(InteractionOptionInstance option)
     {
         base.Interact(option);
+
+        SlotItem selectedItem = inventory.GetHotbarContainer().GetItem(inventory.SelectedSlot);
+
+        // Debug logs to check the items
+        Debug.Log($"Selected Item: {selectedItem}");
+        Debug.Log($"Screwdriver Item Source: {interactableScrewdriver}");
+
+
         //TODO: If selected item is screwdriver open vent / else unable to open vent!
         if (option.option == InteractionOption.PULL)
         {
+
+            if (selectedItem != null && selectedItem.Equals(screwdriver))  // Check if selected item is screwdriver
+            {
                 print("Opened Vent");
                 ventRb.AddForce(pullVector);
-                isOpened = true;                       
-            // TODO: Go to player inventory, add and destroy this item
-            
-
+                isOpened = true;
+            }
+            else
+            {
+                Debug.Log("You need a screwdriver to open this vent.");
+            }
         }
     }
     public override void SetSelected(bool selected)
@@ -53,8 +69,26 @@ public class InteractableVent : InteractableObject
     {
         base.Start();
         ventRb = GetComponent<Rigidbody>();
-        
 
+        //Finds screwdriver script
+        interactableScrewdriver = FindObjectOfType<InteractableScrewdriver>();
+        if (interactableScrewdriver != null)
+        {
+            // Reference the screwdriver item
+            screwdriver = interactableScrewdriver.screwdriverItemSource;
+            Debug.Log("Screwdriver item source: " + interactableScrewdriver);
+        }
+        else
+        {
+            Debug.LogError("Cannot find screwdriver item");
+        }
+
+        //Find player inventory
+        inventory = FindObjectOfType<PlayerInventory>();
+        if (inventory == null)
+        {
+            Debug.LogError("Cannot find player inventory");
+        }
     }
 
     // Update is called once per frame

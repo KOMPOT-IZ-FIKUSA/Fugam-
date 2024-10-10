@@ -47,6 +47,7 @@ public class InteractableScrewdriver : InteractableObject
         {
             Debug.LogError("Cannot find player inventory");
         }
+        screwdriverItemSource.itemName = "Screwdriver";
     }
     protected override void Update()
     {
