@@ -41,6 +41,7 @@ public class InteractableVent : InteractableObject
                 print("Opened Vent");
                 ventRb.AddForce(pullVector);
                 isOpened = true;
+                
             }
             else
             {
@@ -100,6 +101,7 @@ public class InteractableVent : InteractableObject
         base.Update();
     }
     
-    
+
+
 
 }
