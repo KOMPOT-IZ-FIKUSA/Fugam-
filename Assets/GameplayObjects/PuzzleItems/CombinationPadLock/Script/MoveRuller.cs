@@ -1,6 +1,7 @@
 ﻿// Script by Marcelli Michele
 
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class MoveRuller : MonoBehaviour
@@ -8,6 +9,11 @@ public class MoveRuller : MonoBehaviour
     PadLockPassword _lockPassword;
     PadLockEmissionColor _pLockColor;
 
+    [Header("Cameras")]
+    public GameObject mainCam;
+    public GameObject lockCam;
+
+    private BoxCollider _boxCollider;
     [HideInInspector]
     public List <GameObject> _rullers = new List<GameObject>();
     private int _scroolRuller = 0;
@@ -18,11 +24,20 @@ public class MoveRuller : MonoBehaviour
     private int _numberRuller = 0;
 
     private bool _isActveEmission = false;
-    private bool isCLicked = false;
+    private bool isClicked = false;
 
 
+    private void OnMouseDown()
+    {
+        isClicked = true;
+    }
+    private void Start()
+    {
+        _boxCollider = GetComponent<BoxCollider>();
+    }
     void Awake()
     {
+        
         _lockPassword = FindObjectOfType<PadLockPassword>();
         _pLockColor = FindObjectOfType<PadLockEmissionColor>();
 
@@ -38,15 +53,38 @@ public class MoveRuller : MonoBehaviour
     }
     void Update()
     {
-        if (isCLicked)
+        if (isClicked)
         {
+            
             MoveRulles();
             RotateRullers();
             _lockPassword.Password();
+            Debug.Log("LockCam Active");
+            LockCameras();
+
+            if (_lockPassword.passSolved == true)
+            {
+                PlayerCamera();
+                Debug.Log("Pass SOlved");
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("Back to player Cam!");
+            
         }
         
     }
-
+    public void LockCameras()
+    {
+        lockCam.SetActive(true);
+        mainCam.SetActive(false);
+    }
+    public void PlayerCamera()
+    {
+        lockCam.SetActive(false);
+        mainCam.SetActive(true);
+    }
     void MoveRulles()
     {
         if (Input.GetKeyDown(KeyCode.D)) 

@@ -7,6 +7,8 @@ public class PadLockPassword : MonoBehaviour
 {
     MoveRuller _moveRull;
 
+    public bool passSolved = false;
+
     public int[] _numberPassword = {0,0,0,0};
 
     private void Awake()
@@ -20,6 +22,8 @@ public class PadLockPassword : MonoBehaviour
         {
             // Here enter the event for the correct combination
             Debug.Log("Password correct");
+            passSolved = true;
+
 
             // Es. Below the for loop to disable Blinking Material after the correct password
             for (int i = 0; i < _moveRull._rullers.Count; i++)
