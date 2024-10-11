@@ -7,6 +7,7 @@ public class InteractableVent : InteractableObject
     private Rigidbody ventRb;
     private bool isOpened = false;
     private string ventHint = "You are missing a tool to open this!";
+    private string screwBroke = "The Screwdriver broke!";
 
 
     private InteractionUIController interactionUIController;
@@ -41,7 +42,13 @@ public class InteractableVent : InteractableObject
                 print("Opened Vent");
                 ventRb.AddForce(pullVector);
                 isOpened = true;
-                
+
+                inventory.GetHotbarContainer().DeleteItem(inventory.SelectedSlot);
+                inventory.SelectedSlot = 0;
+                interactionUIController.hints.enabled = true;
+                interactionUIController.hints.text = screwBroke;
+                interactionUIController.Invoke("EndMessage", interactionUIController.messageDelay);
+
             }
             else
             {
