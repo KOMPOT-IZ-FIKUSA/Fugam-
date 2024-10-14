@@ -19,7 +19,7 @@ public class JournalContainerUI : SlotContainerUI
 
       if (container == null)
       {
-         container = inventory.GetHotbarContainer(); // this needs to be changed
+         container = inventory.GetJournalContainer(); // this needs to be changed
       }
 
       validateSlots();
@@ -73,7 +73,14 @@ public class JournalContainerUI : SlotContainerUI
    }
    public override Rect GetWorldPositionRectForIndex(int index)
    {
-      throw new System.NotImplementedException();
+      if (index >= 0 && index < slots.Length)
+      {
+         RectTransform rectTransform = slots[index].GetComponent<RectTransform>();
+         Vector2 leftDown = rectTransform.TransformPoint(rectTransform.rect.position);
+         Vector2 rightUp = rectTransform.TransformPoint(rectTransform.rect.position + rectTransform.rect.size);
+         return new Rect(leftDown, rightUp - leftDown);
+      }
+      return new Rect();
    }
 
    protected void deselectSlot(int index)

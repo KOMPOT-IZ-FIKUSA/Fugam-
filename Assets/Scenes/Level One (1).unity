@@ -2449,6 +2449,10 @@ PrefabInstance:
       propertyPath: m_PixelPerfect
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3594294923067345962, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 3857488635389322025, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
       propertyPath: m_IsActive
       value: 1

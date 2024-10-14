@@ -14,6 +14,7 @@ public class PlayerInventory : MonoBehaviour
 {
     [Header("Items")]
     [SerializeField] private HotbarContainer _hotbar;
+    [SerializeField] private JournalContainer _journal;
 
     public int SelectedSlot = -1;
     
@@ -28,6 +29,11 @@ public class PlayerInventory : MonoBehaviour
     public HotbarContainer GetHotbarContainer()
     {
         return _hotbar;
+    }
+
+    public JournalContainer GetJournalContainer()
+    {
+        return _journal;
     }
 
     private void Awake()
