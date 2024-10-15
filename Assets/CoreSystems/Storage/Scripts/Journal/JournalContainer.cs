@@ -13,11 +13,11 @@ public class JournalContainer : SlotContainer
 
     private void DeleteItem(int index)
     {
-        setItem(index, null);
+        base.SetItem(index, null);
     }
 
-    public void SetItem(int index, SlotItem item)
+    public new void SetItem(int index, SlotItem item)
     {
-        setItem(index, item);
+        base.SetItem(index, item);
     }
 }

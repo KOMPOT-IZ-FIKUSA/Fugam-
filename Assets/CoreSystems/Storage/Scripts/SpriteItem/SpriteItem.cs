@@ -24,8 +24,10 @@ public class SpriteItem : SlotItem
     /// <returns>A created component</returns>
     public override MonoBehaviour CreateUI(SlotContainerUI containerUI)
     {
+        Debug.Log($"Creating UI for {itemName} in {containerUI.name}");
         GameObject owner = new GameObject(itemName);
         owner.transform.parent = containerUI.transform;
+        owner.transform.SetParent(containerUI.transform, false);
         SpriteItemUI ui = owner.AddComponent<SpriteItemUI>();
         ui.Init(this, containerUI);
         return ui;

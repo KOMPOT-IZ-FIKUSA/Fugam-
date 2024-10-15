@@ -74,7 +74,7 @@ public abstract class SlotContainer : ScriptableObject
         return items.Length;
     }
 
-    protected void setItem(int index, SlotItem item)
+    public void SetItem(int index, SlotItem item)
     {
 
         if (items == null)
@@ -82,7 +82,7 @@ public abstract class SlotContainer : ScriptableObject
             Debug.LogError("Trying to set item to a container that is not initialized properly");
             return;
         }
-        if (index < 0 && index >= items.Length)
+        if (index < 0 || index >= items.Length)
         {
             Debug.LogError($"Cannot set item to [{index}] of the container with capability {items.Length}");
             return;

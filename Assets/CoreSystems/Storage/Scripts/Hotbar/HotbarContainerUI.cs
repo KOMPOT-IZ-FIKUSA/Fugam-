@@ -1,11 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HotbarContainerUI : SlotContainerUI
 {
-    [SerializeField] protected Image[] slots = new Image[HotbarContainer.MAX_HOTBAR_ITEMS];
+    [SerializeField] public Image[] slots = new Image[HotbarContainer.MAX_HOTBAR_ITEMS];
+    
+    protected override Image[] GetSlots()
+    {
+        return slots;
+    }
     protected PlayerInventory inventory { get; private set; }
     protected int lastSelectedSlotIndex = -1;
 
@@ -76,6 +79,12 @@ public class HotbarContainerUI : SlotContainerUI
 
     public override Rect GetWorldPositionRectForIndex(int index)
     {
+        if (index < 0 || index >= slots.Length)
+        {
+            Debug.LogError($"Invalid index {index}. Must be between 0 and {slots.Length - 1}");
+            return Rect.zero; // Return a default value or handle this case appropriately.
+        }
+        
         RectTransform rectTransform = slots[index].GetComponent<RectTransform>();
         Vector2 leftDown = rectTransform.TransformPoint(rectTransform.rect.position);
         Vector2 rightUp = rectTransform.TransformPoint(rectTransform.rect.position + rectTransform.rect.size);
@@ -109,6 +118,25 @@ public class HotbarContainerUI : SlotContainerUI
         updateSlotsSelection();
     }
 
+    public bool IsMouseOverSlot(int index)
+    {
+        if (index < 0 || index >= slots.Length)
+        {
+            Debug.LogError($"Invalid slot index: {index}");
+            return false;
+        }
 
+        RectTransform rectTransform = slots[index].GetComponent<RectTransform>();
+        Vector2 localMousePos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            rectTransform,
+            Input.mousePosition,
+            null, // For Screen Space - Overlay canvases
+            out localMousePos
+        );
+
+        return rectTransform.rect.Contains(localMousePos);
+    
+    }
     
 }

@@ -5,12 +5,52 @@ using UnityEngine.UI;
 
 public class JournalContainerUI : SlotContainerUI
 {
-   [SerializeField] protected Image[] slots = new Image[JournalContainer.MAX_JOURNAL_ITEMS];
+   [SerializeField] public Image[] slots = new Image[JournalContainer.MAX_JOURNAL_ITEMS];
+   
+   protected override Image[] GetSlots()
+   {
+      return slots;
+   }
+   
+   protected void OnEnable()
+   {
+
+      // Ensure container is initialized
+      if (container == null)
+      {
+         if (inventory == null)
+         {
+            inventory = FindObjectOfType<PlayerInventory>();
+         }
+
+         if (inventory != null)
+         {
+            container = inventory.GetJournalContainer();
+         }
+         else
+         {
+            Debug.LogError("PlayerInventory not found when initializing JournalContainerUI.");
+            return;
+         }
+      }
+
+      // Ensure lastFrameItems is initialized
+      if (lastFrameItems == null)
+      {
+         lastFrameItems = new HashSet<SlotItem>();
+      }
+      else
+      {
+         lastFrameItems.Clear();
+      }
+
+      createItemsUI();
+   }
    
    protected PlayerInventory inventory { get; private set; }
    protected int lastSelectedSlotIndex = -1;
 
-   private void Start()
+   private void Awake()
    {
       if (inventory == null)
       {
@@ -19,7 +59,7 @@ public class JournalContainerUI : SlotContainerUI
 
       if (container == null)
       {
-         container = inventory.GetJournalContainer(); // this needs to be changed
+         container = inventory.GetJournalContainer();
       }
 
       validateSlots();
@@ -97,5 +137,31 @@ public class JournalContainerUI : SlotContainerUI
    {
       base.Update();
       updateSlotSelection();
+   }
+   
+   public bool IsMouseOverSlot(int index)
+   {
+      if (index < 0 || index >= slots.Length)
+      {
+         Debug.LogError($"Invalid slot index: {index}");
+         return false;
+      }
+
+      RectTransform rectTransform = slots[index].GetComponent<RectTransform>();
+      Vector2 localMousePos;
+      bool isOver = RectTransformUtility.ScreenPointToLocalPointInRectangle(
+         rectTransform,
+         Input.mousePosition,
+         null, // For Screen Space - Overlay canvases
+         out localMousePos
+      );
+
+      // Log mouse position and rect information for debugging
+      Debug.Log($"Slot {index} local mouse position: {localMousePos}");
+      Debug.Log($"Slot {index} rect: {rectTransform.rect}");
+
+      isOver = rectTransform.rect.Contains(localMousePos);
+      Debug.Log($"Mouse over slot {index}: {isOver}");
+      return isOver;
    }
 }
