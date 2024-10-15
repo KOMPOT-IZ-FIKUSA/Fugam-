@@ -6,7 +6,6 @@ using UnityEngine.U2D;
 
 public abstract class SlotItem : ScriptableObject
 {
-    public string itemName;
     /// <summary>
     /// For the item, creates the UI component.
     /// </summary>
@@ -20,16 +19,14 @@ public abstract class SlotItem : ScriptableObject
 
     public override bool Equals(object obj)
     {
-        if(obj is SlotItem otherItem)
-        {
-            return this.itemName == otherItem.itemName;
-        }
-        return false;
+        // Since there are no other properties just require type equality
+        return this.GetType() == obj.GetType();
     }
     public override int GetHashCode()
     {
-        return itemName != null ? itemName.GetHashCode() : base.GetHashCode();
+        return base.GetHashCode();
     }
+
 
 
 

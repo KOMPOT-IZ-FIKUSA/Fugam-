@@ -69527,6 +69527,7 @@ MonoBehaviour:
   angularSelectionRange: 1
   angularSelectionAngle: 15
   pullVector: {x: 0, y: 0, z: -305}
+  screwdriver: {fileID: 11400000, guid: 7fa5f3bfe3b94dd498bda9ac404f0e92, type: 2}
 --- !u!95 &2067013528
 Animator:
   serializedVersion: 5

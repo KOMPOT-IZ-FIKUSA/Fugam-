@@ -31,4 +31,16 @@ public class SpriteItem : SlotItem
         return ui;
     }
 
+
+    public override bool Equals(object obj)
+    {
+        if (obj == null) { return false; }
+        if (obj.GetType() != this.GetType()) return false;
+        return itemName == ((SpriteItem)obj).itemName;
+    }
+    public override int GetHashCode()
+    {
+        return itemName != null ? itemName.GetHashCode() : base.GetHashCode();
+    }
+
 }

@@ -143,5 +143,10 @@ public class PlayerInventory : MonoBehaviour
             Debug.LogError("Tried to add an object to a full inventory");
         }
     }
+
+    public SlotItem GetSelectedItem()
+    {
+        return SelectedSlot == -1 ? null : _hotbar.GetItem(SelectedSlot);
+    }
 }
 
