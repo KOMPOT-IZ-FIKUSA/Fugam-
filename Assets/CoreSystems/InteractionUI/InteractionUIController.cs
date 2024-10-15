@@ -12,6 +12,9 @@ public class InteractionUIController : MonoBehaviour
 {
     // UI label object that shows signs line "[E] Pull object"
     [SerializeField] public Text text;
+    [SerializeField] public TextMeshProUGUI hints;
+
+    public float hintDelay = 2.25f;
 
     private PlayerInteractController interactController;
 
@@ -73,5 +76,10 @@ public class InteractionUIController : MonoBehaviour
             labelContent += $"[{button}] {option.gameplayName}\n";
         }
         return labelContent;
+    }
+    public void HintMessage()
+    {
+        hints.text = "";
+        hints.enabled = false;
     }
 }
