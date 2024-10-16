@@ -11,7 +11,7 @@ public class InteractableVent : InteractableObject
 
 
     private InteractionUIController interactionUIController;
-    [SerializeField] private Vector3 pullVector;
+    private Animation openVent;
     private InteractableScrewdriver interactableScrewdriver;
     private PlayerInventory inventory;
     private SlotItem screwdriver;
@@ -40,7 +40,7 @@ public class InteractableVent : InteractableObject
             if (selectedItem != null && selectedItem.Equals(screwdriver))  // Check if selected item is screwdriver
             {
                 print("Opened Vent");
-                ventRb.AddForce(pullVector);
+                openVent.Play();
                 isOpened = true;
 
                 inventory.GetHotbarContainer().DeleteItem(inventory.SelectedSlot);
@@ -79,6 +79,7 @@ public class InteractableVent : InteractableObject
         base.Start();
         ventRb = GetComponent<Rigidbody>();
         interactionUIController = FindObjectOfType<InteractionUIController>();
+        openVent = GetComponent<Animation>();
 
         //Finds screwdriver script
         interactableScrewdriver = FindObjectOfType<InteractableScrewdriver>();
