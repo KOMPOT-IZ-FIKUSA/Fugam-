@@ -14,7 +14,7 @@ public class InteractableVent : InteractableObject
     private Animation openVent;
     private InteractableScrewdriver interactableScrewdriver;
     private PlayerInventory inventory;
-    private SlotItem screwdriver;
+    
 
     public override List<InteractionOptionInstance> GetAvailabeleOptions()
     {
@@ -37,7 +37,7 @@ public class InteractableVent : InteractableObject
         if (option.option == InteractionOption.PULL)
         {
 
-            if (selectedItem != null && selectedItem.Equals(screwdriver))  // Check if selected item is screwdriver
+            if (selectedItem != null && selectedItem.itemName == "Screwdriver")  // Check if selected item is screwdriver
             {
                 print("Opened Vent");
                 openVent.Play();
@@ -54,7 +54,7 @@ public class InteractableVent : InteractableObject
             {
                 interactionUIController.hints.enabled = true;
                 interactionUIController.hints.text = ventHint;
-                interactionUIController.Invoke("HintMessage", interactionUIController.hintDelay);
+                interactionUIController.Invoke("ClearHintMessage", interactionUIController.hintDelay);
                 
                 Debug.Log("You need a screwdriver to open this vent.");
             }
@@ -86,7 +86,7 @@ public class InteractableVent : InteractableObject
         if (interactableScrewdriver != null)
         {
             // Reference the screwdriver item
-            screwdriver = interactableScrewdriver.screwdriverItemSource;
+            
             Debug.Log("Screwdriver item source: " + interactableScrewdriver);
         }
         else

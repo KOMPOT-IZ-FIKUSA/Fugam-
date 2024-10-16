@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class InteractableScrewdriver : InteractableObject
 {
-    private GameObject screwdriver;
+    
     private PlayerInventory inventory;
     [SerializeField] public SlotItem screwdriverItemSource;
 
     private void Awake()
     {
-         screwdriver = GameObject.Find("Screwdriver_Cross");
+         
     }
     public override List<InteractionOptionInstance> GetAvailabeleOptions()
     {
@@ -34,7 +34,7 @@ public class InteractableScrewdriver : InteractableObject
             if (inventory.CanAddItem())
             {
                 inventory.AddItem(screwdriverItemSource.Copy());
-                GameObject.Destroy(screwdriver);
+                GameObject.Destroy(this.gameObject);
             }
         }
     }

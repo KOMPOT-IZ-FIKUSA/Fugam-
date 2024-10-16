@@ -78,7 +78,7 @@ public class InteractionUIController : MonoBehaviour
         }
         return labelContent;
     }
-    public void HintMessage()
+    public void ClearHintMessage()
     {
         hints.text = "";
         hints.enabled = false;
