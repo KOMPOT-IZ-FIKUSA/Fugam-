@@ -901,6 +901,14 @@ PrefabInstance:
       propertyPath: mainCam
       value: 
       objectReference: {fileID: 1151836201}
+    - target: {fileID: 3404402356410622241, guid: 852a11fecc1877149be52139ea40a3be, type: 3}
+      propertyPath: keyPrefab
+      value: 
+      objectReference: {fileID: 374289202576707483, guid: 78df1db2fbc8ec64f949fac0c05bf693, type: 3}
+    - target: {fileID: 3404402356410622241, guid: 852a11fecc1877149be52139ea40a3be, type: 3}
+      propertyPath: keyDisplayPosition
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5672145452768627774, guid: 852a11fecc1877149be52139ea40a3be, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0

@@ -1,6 +1,4 @@
-﻿// Script by Marcelli Michele
-
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 public class PadLockPassword : MonoBehaviour

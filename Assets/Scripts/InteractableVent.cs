@@ -37,7 +37,7 @@ public class InteractableVent : InteractableObject
         if (option.option == InteractionOption.PULL)
         {
 
-            if (selectedItem != null && selectedItem.itemName == "Screwdriver")  // Check if selected item is screwdriver
+            if (selectedItem is SpriteItem spriteItem && spriteItem.itemName == "Screwdriver")  // Check if selected item is screwdriver
             {
                 print("Opened Vent");
                 openVent.Play();

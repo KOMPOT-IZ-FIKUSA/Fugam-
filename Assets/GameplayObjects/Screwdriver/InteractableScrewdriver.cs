@@ -47,7 +47,16 @@ public class InteractableScrewdriver : InteractableObject
         {
             Debug.LogError("Cannot find player inventory");
         }
-        screwdriverItemSource.itemName = "Screwdriver";
+
+        // Ensure that screwdriverItemSource is of type SpriteItem
+        if (screwdriverItemSource is SpriteItem spriteItem)
+        {
+            spriteItem.itemName = "Screwdriver"; // This should not cause issues
+        }
+        else
+        {
+            Debug.LogError("screwdriverItemSource is not a SpriteItem!");
+        }
     }
     protected override void Update()
     {

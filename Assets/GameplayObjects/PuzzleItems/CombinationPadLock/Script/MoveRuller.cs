@@ -1,5 +1,4 @@
-﻿// Script by Marcelli Michele
-
+﻿
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
@@ -8,7 +7,6 @@ public class MoveRuller : MonoBehaviour
 {
     PadLockPassword _lockPassword;
     PadLockEmissionColor _pLockColor;
-    
 
     [Header("Cameras")]
     public GameObject mainCam;
@@ -71,9 +69,11 @@ public class MoveRuller : MonoBehaviour
                 Debug.Log("Pass SOlved");
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && Application.isPlaying)
         {
             Debug.Log("Back to player Cam!");
+            EscapeCamera();
+            isClicked = false;
             
         }
         
@@ -82,6 +82,11 @@ public class MoveRuller : MonoBehaviour
     {
         lockCam.SetActive(true);
         mainCam.SetActive(false);
+    }
+    public void EscapeCamera()
+    {
+        lockCam.SetActive(false);
+        mainCam.SetActive(true);
     }
     public void PlayerCamera()
     {
