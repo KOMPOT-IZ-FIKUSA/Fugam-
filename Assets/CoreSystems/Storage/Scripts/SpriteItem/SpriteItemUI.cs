@@ -51,7 +51,7 @@ public class SpriteItemUI : MonoBehaviour
             // If is not in the container, destroy self. Item will be handled by some other container if still exists.
             if (index == -1)
             {
-                Debug.Log($"Item {item.itemName} not found in container, destroying UI.");
+                //Debug.Log($"Item {item.itemName} not found in container, destroying UI.");
                 Destroy(gameObject);
                 return;  // Exit the method to avoid executing further code.
             }
@@ -87,7 +87,6 @@ public class SpriteItemUI : MonoBehaviour
     {
         this.containerUI = containerUI;
         this.item = item;
-        
-        transform.SetParent(containerUI.transform, false);
+        //transform.SetParent(containerUI.transform, false);
     }
 }

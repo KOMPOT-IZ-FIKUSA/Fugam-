@@ -23,8 +23,6 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private KeyCode throwitemKey;
 
     [SerializeField] private KeyCode openJournalKey = KeyCode.J;
-    
-
     // Non-serializable camera and hotbarUI
     private Camera cam;
     private HotbarContainerUI hotbarContainerUI;
@@ -280,7 +278,7 @@ public class PlayerInventory : MonoBehaviour
             if (targetContainerUI.GetContainer().GetItem(slotIndex) == null)
             {
                 targetContainerUI.GetContainer().SetItem(slotIndex, draggedItem);
-                targetContainerUI.ForceUpdateUI(); // Update UI to reflect item addition
+                targetContainerUI.ForceUpdateUI(); 
                 draggedItem = null;
                 draggedItemIndex = -1;
                 sourceContainerUI = null;
@@ -288,11 +286,7 @@ public class PlayerInventory : MonoBehaviour
             else
             {
                 // Slot is occupied, return the item to the original container
-                sourceContainerUI.GetContainer().SetItem(draggedItemIndex, draggedItem);
-                sourceContainerUI.ForceUpdateUI(); // Update UI to reflect item return
-                draggedItem = null;
-                draggedItemIndex = -1;
-                sourceContainerUI = null;
+                CancelDragging();
             }
         }
 
@@ -301,6 +295,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (draggedItem != null)
         {
+            // It will set it back to the original container
             sourceContainerUI.GetContainer().SetItem(draggedItemIndex, draggedItem);
             sourceContainerUI.ForceUpdateUI();
             draggedItem = null;

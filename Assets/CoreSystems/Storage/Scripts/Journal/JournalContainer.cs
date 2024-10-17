@@ -10,14 +10,4 @@ public class JournalContainer : SlotContainer
     {
         setCapability(MAX_JOURNAL_ITEMS);
     }
-
-    private void DeleteItem(int index)
-    {
-        base.SetItem(index, null);
-    }
-
-    public new void SetItem(int index, SlotItem item)
-    {
-        base.SetItem(index, item);
-    }
 }
