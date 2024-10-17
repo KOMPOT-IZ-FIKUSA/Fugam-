@@ -15,6 +15,7 @@ public class InteractionUIController : MonoBehaviour
     [SerializeField] public TextMeshProUGUI hints;
 
     public float hintDelay = 2.25f;
+    public float messageDelay = 2.25f;
 
     private PlayerInteractController interactController;
 
@@ -77,7 +78,12 @@ public class InteractionUIController : MonoBehaviour
         }
         return labelContent;
     }
-    public void HintMessage()
+    public void ClearHintMessage()
+    {
+        hints.text = "";
+        hints.enabled = false;
+    }
+    public void EndMessage()
     {
         hints.text = "";
         hints.enabled = false;
