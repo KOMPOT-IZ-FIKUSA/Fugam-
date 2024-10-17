@@ -16,6 +16,20 @@ public abstract class SlotItem : ScriptableObject
     public virtual SlotItem Copy() {
         return Instantiate(this);
     }
+
+    public override bool Equals(object obj)
+    {
+        // Since there are no other properties just require type equality
+        return this.GetType() == obj.GetType();
+    }
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+
+
+
+
 }
 
 /// <summary>

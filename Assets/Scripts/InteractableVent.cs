@@ -6,8 +6,13 @@ public class InteractableVent : InteractableObject
 {
     private Rigidbody ventRb;
     private bool isOpened = false;
+    private string ventHint = "You are missing a tool to open this!";
+    private InteractionUIController interactionUIController;
+    private PlayerInventory inventory;
 
     [SerializeField] private Vector3 pullVector;
+    [SerializeField] private SlotItem screwdriver;
+
     public override List<InteractionOptionInstance> GetAvailabeleOptions()
     {
 
@@ -15,7 +20,7 @@ public class InteractableVent : InteractableObject
 
         if (!isOpened)
         {
-            interactionOptionInstances.Add(new InteractionOptionInstance(InteractionOption.PULL, "Pull Brick"));
+            interactionOptionInstances.Add(new InteractionOptionInstance(InteractionOption.PULL, "Open Vent?"));
         }
         return interactionOptionInstances;
 
@@ -23,28 +28,28 @@ public class InteractableVent : InteractableObject
     public override void Interact(InteractionOptionInstance option)
     {
         base.Interact(option);
-        //TODO: If selected item is screwdriver open vent / else unable to open vent!
-        if (option.option == InteractionOption.PULL)
+
+        SlotItem selectedItem = inventory.GetSelectedItem();
+
+        if (option.option == InteractionOption.PULL && !isOpened)
         {
-
-            // TODO: Go to player inventory, add and destroy this item
-            print("Opened Vent");
-            ventRb.AddForce(pullVector);
-            isOpened = true;
-
+            if (selectedItem != null && selectedItem.Equals(screwdriver))  // Check if selected item is screwdriver
+            {
+                ventRb.AddForce(pullVector);
+                isOpened = true;
+            }
+            else
+            {
+                interactionUIController.hints.enabled = true;
+                interactionUIController.hints.text = ventHint;
+                // Invoke Clear message after the delay
+                interactionUIController.Invoke("ClearMessage", interactionUIController.hintDelay);
+            }
         }
     }
-    public override void SetSelected(bool selected)
+    public override bool CanBeSelected()
     {
-        if (isOpened)
-        {
-            base.SetSelected(false);
-        }
-        else
-        {
-            base.SetSelected(selected);
-        }
-
+        return !isOpened;
     }
 
     // Start is called before the first frame update
@@ -52,7 +57,14 @@ public class InteractableVent : InteractableObject
     {
         base.Start();
         ventRb = GetComponent<Rigidbody>();
+        interactionUIController = FindObjectOfType<InteractionUIController>();
 
+        //Find player inventory
+        inventory = FindObjectOfType<PlayerInventory>();
+        if (inventory == null)
+        {
+            Debug.LogError("Cannot find player inventory");
+        }
     }
 
     // Update is called once per frame
@@ -60,4 +72,8 @@ public class InteractableVent : InteractableObject
     {
         base.Update();
     }
+    
+
+
+
 }

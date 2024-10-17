@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class InteractableScrewdriver : InteractableObject
 {
-
     private PlayerInventory inventory;
     [SerializeField] public SlotItem screwdriverItemSource;
 
@@ -30,6 +29,7 @@ public class InteractableScrewdriver : InteractableObject
             if (inventory.CanAddItem())
             {
                 inventory.AddItem(screwdriverItemSource.Copy());
+                GameObject.Destroy(gameObject);
             }
         }
     }
