@@ -122,7 +122,7 @@ public class PlayerInventory : MonoBehaviour
         // If mouse is clicked, start dragging the item from either container
         if (Input.GetMouseButtonDown(0)) // Left-click to start dragging
         {
-            for (int i = 0; i < hotbarContainerUI.slots.Length; i++)
+            for (int i = 0; i < hotbarContainerUI.GetSlotsCount(); i++)
             {
                 if (hotbarContainerUI.IsMouseOverSlot(i)) // Check if mouse is over a hotbar slot
                 {
@@ -131,7 +131,7 @@ public class PlayerInventory : MonoBehaviour
                 }
             }
 
-            for (int i = 0; i < journalContainerUI.slots.Length; i++)
+            for (int i = 0; i < journalContainerUI.GetSlotsCount(); i++)
             {
                 if (journalContainerUI.IsMouseOverSlot(i)) // Check if mouse is over a journal slot
                 {
@@ -144,7 +144,7 @@ public class PlayerInventory : MonoBehaviour
         // If mouse is released, try to drop the item into the other container
         if (Input.GetMouseButtonUp(0)) // Release left-click to drop
         {
-            for (int i = 0; i < hotbarContainerUI.slots.Length; i++)
+            for (int i = 0; i < hotbarContainerUI.GetSlotsCount(); i++)
             {
                 if (hotbarContainerUI.IsMouseOverSlot(i))
                 {
@@ -153,7 +153,7 @@ public class PlayerInventory : MonoBehaviour
                 }
             }
 
-            for (int i = 0; i < journalContainerUI.slots.Length; i++)
+            for (int i = 0; i < journalContainerUI.GetSlotsCount(); i++)
             {
                 if (journalContainerUI.IsMouseOverSlot(i))
                 {
