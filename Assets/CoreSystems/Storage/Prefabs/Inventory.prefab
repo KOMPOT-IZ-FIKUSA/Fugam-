@@ -432,7 +432,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32d6b1279c1408f4384a144ced321a04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 11400000, guid: ec1d079fdda02cf4190e9a096cd00efa, type: 2}
   slots:
   - {fileID: 7438375067467682037}
   - {fileID: 1054881609648006921}
@@ -493,8 +492,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hotbar: {fileID: 11400000, guid: ec1d079fdda02cf4190e9a096cd00efa, type: 2}
+  _journal: {fileID: 11400000, guid: 8368bc745bb4e7043b066e93c3384fe9, type: 2}
   SelectedSlot: -1
   throwitemKey: 113
+  openJournalKey: 106
 --- !u!1 &6488558473382076115
 GameObject:
   m_ObjectHideFlags: 0

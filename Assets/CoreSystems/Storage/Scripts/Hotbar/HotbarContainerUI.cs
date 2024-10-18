@@ -1,14 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HotbarContainerUI : SlotContainerUI
 {
-    [SerializeField] protected Image[] slots = new Image[HotbarContainer.MAX_HOTBAR_ITEMS];
+    [SerializeField] public Image[] slots = new Image[HotbarContainer.MAX_HOTBAR_ITEMS]; 
+
     protected PlayerInventory inventory { get; private set; }
     protected int lastSelectedSlotIndex = -1;
-
+    
+    protected override Image[] Slots => slots;
 
     private void Start()
     {
@@ -76,6 +76,12 @@ public class HotbarContainerUI : SlotContainerUI
 
     public override Rect GetWorldPositionRectForIndex(int index)
     {
+        if (index < 0 || index >= slots.Length)
+        {
+            Debug.LogError($"Invalid index {index}. Must be between 0 and {slots.Length - 1}");
+            return Rect.zero; // It returns a default value or handle this case appropriately.
+        }
+        
         RectTransform rectTransform = slots[index].GetComponent<RectTransform>();
         Vector2 leftDown = rectTransform.TransformPoint(rectTransform.rect.position);
         Vector2 rightUp = rectTransform.TransformPoint(rectTransform.rect.position + rectTransform.rect.size);
@@ -108,7 +114,4 @@ public class HotbarContainerUI : SlotContainerUI
         base.Update();
         updateSlotsSelection();
     }
-
-
-    
 }

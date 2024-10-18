@@ -14,6 +14,7 @@ public class PlayerInventory : MonoBehaviour
 {
     [Header("Items")]
     [SerializeField] private HotbarContainer _hotbar;
+    [SerializeField] private JournalContainer _journal;
 
     public int SelectedSlot = -1;
     
@@ -21,13 +22,26 @@ public class PlayerInventory : MonoBehaviour
     [Header("Keys")]
     [SerializeField] private KeyCode throwitemKey;
 
+    [SerializeField] private KeyCode openJournalKey = KeyCode.J;
     // Non-serializable camera and hotbarUI
     private Camera cam;
     private HotbarContainerUI hotbarContainerUI;
-
+    private JournalContainerUI journalContainerUI;
+    
+    private bool isJournalOpen = false;
+    
+    private SlotItem draggedItem = null;
+    private int draggedItemIndex = -1;
+    private SlotContainerUI sourceContainerUI = null;
+    
     public HotbarContainer GetHotbarContainer()
     {
         return _hotbar;
+    }
+
+    public JournalContainer GetJournalContainer()
+    {
+        return _journal;
     }
 
     private void Awake()
@@ -35,6 +49,11 @@ public class PlayerInventory : MonoBehaviour
         if (_hotbar == null)
         {
             _hotbar = ScriptableObject.CreateInstance<HotbarContainer>();
+        }
+
+        if (_journal == null)
+        {
+            _journal = ScriptableObject.CreateInstance<JournalContainer>();
         }
     }
 
@@ -54,8 +73,18 @@ public class PlayerInventory : MonoBehaviour
             if (hotbarContainerUI == null )
             {
                 Debug.LogError("Cannot find player camera");
-            }    
+            }
         }
+
+        if (journalContainerUI == null)
+        {
+            journalContainerUI = FindObjectOfType<JournalContainerUI>();
+            if (journalContainerUI == null)
+            {
+                Debug.LogError("Cannot find player journalContainerUI");
+            }
+        }
+        journalContainerUI.gameObject.SetActive(false);
     }
 
     private readonly KeyCode[] slotsKeyCodes = new KeyCode[]
@@ -71,6 +100,91 @@ public class PlayerInventory : MonoBehaviour
         KeyCode.Alpha9
    };
     void Update()
+    {
+        if (Input.GetKeyDown(openJournalKey))
+        {
+            ToggleJournal();
+        }
+        // if journal is not open then hotbar input will work
+        if (!isJournalOpen)
+        {
+            HandleHotbarInput();
+        }
+
+        if (isJournalOpen)
+        {
+            HandleHotbarJournalInteraction();
+        }
+    }
+
+    private void HandleHotbarJournalInteraction()
+    {
+        // If mouse is clicked, start dragging the item from either container
+        if (Input.GetMouseButtonDown(0)) // Left-click to start dragging
+        {
+            for (int i = 0; i < hotbarContainerUI.slots.Length; i++)
+            {
+                if (hotbarContainerUI.IsMouseOverSlot(i)) // Check if mouse is over a hotbar slot
+                {
+                    StartDraggingItem(hotbarContainerUI, i); // Start dragging from the hotbar
+                    return;
+                }
+            }
+
+            for (int i = 0; i < journalContainerUI.slots.Length; i++)
+            {
+                if (journalContainerUI.IsMouseOverSlot(i)) // Check if mouse is over a journal slot
+                {
+                    StartDraggingItem(journalContainerUI, i); // Start dragging from the journal
+                    return;
+                }
+            }
+        }
+
+        // If mouse is released, try to drop the item into the other container
+        if (Input.GetMouseButtonUp(0)) // Release left-click to drop
+        {
+            for (int i = 0; i < hotbarContainerUI.slots.Length; i++)
+            {
+                if (hotbarContainerUI.IsMouseOverSlot(i))
+                {
+                    StopDraggingItem(hotbarContainerUI, i); // Drop the item into the hotbar
+                    return;
+                }
+            }
+
+            for (int i = 0; i < journalContainerUI.slots.Length; i++)
+            {
+                if (journalContainerUI.IsMouseOverSlot(i))
+                {
+                    StopDraggingItem(journalContainerUI, i); // Drop the item into the journal
+                    return;
+                }
+            }
+
+            // If the mouse was released outside any valid slot, cancel the drag
+            CancelDragging();
+        }
+    }
+
+    private void ToggleJournal()
+    {
+        isJournalOpen = !isJournalOpen;
+        journalContainerUI.gameObject.SetActive(isJournalOpen);
+
+        if (isJournalOpen)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
+    private void HandleHotbarInput()
     {
         // Throw item if player pressed the button and throwable item is in selected slot
         if (Input.GetKeyDown(throwitemKey))
@@ -143,10 +257,55 @@ public class PlayerInventory : MonoBehaviour
             Debug.LogError("Tried to add an object to a full inventory");
         }
     }
-
     public SlotItem GetSelectedItem()
     {
         return SelectedSlot == -1 ? null : _hotbar.GetItem(SelectedSlot);
+    }
+    
+    private void StartDraggingItem(SlotContainerUI containerUI, int slotIndex)
+    {
+        SlotItem item = containerUI.GetContainer().GetItem(slotIndex);
+        if (item != null)
+        {
+            draggedItem = item;
+            draggedItemIndex = slotIndex;
+            sourceContainerUI = containerUI;
+            containerUI.GetContainer().SetItem(slotIndex, null);  // Remove the item from the original slot
+            containerUI.ForceUpdateUI(); // Update UI to reflect item removal
+        }
+    }
+
+    private void StopDraggingItem(SlotContainerUI targetContainerUI, int slotIndex)
+    {
+        if (draggedItem != null)
+        {
+            if (targetContainerUI.GetContainer().GetItem(slotIndex) == null)
+            {
+                targetContainerUI.GetContainer().SetItem(slotIndex, draggedItem);
+                targetContainerUI.ForceUpdateUI(); 
+                draggedItem = null;
+                draggedItemIndex = -1;
+                sourceContainerUI = null;
+            }
+            else
+            {
+                // Slot is occupied, return the item to the original container
+                CancelDragging();
+            }
+        }
+
+    }
+    private void CancelDragging()
+    {
+        if (draggedItem != null)
+        {
+            // It will set it back to the original container
+            sourceContainerUI.GetContainer().SetItem(draggedItemIndex, draggedItem);
+            sourceContainerUI.ForceUpdateUI();
+            draggedItem = null;
+            draggedItemIndex = -1;
+            sourceContainerUI = null;
+        }
     }
 }
 
