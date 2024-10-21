@@ -7,8 +7,14 @@ public class InteractableVent : InteractableObject
     private Rigidbody ventRb;
     private bool isOpened = false;
     private string ventHint = "You are missing a tool to open this!";
+    private string screwBroke = "The Screwdriver broke!";
+
+
     private InteractionUIController interactionUIController;
+    private Animation openVent;
+    private InteractableScrewdriver interactableScrewdriver;
     private PlayerInventory inventory;
+    
 
     [SerializeField] private Vector3 pullVector;
     [SerializeField] private SlotItem screwdriver;
@@ -33,10 +39,19 @@ public class InteractableVent : InteractableObject
 
         if (option.option == InteractionOption.PULL && !isOpened)
         {
-            if (selectedItem != null && selectedItem.Equals(screwdriver))  // Check if selected item is screwdriver
+
+            if (selectedItem is SpriteItem spriteItem && spriteItem.itemName == "Screwdriver")  // Check if selected item is screwdriver
             {
-                ventRb.AddForce(pullVector);
+                print("Opened Vent");
+                openVent.Play();
                 isOpened = true;
+
+                inventory.GetHotbarContainer().DeleteItem(inventory.SelectedSlot);
+                inventory.SelectedSlot = 0;
+                interactionUIController.hints.enabled = true;
+                interactionUIController.hints.text = screwBroke;
+                interactionUIController.Invoke("EndMessage", interactionUIController.messageDelay);
+
             }
             else
             {
@@ -58,6 +73,7 @@ public class InteractableVent : InteractableObject
         base.Start();
         ventRb = GetComponent<Rigidbody>();
         interactionUIController = FindObjectOfType<InteractionUIController>();
+        openVent = GetComponent<Animation>();
 
         //Find player inventory
         inventory = FindObjectOfType<PlayerInventory>();

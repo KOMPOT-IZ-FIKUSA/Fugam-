@@ -17,6 +17,7 @@ public abstract class SlotItem : ScriptableObject
         return Instantiate(this);
     }
 
+
     public override bool Equals(object obj)
     {
         // Since there are no other properties just require type equality
