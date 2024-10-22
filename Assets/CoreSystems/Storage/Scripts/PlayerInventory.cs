@@ -30,10 +30,6 @@ public class PlayerInventory : MonoBehaviour
     
     private bool isJournalOpen = false;
     
-    private SlotItem draggedItem = null;
-    private int draggedItemIndex = -1;
-    private SlotContainerUI sourceContainerUI = null;
-    
     public HotbarContainer GetHotbarContainer()
     {
         return _hotbar;
@@ -111,61 +107,8 @@ public class PlayerInventory : MonoBehaviour
             HandleHotbarInput();
         }
 
-        if (isJournalOpen)
-        {
-            HandleHotbarJournalInteraction();
-        }
     }
 
-    private void HandleHotbarJournalInteraction()
-    {
-        // If mouse is clicked, start dragging the item from either container
-        if (Input.GetMouseButtonDown(0)) // Left-click to start dragging
-        {
-            for (int i = 0; i < hotbarContainerUI.GetSlotsCount(); i++)
-            {
-                if (hotbarContainerUI.IsMouseOverSlot(i)) // Check if mouse is over a hotbar slot
-                {
-                    StartDraggingItem(hotbarContainerUI, i); // Start dragging from the hotbar
-                    return;
-                }
-            }
-
-            for (int i = 0; i < journalContainerUI.GetSlotsCount(); i++)
-            {
-                if (journalContainerUI.IsMouseOverSlot(i)) // Check if mouse is over a journal slot
-                {
-                    StartDraggingItem(journalContainerUI, i); // Start dragging from the journal
-                    return;
-                }
-            }
-        }
-
-        // If mouse is released, try to drop the item into the other container
-        if (Input.GetMouseButtonUp(0)) // Release left-click to drop
-        {
-            for (int i = 0; i < hotbarContainerUI.GetSlotsCount(); i++)
-            {
-                if (hotbarContainerUI.IsMouseOverSlot(i))
-                {
-                    StopDraggingItem(hotbarContainerUI, i); // Drop the item into the hotbar
-                    return;
-                }
-            }
-
-            for (int i = 0; i < journalContainerUI.GetSlotsCount(); i++)
-            {
-                if (journalContainerUI.IsMouseOverSlot(i))
-                {
-                    StopDraggingItem(journalContainerUI, i); // Drop the item into the journal
-                    return;
-                }
-            }
-
-            // If the mouse was released outside any valid slot, cancel the drag
-            CancelDragging();
-        }
-    }
 
     private void ToggleJournal()
     {
@@ -262,50 +205,6 @@ public class PlayerInventory : MonoBehaviour
         return SelectedSlot == -1 ? null : _hotbar.GetItem(SelectedSlot);
     }
     
-    private void StartDraggingItem(SlotContainerUI containerUI, int slotIndex)
-    {
-        SlotItem item = containerUI.GetContainer().GetItem(slotIndex);
-        if (item != null)
-        {
-            draggedItem = item;
-            draggedItemIndex = slotIndex;
-            sourceContainerUI = containerUI;
-            containerUI.GetContainer().SetItem(slotIndex, null);  // Remove the item from the original slot
-            containerUI.ForceUpdateUI(); // Update UI to reflect item removal
-        }
-    }
 
-    private void StopDraggingItem(SlotContainerUI targetContainerUI, int slotIndex)
-    {
-        if (draggedItem != null)
-        {
-            if (targetContainerUI.GetContainer().GetItem(slotIndex) == null)
-            {
-                targetContainerUI.GetContainer().SetItem(slotIndex, draggedItem);
-                targetContainerUI.ForceUpdateUI(); 
-                draggedItem = null;
-                draggedItemIndex = -1;
-                sourceContainerUI = null;
-            }
-            else
-            {
-                // Slot is occupied, return the item to the original container
-                CancelDragging();
-            }
-        }
-
-    }
-    private void CancelDragging()
-    {
-        if (draggedItem != null)
-        {
-            // It will set it back to the original container
-            sourceContainerUI.GetContainer().SetItem(draggedItemIndex, draggedItem);
-            sourceContainerUI.ForceUpdateUI();
-            draggedItem = null;
-            draggedItemIndex = -1;
-            sourceContainerUI = null;
-        }
-    }
 }
 

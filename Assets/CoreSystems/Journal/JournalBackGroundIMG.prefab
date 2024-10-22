@@ -462,22 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6083d489fd1c83441935b2f9b1ca44be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slots:
-  - {fileID: 6850737097390705890}
-  - {fileID: 4298324247501635245}
-  - {fileID: 3996947129445469111}
-  - {fileID: 8463598800033933246}
-  - {fileID: 8124399100022594214}
-  - {fileID: 2340987994498505042}
-  - {fileID: 2692846489304518916}
-  - {fileID: 8809936842145262793}
-  - {fileID: 3758274545175487961}
-  - {fileID: 8834778149501656998}
-  - {fileID: 2536666370764599468}
-  - {fileID: 1240236206004146677}
-  - {fileID: 6090949744567862473}
-  - {fileID: 8678087453103177713}
-  - {fileID: 790473999098634573}
+  SlotsTransforms: []
 --- !u!1 &3232788129237717597
 GameObject:
   m_ObjectHideFlags: 0

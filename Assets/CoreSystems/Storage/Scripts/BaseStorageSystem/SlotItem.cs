@@ -119,6 +119,15 @@ public abstract class SlotContainer : ScriptableObject
         return items[index];
     }
 
+    public void RemoveItem(SlotItem item)
+    {
+        int index = FindItem(item);
+        if (index != -1)
+        {
+            SetItem(index, null);
+        }
+    }
+
 }
 
 
