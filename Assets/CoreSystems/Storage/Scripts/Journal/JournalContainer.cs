@@ -10,4 +10,13 @@ public class JournalContainer : SlotContainer
     {
         setCapability(MAX_JOURNAL_ITEMS);
     }
+    public JournalContainer Copy()
+    {
+        JournalContainer instance = ScriptableObject.CreateInstance<JournalContainer>();
+        for (int i = 0; i < MAX_JOURNAL_ITEMS; i++)
+        {
+            instance.SetItem(i, GetItem(i));
+        }
+        return instance;
+    }
 }

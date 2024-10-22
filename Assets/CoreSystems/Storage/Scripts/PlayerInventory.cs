@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using static UnityEditor.Progress;
+using Unity.VisualScripting;
 
 /// <summary>
 /// The main class that sets up player inventory.
@@ -45,11 +46,17 @@ public class PlayerInventory : MonoBehaviour
         if (_hotbar == null)
         {
             _hotbar = ScriptableObject.CreateInstance<HotbarContainer>();
+        } else
+        {
+            _hotbar = _hotbar.Copy();
         }
 
         if (_journal == null)
         {
             _journal = ScriptableObject.CreateInstance<JournalContainer>();
+        } else
+        {
+            _journal = _journal.Copy();
         }
     }
 

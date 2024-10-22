@@ -29,6 +29,16 @@ public class HotbarContainer : SlotContainer
     {
         base.SetItem(index, item);
     }
+
+    public HotbarContainer Copy()
+    {
+        HotbarContainer instance = ScriptableObject.CreateInstance<HotbarContainer>();
+        for (int i = 0; i < MAX_HOTBAR_ITEMS; i++)
+        {
+            instance.SetItem(i, GetItem(i));
+        }
+        return instance;
+    }
 }
 
 
