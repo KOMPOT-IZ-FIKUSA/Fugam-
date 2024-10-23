@@ -23,6 +23,9 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private KeyCode throwitemKey;
 
     [SerializeField] private KeyCode openJournalKey = KeyCode.J;
+    
+    private FirstPersonController firstPersonController;
+    
     // Non-serializable camera and hotbarUI
     private Camera cam;
     private HotbarContainerUI hotbarContainerUI;
@@ -55,6 +58,15 @@ public class PlayerInventory : MonoBehaviour
         {
             _journal = ScriptableObject.CreateInstance<JournalContainer>();
         }
+        
+        firstPersonController = FindObjectOfType<FirstPersonController>();
+        
+        if (firstPersonController == null)
+        {
+            Debug.LogError("FirstPersonController not found on the player.");
+            return;
+        }
+
     }
 
     private void Start()
@@ -109,11 +121,13 @@ public class PlayerInventory : MonoBehaviour
         if (!isJournalOpen)
         {
             HandleHotbarInput();
+            Time.timeScale = 1;
         }
 
         if (isJournalOpen)
         {
             HandleHotbarJournalInteraction();
+            Time.timeScale = 0; // pause physics and animation
         }
     }
 
@@ -176,11 +190,15 @@ public class PlayerInventory : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            //Camera cannot Move
+            firstPersonController.cameraCanMove = false;
         }
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            //Camera can move
+            firstPersonController.cameraCanMove = true;
         }
     }
 
