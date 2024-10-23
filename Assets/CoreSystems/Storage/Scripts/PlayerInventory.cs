@@ -15,6 +15,7 @@ public class PlayerInventory : MonoBehaviour
     [Header("Items")]
     [SerializeField] private HotbarContainer _hotbar;
     [SerializeField] private JournalContainer _journal;
+    [SerializeField] private GameObject pausedBackground; //This was the easiest option in my head :')
 
     public int SelectedSlot = -1;
     
@@ -121,13 +122,11 @@ public class PlayerInventory : MonoBehaviour
         if (!isJournalOpen)
         {
             HandleHotbarInput();
-            Time.timeScale = 1;
         }
 
         if (isJournalOpen)
         {
             HandleHotbarJournalInteraction();
-            Time.timeScale = 0; // pause physics and animation
         }
     }
 
@@ -188,17 +187,21 @@ public class PlayerInventory : MonoBehaviour
 
         if (isJournalOpen)
         {
+            Time.timeScale = 0; // pause physics and animation
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             //Camera cannot Move
             firstPersonController.cameraCanMove = false;
+            pausedBackground.SetActive(true);
         }
         else
         {
+            Time.timeScale = 1; 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             //Camera can move
             firstPersonController.cameraCanMove = true;
+            pausedBackground.SetActive(false);
         }
     }
 

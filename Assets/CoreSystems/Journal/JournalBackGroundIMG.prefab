@@ -408,7 +408,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8988780958122376122}
-  - component: {fileID: 1133919841692606521}
   m_Layer: 5
   m_Name: ItemBackgrounds
   m_TagString: Untagged
@@ -450,34 +449,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1133919841692606521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2937982373039483779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6083d489fd1c83441935b2f9b1ca44be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slots:
-  - {fileID: 6850737097390705890}
-  - {fileID: 4298324247501635245}
-  - {fileID: 3996947129445469111}
-  - {fileID: 8463598800033933246}
-  - {fileID: 8124399100022594214}
-  - {fileID: 2340987994498505042}
-  - {fileID: 2692846489304518916}
-  - {fileID: 8809936842145262793}
-  - {fileID: 3758274545175487961}
-  - {fileID: 8834778149501656998}
-  - {fileID: 2536666370764599468}
-  - {fileID: 1240236206004146677}
-  - {fileID: 6090949744567862473}
-  - {fileID: 8678087453103177713}
-  - {fileID: 790473999098634573}
 --- !u!1 &3232788129237717597
 GameObject:
   m_ObjectHideFlags: 0
@@ -3610,6 +3581,7 @@ GameObject:
   - component: {fileID: 5666753979964040238}
   - component: {fileID: 3793272051552384466}
   - component: {fileID: 4444935005778427801}
+  - component: {fileID: 4710909517806373594}
   m_Layer: 5
   m_Name: JournalBackGroundIMG
   m_TagString: Untagged
@@ -3626,7 +3598,7 @@ RectTransform:
   m_GameObject: {fileID: 8492261404524425339}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5334363201961077339}
@@ -3678,6 +3650,34 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4710909517806373594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8492261404524425339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6083d489fd1c83441935b2f9b1ca44be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SlotsTransforms:
+  - {fileID: 4442670828262790363}
+  - {fileID: 4958816580722673230}
+  - {fileID: 4659013312189036853}
+  - {fileID: 2608707460249909982}
+  - {fileID: 6221017803464233271}
+  - {fileID: 4258050944532576255}
+  - {fileID: 5808516281832134047}
+  - {fileID: 1931696971570541620}
+  - {fileID: 8461167000458252170}
+  - {fileID: 6770528829828492715}
+  - {fileID: 6595904136624806647}
+  - {fileID: 8781383322373057749}
+  - {fileID: 7417807163624007651}
+  - {fileID: 2619870637641445897}
+  - {fileID: 1190111406984023389}
 --- !u!1 &8642847010402597514
 GameObject:
   m_ObjectHideFlags: 0
