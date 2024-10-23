@@ -29,7 +29,7 @@ public class InteractableScrewdriver : InteractableObject
             if (inventory.CanAddItem())
             {
                 inventory.AddItem(screwdriverItemSource.Copy());
-                GameObject.Destroy(gameObject);
+                Destroy(gameObject);
             }
         }
     }

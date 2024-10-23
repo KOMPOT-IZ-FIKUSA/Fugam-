@@ -3,13 +3,11 @@ using UnityEngine.UI;
 
 public class HotbarContainerUI : SlotContainerUI
 {
-    [SerializeField] public Image[] slots = new Image[HotbarContainer.MAX_HOTBAR_ITEMS]; 
+    private Image[] images = new Image[HotbarContainer.MAX_HOTBAR_ITEMS]; 
 
     protected PlayerInventory inventory { get; private set; }
     protected int lastSelectedSlotIndex = -1;
     
-    protected override Image[] Slots => slots;
-
     private void Start()
     {
         if (inventory == null)
@@ -21,26 +19,24 @@ public class HotbarContainerUI : SlotContainerUI
             container = inventory.GetHotbarContainer();
         }
         validateSlots();
+
+        images = new Image[SlotsTransforms.Length];
+        for (int i = 0; i < SlotsTransforms.Length; i++)
+        {
+            images[i] = SlotsTransforms[i].GetComponent<Image>();
+        }
+
         setupSlotsSelection();
     }
 
-    private void validateSlots()
-    {
-        for (int i = 0; i < slots.Length; i++)
-        {
-            if (slots[i] == null)
-            {
-                Debug.LogError($"Hotbar slot {i} is null");
-            }
-        }
-    }
+
 
     /// <summary>
     /// Deselects every empty slot. Selects slot lastSelectedSlotIndex
     /// </summary>
     private void setupSlotsSelection()
     {
-        for (int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < images.Length; i++)
         {
             deselectSlot(i);
         }
@@ -76,37 +72,19 @@ public class HotbarContainerUI : SlotContainerUI
 
     public override Rect GetWorldPositionRectForIndex(int index)
     {
-        if (index < 0 || index >= slots.Length)
-        {
-            Debug.LogError($"Invalid index {index}. Must be between 0 and {slots.Length - 1}");
-            return Rect.zero; // It returns a default value or handle this case appropriately.
-        }
-        
-        RectTransform rectTransform = slots[index].GetComponent<RectTransform>();
-        Vector2 leftDown = rectTransform.TransformPoint(rectTransform.rect.position);
-        Vector2 rightUp = rectTransform.TransformPoint(rectTransform.rect.position + rectTransform.rect.size);
-
-        Vector2 center = (leftDown + rightUp) / 2;
-        Vector2 size = (rightUp - leftDown);
-
-        float shrinkAlpha = 0.25f;
-        
-        Vector2 newSize = size * (1 - shrinkAlpha);
-        Vector2 newLeftDown = center - newSize / 2;
-
-        return new Rect(newLeftDown, newSize);
+        Rect rect = base.GetWorldPositionRectForIndex(index);
+        return ShrinkRect(rect, 0.25f);
     }
-
     
 
     protected void deselectSlot(int index)
     {
-        slots[index].color = new Color32(219, 219, 219, 255);
+        images[index].color = new Color32(219, 219, 219, 255);
     }
 
     protected void selectSlot(int index)
     {
-        slots[index].color = new Color32(145, 255, 126, 255);
+        images[index].color = new Color32(145, 255, 126, 255);
     }
 
     protected override void Update()
