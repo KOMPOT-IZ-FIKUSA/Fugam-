@@ -52367,6 +52367,7 @@ Animation:
   m_Animation: {fileID: 7400000, guid: ee2161ea39d2a084e8ac6598d63fd712, type: 2}
   m_Animations:
   - {fileID: 7400000, guid: ee2161ea39d2a084e8ac6598d63fd712, type: 2}
+  - {fileID: 7400000, guid: 5ff2d1ffe307b674481d80294a8f69be, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -66336,7 +66337,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 54.365723, y: 0.0044555664}
+  m_AnchoredPosition: {x: 54.365723, y: 0.0043945312}
   m_SizeDelta: {x: 2050.113, y: 980.009}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1483930327

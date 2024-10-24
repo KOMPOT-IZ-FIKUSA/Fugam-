@@ -184,20 +184,14 @@ public class PlayerInventory : MonoBehaviour
     private void ToggleJournal()
     {
         isJournalOpen = !isJournalOpen;
-        journalContainerUI.gameObject.SetActive(isJournalOpen);
-
         if (isJournalOpen)
         {
+            journalContainerUI.gameObject.SetActive(isJournalOpen);
             StartCoroutine(OpenJournalCoroutine());
         }
         else
         {
-            Time.timeScale = 1; 
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            //Camera can move
-            firstPersonController.cameraCanMove = true;
-            pausedBackground.SetActive(false);
+            CloseJournal();
         }
     }
     
@@ -215,6 +209,26 @@ public class PlayerInventory : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         firstPersonController.cameraCanMove = false;
+    }
+    
+    private void CloseJournal()
+    {
+        //The moment is j pressed the lock will be opened, maybe the other way around is better. (still deciding
+        Cursor.lockState = CursorLockMode.Locked;
+        firstPersonController.cameraCanMove = true;
+        pausedBackground.SetActive(false);
+        Time.timeScale = 1; //continue the time
+        
+        //play with a slight transition
+        journalAnimator.CrossFade("JournalClose", 0.1f);
+
+        //delay till animation is done to deactive the journal
+        Invoke("DeactivateJournalUI", journalAnimator.GetClip("JournalClose").length);
+    }
+
+    private void DeactivateJournalUI()
+    {
+        journalContainerUI.gameObject.SetActive(false);
     }
 
     private void HandleHotbarInput()
