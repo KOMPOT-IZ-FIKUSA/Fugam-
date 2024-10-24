@@ -38,6 +38,7 @@ public class PlayerInventory : MonoBehaviour
     private SlotItem draggedItem = null;
     private int draggedItemIndex = -1;
     private SlotContainerUI sourceContainerUI = null;
+    private GameObject crosshair;
     
     //Animation
     private bool isAnimating = false;
@@ -77,6 +78,8 @@ public class PlayerInventory : MonoBehaviour
 
     private void Start()
     {
+        crosshair = GameObject.Find("CrosshairAndStamina");
+        
         if (cam == null)
         {
             cam = FindObjectOfType<Camera>();
@@ -204,6 +207,10 @@ public class PlayerInventory : MonoBehaviour
     private IEnumerator OpenJournalCoroutine()
     {
         isAnimating = true;
+        if (crosshair != null)
+        {
+            crosshair.SetActive(false);
+        }
         
         // it'll play the animation
         journalAnimator.Play("JournalOpen");
@@ -223,7 +230,8 @@ public class PlayerInventory : MonoBehaviour
     private void CloseJournal()
     {
         isAnimating = true;
-
+   
+        
         //The moment is j pressed the lock will be opened, maybe the other way around is better. (still deciding
         Cursor.lockState = CursorLockMode.Locked;
         firstPersonController.cameraCanMove = true;
@@ -240,7 +248,13 @@ public class PlayerInventory : MonoBehaviour
     private void DeactivateJournalUI()
     {
         journalContainerUI.gameObject.SetActive(false);
+        // this can also be placed before the Invoke so crosshair will appear immediately
+        if (crosshair != null)
+        {
+            crosshair.SetActive(true);
+        }
         isAnimating = false;
+
     }
 
     private void HandleHotbarInput()
