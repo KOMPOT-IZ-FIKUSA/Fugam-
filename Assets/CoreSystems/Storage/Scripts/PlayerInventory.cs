@@ -16,7 +16,6 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private HotbarContainer _hotbar;
     [SerializeField] private JournalContainer _journal;
     [SerializeField] private GameObject pausedBackground; //This was the easiest option in my head :')
-    [SerializeField] private Animation journalAnimator;
 
     public int SelectedSlot = -1;
     
@@ -35,10 +34,15 @@ public class PlayerInventory : MonoBehaviour
     
     private bool isJournalOpen = false;
     
+    //Dragging
     private SlotItem draggedItem = null;
     private int draggedItemIndex = -1;
     private SlotContainerUI sourceContainerUI = null;
     
+    //Animation
+    private bool isAnimating = false;
+    [SerializeField] private Animation journalAnimator;
+
     public HotbarContainer GetHotbarContainer()
     {
         return _hotbar;
@@ -183,6 +187,8 @@ public class PlayerInventory : MonoBehaviour
 
     private void ToggleJournal()
     {
+        if (isAnimating) return;
+        
         isJournalOpen = !isJournalOpen;
         if (isJournalOpen)
         {
@@ -197,6 +203,8 @@ public class PlayerInventory : MonoBehaviour
     
     private IEnumerator OpenJournalCoroutine()
     {
+        isAnimating = true;
+        
         // it'll play the animation
         journalAnimator.Play("JournalOpen");
 
@@ -209,10 +217,13 @@ public class PlayerInventory : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         firstPersonController.cameraCanMove = false;
+        isAnimating = false;
     }
     
     private void CloseJournal()
     {
+        isAnimating = true;
+
         //The moment is j pressed the lock will be opened, maybe the other way around is better. (still deciding
         Cursor.lockState = CursorLockMode.Locked;
         firstPersonController.cameraCanMove = true;
@@ -229,6 +240,7 @@ public class PlayerInventory : MonoBehaviour
     private void DeactivateJournalUI()
     {
         journalContainerUI.gameObject.SetActive(false);
+        isAnimating = false;
     }
 
     private void HandleHotbarInput()
