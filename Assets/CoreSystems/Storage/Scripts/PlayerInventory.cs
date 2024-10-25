@@ -43,6 +43,7 @@ public class PlayerInventory : MonoBehaviour
     //Animation
     private bool isAnimating = false;
     [SerializeField] private Animation journalAnimator;
+    private GameObject journal;
 
     public HotbarContainer GetHotbarContainer()
     {
@@ -79,6 +80,7 @@ public class PlayerInventory : MonoBehaviour
     private void Start()
     {
         crosshair = GameObject.Find("CrosshairAndStamina");
+        journal = GameObject.Find("JournalBackGroundIMG");
         
         if (cam == null)
         {
@@ -105,7 +107,9 @@ public class PlayerInventory : MonoBehaviour
                 Debug.LogError("Cannot find player journalContainerUI");
             }
         }
-        journalContainerUI.gameObject.SetActive(false);
+
+        if (journal != null) journal.gameObject.SetActive(false);
+        //journalContainerUI.gameObject.SetActive(false);
     }
 
     private readonly KeyCode[] slotsKeyCodes = new KeyCode[]
@@ -195,6 +199,7 @@ public class PlayerInventory : MonoBehaviour
         isJournalOpen = !isJournalOpen;
         if (isJournalOpen)
         {
+            if (journal.gameObject != null) journal.gameObject.SetActive(true);
             journalContainerUI.gameObject.SetActive(isJournalOpen);
             StartCoroutine(OpenJournalCoroutine());
         }
