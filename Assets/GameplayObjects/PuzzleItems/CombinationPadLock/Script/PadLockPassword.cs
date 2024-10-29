@@ -14,7 +14,7 @@ public class PadLockPassword : MonoBehaviour
     private void Awake()
     {
         _moveRull = FindObjectOfType<MoveRuller>();
-        openLock = GetComponentInChildren<Animation>();
+        openLock = GetComponent<Animation>();
     }
 
     public void Password()

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InteractableVent : InteractableObject
 {
+    private Animation ventAnim;
     private Rigidbody ventRb;
     private bool isOpened = false;
     private string ventHint = "You are missing a tool to open this!";
@@ -35,7 +36,7 @@ public class InteractableVent : InteractableObject
         {
             if (selectedItem != null && selectedItem.Equals(screwdriver))  // Check if selected item is screwdriver
             {
-                ventRb.AddForce(pullVector);
+                ventAnim.Play();
                 isOpened = true;
             }
             else
@@ -57,6 +58,7 @@ public class InteractableVent : InteractableObject
     {
         base.Start();
         ventRb = GetComponent<Rigidbody>();
+        ventAnim = GetComponent<Animation>();
         interactionUIController = FindObjectOfType<InteractionUIController>();
 
         //Find player inventory

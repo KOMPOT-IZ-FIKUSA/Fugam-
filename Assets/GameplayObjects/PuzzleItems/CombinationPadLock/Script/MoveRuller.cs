@@ -7,6 +7,7 @@ public class MoveRuller : MonoBehaviour
 {
     PadLockPassword _lockPassword;
     PadLockEmissionColor _pLockColor;
+    private Animation lockAnim;
 
     [Header("Cameras")]
     public GameObject mainCam;
@@ -33,6 +34,7 @@ public class MoveRuller : MonoBehaviour
     private void Start()
     {
         _boxCollider = GetComponent<BoxCollider>();
+        lockAnim = GetComponent<Animation>();
         
     }
     void Awake()
@@ -64,9 +66,9 @@ public class MoveRuller : MonoBehaviour
 
             if (_lockPassword.passSolved == true)
             {
-                Invoke("PlayerCamera", 1.05f);
                 
-                Debug.Log("Pass SOlved");
+                Invoke("PlayerCamera", 1.05f);
+                Debug.Log("Pass Solved");
             }
         }
         if (Input.GetKeyDown(KeyCode.Escape) && Application.isPlaying)
