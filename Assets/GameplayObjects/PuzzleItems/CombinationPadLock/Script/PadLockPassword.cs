@@ -6,6 +6,8 @@ public class PadLockPassword : MonoBehaviour
     MoveRuller _moveRull;
 
     private Animation openLock;
+    public AudioClip openLockClip;
+    private AudioSource openLockAudio;
 
     public bool passSolved = false;
 
@@ -15,6 +17,7 @@ public class PadLockPassword : MonoBehaviour
     {
         _moveRull = FindObjectOfType<MoveRuller>();
         openLock = GetComponent<Animation>();
+        openLockAudio = GetComponent<AudioSource>();
     }
 
     public void Password()
@@ -23,6 +26,7 @@ public class PadLockPassword : MonoBehaviour
         {
             // Here enter the event for the correct combination
             Debug.Log("Password correct");
+            openLockAudio.PlayOneShot(openLockClip);
             openLock.Play();
             passSolved = true;
 

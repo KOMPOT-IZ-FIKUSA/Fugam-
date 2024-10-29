@@ -5,7 +5,7 @@ using UnityEngine;
 public class InteractableVent : InteractableObject
 {
     private Animation ventAnim;
-    private Rigidbody ventRb;
+    
     private bool isOpened = false;
     private string ventHint = "You are missing a tool to open this!";
     private InteractionUIController interactionUIController;
@@ -38,6 +38,7 @@ public class InteractableVent : InteractableObject
             {
                 ventAnim.Play();
                 isOpened = true;
+                Destroy(screwdriver);
             }
             else
             {
@@ -57,7 +58,7 @@ public class InteractableVent : InteractableObject
     protected override void Start()
     {
         base.Start();
-        ventRb = GetComponent<Rigidbody>();
+        
         ventAnim = GetComponent<Animation>();
         interactionUIController = FindObjectOfType<InteractionUIController>();
 
