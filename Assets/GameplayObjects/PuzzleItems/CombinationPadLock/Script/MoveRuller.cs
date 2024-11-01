@@ -7,7 +7,8 @@ public class MoveRuller : MonoBehaviour
 {
     PadLockPassword _lockPassword;
     PadLockEmissionColor _pLockColor;
-    
+    [SerializeField] public SlotItem keyItemSource;
+    PlayerInventory playerInventory;
 
     [Header("Cameras")]
     public GameObject mainCam;
@@ -34,8 +35,8 @@ public class MoveRuller : MonoBehaviour
     private void Start()
     {
         _boxCollider = GetComponent<BoxCollider>();
-        
-        
+        playerInventory = FindObjectOfType<PlayerInventory>();
+
     }
     void Awake()
     {
@@ -66,9 +67,11 @@ public class MoveRuller : MonoBehaviour
 
             if (_lockPassword.passSolved == true)
             {
+                playerInventory.AddItem(keyItemSource.Copy());
                 Invoke("PlayerCamera", 1.05f);
                 Debug.Log("Pass Solved");
             }
+            
         }
         if (Input.GetKeyDown(KeyCode.Escape) && Application.isPlaying)
         {

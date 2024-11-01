@@ -1107,6 +1107,10 @@ PrefabInstance:
       propertyPath: mainCam
       value: 
       objectReference: {fileID: 390431162}
+    - target: {fileID: 3404402356410622241, guid: 852a11fecc1877149be52139ea40a3be, type: 3}
+      propertyPath: keyItemSource
+      value: 
+      objectReference: {fileID: 11400000, guid: ec5c625a9a10fe8449348782fa076117, type: 2}
     - target: {fileID: 3404402356410622242, guid: 852a11fecc1877149be52139ea40a3be, type: 3}
       propertyPath: openLockClip
       value: 
