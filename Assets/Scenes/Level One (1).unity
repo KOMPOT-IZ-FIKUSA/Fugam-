@@ -66775,7 +66775,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c3a2e9c7a879b7d41b29957e6f9ed6c0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c3a2e9c7a879b7d41b29957e6f9ed6c0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -66794,6 +66794,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: c3a2e9c7a879b7d41b29957e6f9ed6c0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1568699892}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: c3a2e9c7a879b7d41b29957e6f9ed6c0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1568699896}
   m_SourcePrefab: {fileID: 100100000, guid: c3a2e9c7a879b7d41b29957e6f9ed6c0, type: 3}
 --- !u!4 &1568699888 stripped
 Transform:
@@ -66837,38 +66840,26 @@ MonoBehaviour:
   UILabelTransform: {fileID: 0}
   raycastSelectionRange: 3
   angularSelectionRange: 3
-  angularSelectionAngle: 3
-  door: {fileID: 1568699888}
-  closedRotation: {x: 0, y: 0, z: 0}
-  openedRotationY: {x: 0, y: 0, z: 0}
-  isOpen: 0
+  angularSelectionAngle: 1
+  door: {fileID: 1401667340}
   key: {fileID: 11400000, guid: ec5c625a9a10fe8449348782fa076117, type: 2}
-  animationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  animationTime: 0
-  animating: 0
+--- !u!111 &1568699896
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421877036}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 17d8812e98e92e142a270c5eba7334f5, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 17d8812e98e92e142a270c5eba7334f5, type: 2}
+  - {fileID: 7400000, guid: f05376bfa682b8548ae0e991175e7844, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!43 &1609190410
 Mesh:
   m_ObjectHideFlags: 0
