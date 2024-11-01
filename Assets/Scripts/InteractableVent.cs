@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InteractableVent : InteractableObject
@@ -8,6 +9,7 @@ public class InteractableVent : InteractableObject
     
     private bool isOpened = false;
     private string ventHint = "You are missing a tool to open this!";
+    private string screwBroke = "The screwdriver broke well opening the vent!";
     private InteractionUIController interactionUIController;
     private PlayerInventory inventory;
 
@@ -38,7 +40,12 @@ public class InteractableVent : InteractableObject
             {
                 ventAnim.Play();
                 isOpened = true;
-                Destroy(screwdriver);
+
+                inventory.GetHotbarContainer().DeleteItem(inventory.SelectedSlot);
+                inventory.SelectedSlot = 0;
+                interactionUIController.hints.enabled = true;
+                interactionUIController.hints.text = screwBroke;
+                interactionUIController.Invoke("ClearMessage", interactionUIController.hintDelay);
             }
             else
             {

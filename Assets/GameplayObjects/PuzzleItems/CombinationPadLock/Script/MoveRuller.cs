@@ -66,7 +66,6 @@ public class MoveRuller : MonoBehaviour
 
             if (_lockPassword.passSolved == true)
             {
-                
                 Invoke("PlayerCamera", 1.05f);
                 Debug.Log("Pass Solved");
             }
