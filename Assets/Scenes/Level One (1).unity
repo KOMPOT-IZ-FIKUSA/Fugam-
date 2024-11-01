@@ -51860,7 +51860,7 @@ Transform:
   m_GameObject: {fileID: 1128473389}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.26, y: 0, z: 5.12}
+  m_LocalPosition: {x: -5.27, y: 0, z: 5.12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -66790,6 +66790,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: c3a2e9c7a879b7d41b29957e6f9ed6c0, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1568699895}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: c3a2e9c7a879b7d41b29957e6f9ed6c0, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1568699892}
   m_SourcePrefab: {fileID: 100100000, guid: c3a2e9c7a879b7d41b29957e6f9ed6c0, type: 3}
 --- !u!4 &1568699888 stripped
@@ -66818,6 +66821,54 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 6.151161, y: 0.55296797, z: 10.820561}
   m_Center: {x: -3.0234458, y: -0.24040195, z: 5.294073}
+--- !u!114 &1568699895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421877036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b5e27b78e65d54db7f25ccbdd8effc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AngularSelectionCenter: {fileID: 0}
+  UILabelTransform: {fileID: 0}
+  raycastSelectionRange: 3
+  angularSelectionRange: 3
+  angularSelectionAngle: 3
+  door: {fileID: 1568699888}
+  closedRotation: {x: 0, y: 0, z: 0}
+  openedRotationY: {x: 0, y: 0, z: 0}
+  isOpen: 0
+  key: {fileID: 11400000, guid: ec5c625a9a10fe8449348782fa076117, type: 2}
+  animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animationTime: 0
+  animating: 0
 --- !u!43 &1609190410
 Mesh:
   m_ObjectHideFlags: 0

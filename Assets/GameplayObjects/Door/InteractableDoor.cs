@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -14,18 +15,25 @@ public class InteractableDoor : InteractableObject
     [SerializeField] private Vector3 closedRotation;
     [SerializeField] private Vector3 openedRotationY;
     [SerializeField] private bool isOpen;
+    [SerializeField] private SlotItem key;
 
     [SerializeField] private AnimationCurve animationCurve;
     [SerializeField, HideInInspector] private float animationTime;
     [SerializeField, HideInInspector] private bool animating;
+    PlayerInventory inventory; //ACCESS INVENTORY
+    InteractionUIController interactionUIController; //INTERACTIONUI for our hint message
 
 
 
     protected override void Start()
     {
-        throw new System.NotImplementedException("Door code has to be finished to apply the component");
+        //throw new System.NotImplementedException("Door code has to be finished to apply the component");
         base.Start();
         SetOpen(false);
+        //Assign the inventory and interaction
+        inventory = FindObjectOfType<PlayerInventory>();
+        interactionUIController = FindObjectOfType<InteractionUIController>();
+        
     }
 
 
@@ -78,7 +86,22 @@ public class InteractableDoor : InteractableObject
         base.Interact(option);
         if (option.option == InteractionOption.OPEN)
         {
-            SetOpen(true);
+            //Same idea as the vent, get selected slot item
+            SlotItem selectedItem = inventory.GetSelectedItem();
+
+            //Checks if it is equal to a key
+            if (selectedItem != null && selectedItem.Equals(key))
+            {
+                SetOpen(true);
+                
+            }
+            else
+            {
+                interactionUIController.hints.enabled = true;
+                interactionUIController.hints.text = "You need a key to open this door!";
+                interactionUIController.Invoke("ClearMessage", interactionUIController.hintDelay);
+            }
+                
         }
         else if (option.option == InteractionOption.CLOSE)
         {
