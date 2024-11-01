@@ -17,11 +17,14 @@ public class InteractableDoor : InteractableObject
     [SerializeField] private bool isOpen;
     [SerializeField] private SlotItem key;
 
+    
     [SerializeField] private AnimationCurve animationCurve;
     [SerializeField, HideInInspector] private float animationTime;
     [SerializeField, HideInInspector] private bool animating;
     PlayerInventory inventory; //ACCESS INVENTORY
     InteractionUIController interactionUIController; //INTERACTIONUI for our hint message
+    private Animation doorAnim;
+    private Animation doorCloseAnim;
 
 
 
@@ -33,6 +36,8 @@ public class InteractableDoor : InteractableObject
         //Assign the inventory and interaction
         inventory = FindObjectOfType<PlayerInventory>();
         interactionUIController = FindObjectOfType<InteractionUIController>();
+        doorAnim = GetComponent<Animation>();
+        
         
     }
 
@@ -92,11 +97,14 @@ public class InteractableDoor : InteractableObject
             //Checks if it is equal to a key
             if (selectedItem != null && selectedItem.Equals(key))
             {
+                //Open equals true
                 SetOpen(true);
+                doorAnim.Play();
                 
             }
             else
             {
+                //It will give a message saying we need a key
                 interactionUIController.hints.enabled = true;
                 interactionUIController.hints.text = "You need a key to open this door!";
                 interactionUIController.Invoke("ClearMessage", interactionUIController.hintDelay);
@@ -106,6 +114,7 @@ public class InteractableDoor : InteractableObject
         else if (option.option == InteractionOption.CLOSE)
         {
             SetOpen(false);
+            
         }
     }
 
