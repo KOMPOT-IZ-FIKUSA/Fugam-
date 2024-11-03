@@ -89,6 +89,11 @@ public abstract class InteractableObject : MonoBehaviour
         playerController.StopTrackingObject(this);
     }
 
+    protected virtual void OnDisable()
+    {
+        playerController.StopTrackingObject(this);
+    }
+
     public virtual void SetSelected(bool selected)
     {
         if (selected && !CanBeSelected())

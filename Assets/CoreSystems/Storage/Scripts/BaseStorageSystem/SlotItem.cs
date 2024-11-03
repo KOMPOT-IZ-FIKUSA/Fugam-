@@ -119,6 +119,10 @@ public abstract class SlotContainer : ScriptableObject
         return items[index];
     }
 
+    private void OnDisable()
+    {
+        
+    }
 }
 
 

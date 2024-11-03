@@ -9,6 +9,12 @@ public class Clue : InteractableObject
     [SerializeField] private GameObject clueUIPanel;
     [SerializeField] private GameObject enlargedCluePanel;
     [SerializeField] private Animation enlargeAnimation; //Inspection Zoom, Not working/decided yet
+    [SerializeField] private GameObject clueInspectionPanel;
+
+    protected override void Start()
+    {
+        base.Start();
+    }
 
     public override void Interact(InteractionOptionInstance option)
     {
@@ -24,7 +30,8 @@ public class Clue : InteractableObject
             clueUIPanel.SetActive(true); 
         }
         
-        Destroy(gameObject); 
+        gameObject.SetActive(false);
+        
     }
 
     public void InspectClue() //it will assign the sprite to the deactived big panel on the ui and activate the panel
@@ -32,7 +39,7 @@ public class Clue : InteractableObject
         if (enlargedCluePanel != null)
         {
             enlargedCluePanel.GetComponent<Image>().sprite = clueData.sprite;
-            clueUIPanel.SetActive(true);
+            clueInspectionPanel.SetActive(true);
             if (enlargeAnimation != null)
             {
                 enlargeAnimation.Play("ClueEnlargeAnimation"); 
@@ -42,10 +49,7 @@ public class Clue : InteractableObject
 
     public void CloseInspection()
     {
-        if (enlargedCluePanel != null)
-        {
-            enlargedCluePanel.SetActive(false);
-        }
+        clueInspectionPanel.SetActive(false);
     }
 
     public override List<InteractionOptionInstance> GetAvailabeleOptions()

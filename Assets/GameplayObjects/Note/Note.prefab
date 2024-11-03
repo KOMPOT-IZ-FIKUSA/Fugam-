@@ -114,6 +114,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7259678124331632534}
+  - component: {fileID: 6258920724349033386}
   m_Layer: 0
   m_Name: Note
   m_TagString: Untagged
@@ -139,6 +140,27 @@ Transform:
   - {fileID: 5274307678159467540}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6258920724349033386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4904540379277555724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d345faf95e29204698e4410c9e5d665, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AngularSelectionCenter: {fileID: 0}
+  UILabelTransform: {fileID: 0}
+  raycastSelectionRange: 3
+  angularSelectionRange: 3
+  angularSelectionAngle: 15
+  clueData: {fileID: 11400000, guid: 24975705d74296446b289b96b9f62d8d, type: 2}
+  clueUIPanel: {fileID: 0}
+  enlargedCluePanel: {fileID: 0}
+  enlargeAnimation: {fileID: 0}
 --- !u!1 &7086431655228664653
 GameObject:
   m_ObjectHideFlags: 0
