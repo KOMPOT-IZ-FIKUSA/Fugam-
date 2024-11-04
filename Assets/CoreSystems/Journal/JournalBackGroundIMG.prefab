@@ -671,7 +671,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4029233423358168297}
   m_Layer: 5
-  m_Name: ClueImages
+  m_Name: LeftPage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -689,11 +689,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 949274587686946621}
   - {fileID: 387429026764937813}
   - {fileID: 3065928548989259951}
-  - {fileID: 4563260100158248364}
-  - {fileID: 4937956097777519592}
+  - {fileID: 671001522987941408}
   m_Father: {fileID: 3442650621442170976}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -776,6 +774,44 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &3962233655292944667
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 671001522987941408}
+  m_Layer: 5
+  m_Name: Texts
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &671001522987941408
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3962233655292944667}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 949274587686946621}
+  - {fileID: 4563260100158248364}
+  - {fileID: 4937956097777519592}
+  m_Father: {fileID: 4029233423358168297}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3970817407398648107
 GameObject:
   m_ObjectHideFlags: 0
@@ -1077,7 +1113,7 @@ GameObject:
   - component: {fileID: 5991984443620110524}
   - component: {fileID: 1073764435036624924}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1167,7 +1203,7 @@ GameObject:
   - component: {fileID: 2889873091365086635}
   - component: {fileID: 980517255124495087}
   m_Layer: 5
-  m_Name: Text (TMP) (2)
+  m_Name: TopText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1185,7 +1221,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4029233423358168297}
+  m_Father: {fileID: 671001522987941408}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -12.655}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2907,7 +2943,7 @@ GameObject:
   - component: {fileID: 5808795844807093}
   - component: {fileID: 879059752050892848}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: BottomText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2925,7 +2961,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4029233423358168297}
+  m_Father: {fileID: 671001522987941408}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -3.029}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3248,7 +3284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8533245511157011613}
   m_Layer: 5
-  m_Name: Page 2 (1)
+  m_Name: RightPage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3707,7 +3743,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4029233423358168297}
+  m_Father: {fileID: 671001522987941408}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 13.993}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3944,7 +3980,7 @@ GameObject:
   - component: {fileID: 5575326607326873206}
   - component: {fileID: 6353035183586778836}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Clue2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
