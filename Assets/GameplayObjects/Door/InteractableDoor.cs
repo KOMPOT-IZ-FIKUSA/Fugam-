@@ -13,6 +13,7 @@ public class InteractableDoor : InteractableObject
 
     [SerializeField] private Transform door;
     private bool doorOpened = false;
+    private bool doorUnlocked = false;
     [SerializeField] private SlotItem key;
 
     PlayerInventory inventory; //ACCESS INVENTORY
@@ -28,12 +29,6 @@ public class InteractableDoor : InteractableObject
         interactionUIController = FindObjectOfType<InteractionUIController>();
         doorAnim = GetComponent<Animation>();
     }
-    protected override void Update()
-    {
-        base.Update();
-
-
-    }
     public override void Interact(InteractionOptionInstance option)
     {
         base.Interact(option);
@@ -41,9 +36,18 @@ public class InteractableDoor : InteractableObject
         {
             //Same idea as the vent, get selected slot item
             SlotItem selectedItem = inventory.GetSelectedItem();
+            
+            
 
             //Checks if it is equal to a key
             if (selectedItem != null && selectedItem.Equals(key))
+            {
+                doorAnim.Play("DoorAnim");
+                doorOpened = true;
+                doorUnlocked = true;
+                Destroy(selectedItem);
+            }
+            else if(doorUnlocked == true)
             {
                 doorAnim.Play("DoorAnim");
                 doorOpened = true;
