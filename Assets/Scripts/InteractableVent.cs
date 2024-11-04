@@ -38,7 +38,7 @@ public class InteractableVent : InteractableObject
         {
             if (selectedItem != null && selectedItem.Equals(screwdriver))  // Check if selected item is screwdriver
             {
-                ventAnim.Play();
+                ventAnim.Play("OpenVent");
                 isOpened = true;
 
                 inventory.GetHotbarContainer().DeleteItem(inventory.SelectedSlot);
