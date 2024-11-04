@@ -66762,7 +66762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AngularSelectionCenter: {fileID: 0}
-  UILabelTransform: {fileID: 0}
+  UILabelTransform: {fileID: 1128473390}
   raycastSelectionRange: 3
   angularSelectionRange: 3
   angularSelectionAngle: 1
