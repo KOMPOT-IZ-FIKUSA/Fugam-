@@ -1855,6 +1855,11 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &631092759 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5305292494852408081, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
+  m_PrefabInstance: {fileID: 812515011}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &734339168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2432,6 +2437,14 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4961622128279365521, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
+      propertyPath: journalAnimator
+      value: 
+      objectReference: {fileID: 2002371798}
+    - target: {fileID: 4961622128279365521, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
+      propertyPath: pausedBackground
+      value: 
+      objectReference: {fileID: 631092759}
     - target: {fileID: 5309381068515730808, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
       propertyPath: m_Name
       value: Clue2Sprite
@@ -2443,6 +2456,38 @@ PrefabInstance:
     - target: {fileID: 5934415582883108402, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
       propertyPath: m_Name
       value: CommonUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 6240604988288018563, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6240604988288018563, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6240604988288018563, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1137583925}
+    - target: {fileID: 6240604988288018563, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6240604988288018563, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseJournal
+      objectReference: {fileID: 0}
+    - target: {fileID: 6240604988288018563, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerInventory, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6240604988288018563, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6240604988288018563, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8626425571977345563, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
       propertyPath: m_Name
@@ -50731,6 +50776,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1568699888}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1137583925 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8480204383400248204, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
+  m_PrefabInstance: {fileID: 812515011}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9ee6f2ad5024bb4a9f256e5848e7fde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1160593590
 Mesh:
   m_ObjectHideFlags: 0
@@ -67487,6 +67543,11 @@ Transform:
   - {fileID: 208259437}
   m_Father: {fileID: 421483511}
   m_LocalEulerAnglesHint: {x: 0, y: 10.38, z: 0}
+--- !u!111 &2002371798 stripped
+Animation:
+  m_CorrespondingSourceObject: {fileID: 6728201891621778898, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
+  m_PrefabInstance: {fileID: 812515011}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &2024374974
 Mesh:
   m_ObjectHideFlags: 0

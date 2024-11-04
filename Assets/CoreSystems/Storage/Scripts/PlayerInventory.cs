@@ -1,9 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using System;
-using static UnityEditor.Progress;
 
 /// <summary>
 /// The main class that sets up player inventory.
@@ -209,7 +205,7 @@ public class PlayerInventory : MonoBehaviour
         }
     }
     
-    private IEnumerator OpenJournalCoroutine()
+    private IEnumerator OpenJournalCoroutine() 
     {
         isAnimating = true;
         if (crosshair != null)
@@ -232,10 +228,10 @@ public class PlayerInventory : MonoBehaviour
         isAnimating = false;
     }
     
-    private void CloseJournal()
+    public void CloseJournal() // I need it public for the button
     {
         isAnimating = true;
-   
+        isJournalOpen = false;
         
         //The moment is j pressed the lock will be opened, maybe the other way around is better. (still deciding
         Cursor.lockState = CursorLockMode.Locked;
