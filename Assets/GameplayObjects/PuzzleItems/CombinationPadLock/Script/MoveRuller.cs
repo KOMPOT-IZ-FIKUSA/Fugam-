@@ -9,6 +9,7 @@ public class MoveRuller : InteractableObject
     [SerializeField] private SlotItem _keyItemSource;
     [SerializeField] private List<GameObject> _rullers;
     private Quaternion[] _rullersInitialRotations;
+    private float[] _rullersCurrentAngles; // changed a bit every frame to animate the angle
 
 
     private PadLockEmissionColor _pLockColor;
@@ -40,6 +41,7 @@ public class MoveRuller : InteractableObject
         {
             _rullersInitialRotations[i] = _rullers[i].transform.localRotation;
         }
+        _rullersCurrentAngles = new float[_rullers.Count]; // set to 0 by default as we have all rullers set to 0 
 
     }
     protected override void Awake()
@@ -47,6 +49,12 @@ public class MoveRuller : InteractableObject
         base.Awake();
         _pLockColor = FindObjectOfType<PadLockEmissionColor>();
         _openLockAnimation = GetComponent<Animation>();
+
+        if (CorrectPassword.SequenceEqual(new int[] { 0, 0, 0, 0 }))
+        {
+            Debug.LogWarning("Warning: The correct password is set to { 0, 0, 0, 0 }");
+        }
+
     }
     protected override void Update()
     {
@@ -58,7 +66,6 @@ public class MoveRuller : InteractableObject
 
             if (IsSolved)
             {
-                return;
                 Invoke("PlayerCamera", 1.05f);
                 _playerInventory.AddItem(_keyItemSource.Copy());
                 _openLockAnimation.Play();
@@ -145,11 +152,50 @@ public class MoveRuller : InteractableObject
             increase = -1;
         }
         _selectedNumbers[_selectedRullerIndex] = (_selectedNumbers[_selectedRullerIndex] + increase + 10) % 10;
-        float angleX = anglePerUnit * _selectedNumbers[_selectedRullerIndex];
-        Quaternion rotQNew = Quaternion.Euler(angleX, 0, 0);
-        Quaternion rotQInitial = _rullersInitialRotations[_selectedRullerIndex];
-        print(rotQInitial + " " + rotQNew);
-        _rullers[_selectedRullerIndex].transform.localRotation = rotQInitial * rotQNew;
+
+        for (int i = 0; i < _selectedNumbers.Length; i++)
+        {
+            float targetAngle = anglePerUnit * _selectedNumbers[i];
+            float newAngle = _calculateNewAngle(_rullersCurrentAngles[i], targetAngle, Time.deltaTime);
+            _rullersCurrentAngles[i] = newAngle;
+            Quaternion rotQNew = Quaternion.Euler(newAngle, 0, 0);
+            Quaternion rotQInitial = _rullersInitialRotations[i];
+            _rullers[i].transform.localRotation = rotQInitial * rotQNew;
+        }
+
+    }
+    
+    private static float _calculateNewAngle(float currentAngle, float targetAngle, float deltaTime)
+    {
+        // 1) normalize both to [0, 360]
+        currentAngle = (currentAngle % 360 + 360) % 360;
+        targetAngle = (targetAngle % 360 + 360) % 360;
+        float increase;
+        if (currentAngle > targetAngle)
+        {
+            if (currentAngle - targetAngle >= 180)
+            {
+                increase = 1;
+            } else
+            {
+                increase = -1;
+            }
+        } else
+        {
+            if (targetAngle - currentAngle >= 180)
+            {
+                increase = -1;
+            } else
+            {
+                increase = 1;
+            }
+        }
+        float animationSpeed = 180; // degrees per second
+        if (Mathf.Abs(currentAngle - targetAngle) < 5)
+        {
+            animationSpeed /= 10;
+        }
+        return currentAngle + increase * deltaTime * animationSpeed;
     }
 
     public override List<InteractionOptionInstance> GetAvailabeleOptions()
@@ -165,5 +211,10 @@ public class MoveRuller : InteractableObject
             _isOpened = true;
             LockCameras();
         }
+    }
+
+    public override bool CanBeSelected()
+    {
+        return !_isOpened;
     }
 }
