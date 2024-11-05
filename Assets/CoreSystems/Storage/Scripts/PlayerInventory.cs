@@ -18,7 +18,7 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private JournalContainer _journal;
 
     public int SelectedSlot = -1;
-    
+
     [Space(20)]
     [Header("Keys")]
     [SerializeField] private KeyCode throwitemKey;
@@ -27,10 +27,11 @@ public class PlayerInventory : MonoBehaviour
     // Non-serializable camera and hotbarUI
     private Camera cam;
     private HotbarContainerUI hotbarContainerUI;
-    private JournalContainerUI journalContainerUI;
-    
-    private bool isJournalOpen = false;
-    
+    private JournalUI _journalUI;
+
+
+    private bool IsJournalOpen => _journalUI.IsShown;
+
     public HotbarContainer GetHotbarContainer()
     {
         return _hotbar;
@@ -46,7 +47,8 @@ public class PlayerInventory : MonoBehaviour
         if (_hotbar == null)
         {
             _hotbar = ScriptableObject.CreateInstance<HotbarContainer>();
-        } else
+        }
+        else
         {
             _hotbar = _hotbar.Copy();
         }
@@ -54,7 +56,8 @@ public class PlayerInventory : MonoBehaviour
         if (_journal == null)
         {
             _journal = ScriptableObject.CreateInstance<JournalContainer>();
-        } else
+        }
+        else
         {
             _journal = _journal.Copy();
         }
@@ -65,7 +68,7 @@ public class PlayerInventory : MonoBehaviour
         if (cam == null)
         {
             cam = FindObjectOfType<Camera>();
-            if (cam == null )
+            if (cam == null)
             {
                 Debug.LogError("Cannot find player camera");
             }
@@ -73,21 +76,20 @@ public class PlayerInventory : MonoBehaviour
         if (hotbarContainerUI == null)
         {
             hotbarContainerUI = FindObjectOfType<HotbarContainerUI>();
-            if (hotbarContainerUI == null )
+            if (hotbarContainerUI == null)
             {
                 Debug.LogError("Cannot find player camera");
             }
         }
 
-        if (journalContainerUI == null)
+        if (_journalUI == null)
         {
-            journalContainerUI = FindObjectOfType<JournalContainerUI>();
-            if (journalContainerUI == null)
+            _journalUI = FindObjectOfType<JournalUI>();
+            if (_journalUI == null)
             {
-                Debug.LogError("Cannot find player journalContainerUI");
+                Debug.LogError("Cannot find player camera");
             }
         }
-        journalContainerUI.gameObject.SetActive(false);
     }
 
     private readonly KeyCode[] slotsKeyCodes = new KeyCode[]
@@ -106,34 +108,15 @@ public class PlayerInventory : MonoBehaviour
     {
         if (Input.GetKeyDown(openJournalKey))
         {
-            ToggleJournal();
+            _journalUI.TryToggle();
         }
         // if journal is not open then hotbar input will work
-        if (!isJournalOpen)
+        if (!IsJournalOpen)
         {
             HandleHotbarInput();
         }
 
     }
-
-
-    private void ToggleJournal()
-    {
-        isJournalOpen = !isJournalOpen;
-        journalContainerUI.gameObject.SetActive(isJournalOpen);
-
-        if (isJournalOpen)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-    }
-
     private void HandleHotbarInput()
     {
         // Throw item if player pressed the button and throwable item is in selected slot
@@ -211,7 +194,7 @@ public class PlayerInventory : MonoBehaviour
     {
         return SelectedSlot == -1 ? null : _hotbar.GetItem(SelectedSlot);
     }
-    
+
 
 }
 

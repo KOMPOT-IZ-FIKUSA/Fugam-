@@ -22,6 +22,7 @@ public class PlayerInteractController : MonoBehaviour
 
     [SerializeField] private Camera playerCamera;
 
+    private FirstPersonController _firstPersonController;
 
     private InteractionUIController interactionUIController;
 
@@ -32,11 +33,17 @@ public class PlayerInteractController : MonoBehaviour
     // An object that is currently selected. (null if nothing selected)
     private InteractableObject selectedObject;
 
+    private bool _UIPauseControls = false;
+    public bool UIPauseControls { get { return _UIPauseControls; } }
+
     public Camera GetPlayerCamera() { return playerCamera; }
 
-    public void SetCanMoveCamera(bool canMoveCamera)
+    public void SetUIPauseControls(bool pause)
     {
-        GetComponent<FirstPersonController>().cameraCanMove = canMoveCamera;
+        _UIPauseControls = pause;
+        _firstPersonController.cameraCanMove = !pause;
+        _firstPersonController.enableJump = !pause;
+        _firstPersonController.playerCanMove = !pause;
     }
 
     public InteractableObject GetSelectedObject() { return selectedObject; }
@@ -57,6 +64,12 @@ public class PlayerInteractController : MonoBehaviour
         if (angularSelector == null)
         {
             throw new MissingComponentException(typeof(AngularInteractionSelector).Name);
+        }
+
+        _firstPersonController = GetComponent<FirstPersonController>();
+        if (_firstPersonController == null)
+        {
+            throw new MissingComponentException(typeof(FirstPersonController).Name);
         }
     }
 

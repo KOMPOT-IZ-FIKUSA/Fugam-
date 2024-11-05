@@ -96,13 +96,13 @@ public class MoveRuller : InteractableObject
     {
         lockCam.SetActive(true);
         mainCam.SetActive(false);
-        _playerInteractController.SetCanMoveCamera(false);
+        _playerInteractController.SetUIPauseControls(true);
     }
     public void EscapeCamera()
     {
         lockCam.SetActive(false);
         mainCam.SetActive(true);
-        _playerInteractController.SetCanMoveCamera(true);
+        _playerInteractController.SetUIPauseControls(false);
     }
     public void SetCameraAndDestroy()
     {
