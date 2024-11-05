@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class MoveRuller : InteractableObject
 {
@@ -14,6 +15,7 @@ public class MoveRuller : InteractableObject
 
     private PadLockEmissionColor _pLockColor;
     private PlayerInventory _playerInventory;
+    private PlayerInteractController _playerInteractController;
     private Animation _openLockAnimation;
 
     [Header("Cameras")]
@@ -27,7 +29,8 @@ public class MoveRuller : InteractableObject
     private bool _isActveEmission = false;
     private bool _isOpened = false;
 
-    public bool IsSolved => _selectedNumbers.SequenceEqual(_selectedNumbers);
+    public bool IsSolved => _selectedNumbers.SequenceEqual(CorrectPassword);
+    private bool _keyGiven = false;
 
     public int[] CorrectPassword = { 0, 0, 0, 0 };
 
@@ -35,6 +38,7 @@ public class MoveRuller : InteractableObject
     {
         base.Start();
         _playerInventory = FindObjectOfType<PlayerInventory>();
+        _playerInteractController = FindObjectOfType<PlayerInteractController>();
 
         _rullersInitialRotations = new Quaternion[_rullers.Count];
         for (int i = 0; i < _rullers.Count; i++)
@@ -61,19 +65,24 @@ public class MoveRuller : InteractableObject
         base.Update();
         if (_isOpened)
         {
-            MoveRulles();
-            RotateRullers();
-
             if (IsSolved)
             {
-                Invoke("PlayerCamera", 1.05f);
-                _playerInventory.AddItem(_keyItemSource.Copy());
-                _openLockAnimation.Play();
-                for (int i = 0; i < _rullers.Count; i++)
+                if (!_keyGiven)
                 {
-                    _rullers[i].GetComponent<PadLockEmissionColor>()._isSelect = false;
-                    _rullers[i].GetComponent<PadLockEmissionColor>().BlinkingMaterial();
+                    Invoke("SetCameraAndDestroy", 1.05f);
+                    _playerInventory.AddItem(_keyItemSource.Copy());
+                    _openLockAnimation.Play();
+                    for (int i = 0; i < _rullers.Count; i++)
+                    {
+                        _rullers[i].GetComponent<PadLockEmissionColor>()._isSelect = false;
+                        _rullers[i].GetComponent<PadLockEmissionColor>().BlinkingMaterial();
+                    }
+                    _keyGiven = true;
                 }
+            } else
+            {
+                MoveRulles();
+                RotateRullers();
             }
         }
         if (Input.GetKeyDown(KeyCode.Escape) && Application.isPlaying)
@@ -87,18 +96,18 @@ public class MoveRuller : InteractableObject
     {
         lockCam.SetActive(true);
         mainCam.SetActive(false);
+        _playerInteractController.SetCanMoveCamera(false);
     }
     public void EscapeCamera()
     {
         lockCam.SetActive(false);
         mainCam.SetActive(true);
+        _playerInteractController.SetCanMoveCamera(true);
     }
-    public void PlayerCamera()
+    public void SetCameraAndDestroy()
     {
-        lockCam.SetActive(false);
-        Destroy(lockCam);
-        mainCam.SetActive(true);
-        Destroy(this.gameObject);
+        EscapeCamera();
+        Destroy(gameObject);
     }
 
 
@@ -155,7 +164,7 @@ public class MoveRuller : InteractableObject
 
         for (int i = 0; i < _selectedNumbers.Length; i++)
         {
-            float targetAngle = anglePerUnit * _selectedNumbers[i];
+            float targetAngle = 360 - anglePerUnit * _selectedNumbers[i];
             float newAngle = _calculateNewAngle(_rullersCurrentAngles[i], targetAngle, Time.deltaTime);
             _rullersCurrentAngles[i] = newAngle;
             Quaternion rotQNew = Quaternion.Euler(newAngle, 0, 0);

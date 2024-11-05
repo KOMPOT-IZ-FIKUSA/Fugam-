@@ -33,6 +33,12 @@ public class PlayerInteractController : MonoBehaviour
     private InteractableObject selectedObject;
 
     public Camera GetPlayerCamera() { return playerCamera; }
+
+    public void SetCanMoveCamera(bool canMoveCamera)
+    {
+        GetComponent<FirstPersonController>().cameraCanMove = canMoveCamera;
+    }
+
     public InteractableObject GetSelectedObject() { return selectedObject; }
     
     private void Start()

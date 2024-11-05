@@ -45,7 +45,7 @@ public class InteractableDoor : InteractableObject
                 doorAnim.Play("DoorAnim");
                 doorOpened = true;
                 doorUnlocked = true;
-                Destroy(selectedItem);
+                inventory.GetHotbarContainer().SetItem(inventory.SelectedSlot, null);
             }
             else if(doorUnlocked == true)
             {
@@ -61,7 +61,7 @@ public class InteractableDoor : InteractableObject
             }
 
         }
-        else if (option.option == InteractionOption.CLOSE)
+        else if (option.option == InteractionOption.CLOSE && doorOpened)
         {
             doorAnim.Play("DoorCloseAnim");
             doorOpened = false;
@@ -71,7 +71,6 @@ public class InteractableDoor : InteractableObject
     public override List<InteractionOptionInstance> GetAvailabeleOptions()
     {
         List<InteractionOptionInstance> result = new List<InteractionOptionInstance>();
-
 
         if (doorOpened)
         {
