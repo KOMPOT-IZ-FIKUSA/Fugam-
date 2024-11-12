@@ -16,6 +16,7 @@ public class MoveRuller : InteractableObject
     private PlayerInventory _playerInventory;
     private PlayerInteractController _playerInteractController;
     private Animation _openLockAnimation;
+    private JournalUI _journalUI;
 
     [Header("Cameras")] public GameObject mainCam;
     public GameObject lockCam;
@@ -37,7 +38,7 @@ public class MoveRuller : InteractableObject
         base.Start();
         _playerInventory = FindObjectOfType<PlayerInventory>();
         _playerInteractController = FindObjectOfType<PlayerInteractController>();
-
+        _journalUI = FindObjectOfType<JournalUI>();
         _rullersInitialRotations = new Quaternion[_rullers.Count];
         for (int i = 0; i < _rullers.Count; i++)
         {
@@ -64,6 +65,7 @@ public class MoveRuller : InteractableObject
         base.Update();
         if (_isOpened)
         {
+            _journalUI.canToggle = false;
             if (IsSolved)
             {
                 if (!_keyGiven)
@@ -84,7 +86,12 @@ public class MoveRuller : InteractableObject
             {
                 MoveRulles();
                 RotateRullers();
+                
             }
+        }
+        else
+        {
+            _journalUI.canToggle = true;
         }
 
         if (Input.GetKeyDown(KeyCode.Escape) && Application.isPlaying)
