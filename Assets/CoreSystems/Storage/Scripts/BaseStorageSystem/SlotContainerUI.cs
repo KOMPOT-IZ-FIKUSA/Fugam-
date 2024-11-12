@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +18,15 @@ public abstract class SlotContainerUI : MonoBehaviour
     protected SlotContainer container;
 
     [SerializeField] protected RectTransform[] SlotsTransforms;
+
+    [SerializeField] protected Canvas overlayCanvas;
+
+    [SerializeField] private bool _blocksCameraMovement = false;
+
+    public Canvas GetOverlayCanvas()
+    {
+        return overlayCanvas;
+    }
 
     /// <returns>The position on the screen in which the object should be displayed. The geometry of the slot.</returns>
     public virtual Rect GetWorldPositionRectForIndex(int index) {
@@ -70,7 +80,23 @@ public abstract class SlotContainerUI : MonoBehaviour
         createItemsUI();
         validateSlots();
     }
-    
+
+    protected virtual void OnEnable()
+    {
+        if (_blocksCameraMovement)
+        {
+            FindAnyObjectByType<FirstPersonController>().cameraCanMove = false;
+        }
+    }
+
+    protected virtual void OnDisable()
+    {
+        if (_blocksCameraMovement)
+        {
+            FindAnyObjectByType<FirstPersonController>().cameraCanMove = true;
+        }
+    }
+
     public void ForceUpdateUI()
     {
         createItemsUI();
