@@ -68,8 +68,6 @@ public class PlayerInventory : MonoBehaviour
 
     private void Start()
     {
-        crosshair = GameObject.Find("CrosshairAndStamina");
-        journal = GameObject.Find("JournalBackGroundIMG");
         
         if (cam == null)
         {

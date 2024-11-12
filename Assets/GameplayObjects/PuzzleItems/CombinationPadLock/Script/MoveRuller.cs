@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using System.Linq;
@@ -18,8 +17,7 @@ public class MoveRuller : InteractableObject
     private PlayerInteractController _playerInteractController;
     private Animation _openLockAnimation;
 
-    [Header("Cameras")]
-    public GameObject mainCam;
+    [Header("Cameras")] public GameObject mainCam;
     public GameObject lockCam;
 
     private int _scroolRuller = 0;
@@ -45,9 +43,10 @@ public class MoveRuller : InteractableObject
         {
             _rullersInitialRotations[i] = _rullers[i].transform.localRotation;
         }
-        _rullersCurrentAngles = new float[_rullers.Count]; // set to 0 by default as we have all rullers set to 0 
 
+        _rullersCurrentAngles = new float[_rullers.Count]; // set to 0 by default as we have all rullers set to 0 
     }
+
     protected override void Awake()
     {
         base.Awake();
@@ -58,8 +57,8 @@ public class MoveRuller : InteractableObject
         {
             Debug.LogWarning("Warning: The correct password is set to { 0, 0, 0, 0 }");
         }
-
     }
+
     protected override void Update()
     {
         base.Update();
@@ -77,33 +76,38 @@ public class MoveRuller : InteractableObject
                         _rullers[i].GetComponent<PadLockEmissionColor>()._isSelect = false;
                         _rullers[i].GetComponent<PadLockEmissionColor>().BlinkingMaterial();
                     }
+
                     _keyGiven = true;
                 }
-            } else
+            }
+            else
             {
                 MoveRulles();
                 RotateRullers();
             }
         }
+
         if (Input.GetKeyDown(KeyCode.Escape) && Application.isPlaying)
         {
             EscapeCamera();
             _isOpened = false;
         }
-
     }
+
     public void LockCameras()
     {
         lockCam.SetActive(true);
         mainCam.SetActive(false);
         _playerInteractController.SetUIPauseControls(true);
     }
+
     public void EscapeCamera()
     {
         lockCam.SetActive(false);
         mainCam.SetActive(true);
         _playerInteractController.SetUIPauseControls(false);
     }
+
     public void SetCameraAndDestroy()
     {
         EscapeCamera();
@@ -118,11 +122,13 @@ public class MoveRuller : InteractableObject
             _isActveEmission = true;
             _selectedRullerIndex++;
         }
+
         if (Input.GetKeyDown(KeyCode.A))
         {
             _isActveEmission = true;
             _selectedRullerIndex--;
         }
+
         _selectedRullerIndex = (_selectedRullerIndex + _rullers.Count) % _rullers.Count;
 
         if (_isActveEmission)
@@ -131,7 +137,6 @@ public class MoveRuller : InteractableObject
             {
                 if (_selectedRullerIndex == i)
                 {
-
                     _rullers[i].GetComponent<PadLockEmissionColor>()._isSelect = true;
                     _rullers[i].GetComponent<PadLockEmissionColor>().BlinkingMaterial();
                 }
@@ -142,7 +147,6 @@ public class MoveRuller : InteractableObject
                 }
             }
         }
-
     }
 
     void RotateRullers()
@@ -160,6 +164,7 @@ public class MoveRuller : InteractableObject
             _isActveEmission = true;
             increase = -1;
         }
+
         _selectedNumbers[_selectedRullerIndex] = (_selectedNumbers[_selectedRullerIndex] + increase + 10) % 10;
 
         for (int i = 0; i < _selectedNumbers.Length; i++)
@@ -171,9 +176,8 @@ public class MoveRuller : InteractableObject
             Quaternion rotQInitial = _rullersInitialRotations[i];
             _rullers[i].transform.localRotation = rotQInitial * rotQNew;
         }
-
     }
-    
+
     private static float _calculateNewAngle(float currentAngle, float targetAngle, float deltaTime)
     {
         // 1) normalize both to [0, 360]
@@ -185,31 +189,37 @@ public class MoveRuller : InteractableObject
             if (currentAngle - targetAngle >= 180)
             {
                 increase = 1;
-            } else
+            }
+            else
             {
                 increase = -1;
             }
-        } else
+        }
+        else
         {
             if (targetAngle - currentAngle >= 180)
             {
                 increase = -1;
-            } else
+            }
+            else
             {
                 increase = 1;
             }
         }
+
         float animationSpeed = 180; // degrees per second
         if (Mathf.Abs(currentAngle - targetAngle) < 5)
         {
             animationSpeed /= 10;
         }
+
         return currentAngle + increase * deltaTime * animationSpeed;
     }
 
     public override List<InteractionOptionInstance> GetAvailabeleOptions()
     {
-        return new List<InteractionOptionInstance> { new InteractionOptionInstance(InteractionOption.OPEN, "Enter code") };
+        return new List<InteractionOptionInstance>
+            { new InteractionOptionInstance(InteractionOption.OPEN, "Enter code") };
     }
 
     public override void Interact(InteractionOptionInstance option)

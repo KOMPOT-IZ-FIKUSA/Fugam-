@@ -15,4 +15,4 @@ MonoBehaviour:
   clueName: Note
   clueDescription: MorseCode
   clueMessage: Morse Code? I'll put it in my journal.
-  sprite: {fileID: 21300000, guid: 4bfa4cdfde8dae14eb6c5a34f2038240, type: 3}
+  sprite: {fileID: 21300000, guid: bbdd1dbbff5560f47a1b47532dd00edf, type: 3}

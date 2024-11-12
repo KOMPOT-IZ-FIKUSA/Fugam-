@@ -8,6 +8,7 @@ public class JournalUI : MonoBehaviour
     [SerializeField] private JournalContainerUI _journalContainerUI;
     [SerializeField] private Animation _animation;
     [SerializeField] private PlayerInteractController _playerInteractController;
+    [SerializeField] private GameObject _crosshair;
 
     private bool _shown = false;
     private float _toggleCooldown = 0;
@@ -59,15 +60,26 @@ public class JournalUI : MonoBehaviour
 
     private void _setCursor()
     {
-        
+
         if (_shown)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-        } else
+            _crosshair.SetActive(false);
+        }
+        else
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            _crosshair.SetActive(true);
+        }
+    }
+    
+    public void CloseJournal()
+    {
+        if (_shown)
+        {
+            TryToggle();
         }
     }
 }
