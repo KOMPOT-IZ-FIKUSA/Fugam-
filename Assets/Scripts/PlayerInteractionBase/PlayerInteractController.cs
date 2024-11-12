@@ -44,6 +44,7 @@ public class PlayerInteractController : MonoBehaviour
         _firstPersonController.cameraCanMove = !pause;
         _firstPersonController.enableJump = !pause;
         _firstPersonController.playerCanMove = !pause;
+        _firstPersonController.enableCrouch = !pause;
     }
 
     public InteractableObject GetSelectedObject() { return selectedObject; }

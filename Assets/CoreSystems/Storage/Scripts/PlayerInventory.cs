@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
@@ -16,6 +15,7 @@ public class PlayerInventory : MonoBehaviour
     [Header("Items")]
     [SerializeField] private HotbarContainer _hotbar;
     [SerializeField] private JournalContainer _journal;
+    [SerializeField] private GameObject pausedBackground; //This was the easiest option in my head :')
 
     public int SelectedSlot = -1;
 
@@ -24,6 +24,9 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private KeyCode throwitemKey;
 
     [SerializeField] private KeyCode openJournalKey = KeyCode.J;
+    
+    private FirstPersonController firstPersonController;
+    
     // Non-serializable camera and hotbarUI
     private Camera cam;
     private HotbarContainerUI hotbarContainerUI;
@@ -65,6 +68,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void Start()
     {
+        
         if (cam == null)
         {
             cam = FindObjectOfType<Camera>();
