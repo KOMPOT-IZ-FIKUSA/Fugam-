@@ -3,8 +3,9 @@ using UnityEngine.UI;
 
 public class JournalContainerUI : SlotContainerUI
 {
-    protected void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         // makes sure that the container is there
         if (container == null)
         {

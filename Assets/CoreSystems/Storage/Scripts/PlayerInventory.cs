@@ -1,9 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
 using static UnityEditor.Progress;
+using Unity.VisualScripting;
 
 /// <summary>
 /// The main class that sets up player inventory.
@@ -15,25 +15,26 @@ public class PlayerInventory : MonoBehaviour
     [Header("Items")]
     [SerializeField] private HotbarContainer _hotbar;
     [SerializeField] private JournalContainer _journal;
+    [SerializeField] private GameObject pausedBackground; //This was the easiest option in my head :')
 
     public int SelectedSlot = -1;
-    
+
     [Space(20)]
     [Header("Keys")]
     [SerializeField] private KeyCode throwitemKey;
 
     [SerializeField] private KeyCode openJournalKey = KeyCode.J;
+    
+    private FirstPersonController firstPersonController;
+    
     // Non-serializable camera and hotbarUI
     private Camera cam;
     private HotbarContainerUI hotbarContainerUI;
-    private JournalContainerUI journalContainerUI;
-    
-    private bool isJournalOpen = false;
-    
-    private SlotItem draggedItem = null;
-    private int draggedItemIndex = -1;
-    private SlotContainerUI sourceContainerUI = null;
-    
+    private JournalUI _journalUI;
+
+
+    private bool IsJournalOpen => _journalUI.IsShown;
+
     public HotbarContainer GetHotbarContainer()
     {
         return _hotbar;
@@ -50,19 +51,28 @@ public class PlayerInventory : MonoBehaviour
         {
             _hotbar = ScriptableObject.CreateInstance<HotbarContainer>();
         }
+        else
+        {
+            _hotbar = _hotbar.Copy();
+        }
 
         if (_journal == null)
         {
             _journal = ScriptableObject.CreateInstance<JournalContainer>();
         }
+        else
+        {
+            _journal = _journal.Copy();
+        }
     }
 
     private void Start()
     {
+        
         if (cam == null)
         {
             cam = FindObjectOfType<Camera>();
-            if (cam == null )
+            if (cam == null)
             {
                 Debug.LogError("Cannot find player camera");
             }
@@ -70,21 +80,20 @@ public class PlayerInventory : MonoBehaviour
         if (hotbarContainerUI == null)
         {
             hotbarContainerUI = FindObjectOfType<HotbarContainerUI>();
-            if (hotbarContainerUI == null )
+            if (hotbarContainerUI == null)
             {
                 Debug.LogError("Cannot find player camera");
             }
         }
 
-        if (journalContainerUI == null)
+        if (_journalUI == null)
         {
-            journalContainerUI = FindObjectOfType<JournalContainerUI>();
-            if (journalContainerUI == null)
+            _journalUI = FindObjectOfType<JournalUI>();
+            if (_journalUI == null)
             {
-                Debug.LogError("Cannot find player journalContainerUI");
+                Debug.LogError("Cannot find player camera");
             }
         }
-        journalContainerUI.gameObject.SetActive(false);
     }
 
     private readonly KeyCode[] slotsKeyCodes = new KeyCode[]
@@ -103,87 +112,15 @@ public class PlayerInventory : MonoBehaviour
     {
         if (Input.GetKeyDown(openJournalKey))
         {
-            ToggleJournal();
+            _journalUI.TryToggle();
         }
         // if journal is not open then hotbar input will work
-        if (!isJournalOpen)
+        if (!IsJournalOpen)
         {
             HandleHotbarInput();
         }
 
-        if (isJournalOpen)
-        {
-            HandleHotbarJournalInteraction();
-        }
     }
-
-    private void HandleHotbarJournalInteraction()
-    {
-        // If mouse is clicked, start dragging the item from either container
-        if (Input.GetMouseButtonDown(0)) // Left-click to start dragging
-        {
-            for (int i = 0; i < hotbarContainerUI.GetSlotsCount(); i++)
-            {
-                if (hotbarContainerUI.IsMouseOverSlot(i)) // Check if mouse is over a hotbar slot
-                {
-                    StartDraggingItem(hotbarContainerUI, i); // Start dragging from the hotbar
-                    return;
-                }
-            }
-
-            for (int i = 0; i < journalContainerUI.GetSlotsCount(); i++)
-            {
-                if (journalContainerUI.IsMouseOverSlot(i)) // Check if mouse is over a journal slot
-                {
-                    StartDraggingItem(journalContainerUI, i); // Start dragging from the journal
-                    return;
-                }
-            }
-        }
-
-        // If mouse is released, try to drop the item into the other container
-        if (Input.GetMouseButtonUp(0)) // Release left-click to drop
-        {
-            for (int i = 0; i < hotbarContainerUI.GetSlotsCount(); i++)
-            {
-                if (hotbarContainerUI.IsMouseOverSlot(i))
-                {
-                    StopDraggingItem(hotbarContainerUI, i); // Drop the item into the hotbar
-                    return;
-                }
-            }
-
-            for (int i = 0; i < journalContainerUI.GetSlotsCount(); i++)
-            {
-                if (journalContainerUI.IsMouseOverSlot(i))
-                {
-                    StopDraggingItem(journalContainerUI, i); // Drop the item into the journal
-                    return;
-                }
-            }
-
-            // If the mouse was released outside any valid slot, cancel the drag
-            CancelDragging();
-        }
-    }
-
-    private void ToggleJournal()
-    {
-        isJournalOpen = !isJournalOpen;
-        journalContainerUI.gameObject.SetActive(isJournalOpen);
-
-        if (isJournalOpen)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-    }
-
     private void HandleHotbarInput()
     {
         // Throw item if player pressed the button and throwable item is in selected slot
@@ -261,51 +198,7 @@ public class PlayerInventory : MonoBehaviour
     {
         return SelectedSlot == -1 ? null : _hotbar.GetItem(SelectedSlot);
     }
-    
-    private void StartDraggingItem(SlotContainerUI containerUI, int slotIndex)
-    {
-        SlotItem item = containerUI.GetContainer().GetItem(slotIndex);
-        if (item != null)
-        {
-            draggedItem = item;
-            draggedItemIndex = slotIndex;
-            sourceContainerUI = containerUI;
-            containerUI.GetContainer().SetItem(slotIndex, null);  // Remove the item from the original slot
-            containerUI.ForceUpdateUI(); // Update UI to reflect item removal
-        }
-    }
 
-    private void StopDraggingItem(SlotContainerUI targetContainerUI, int slotIndex)
-    {
-        if (draggedItem != null)
-        {
-            if (targetContainerUI.GetContainer().GetItem(slotIndex) == null)
-            {
-                targetContainerUI.GetContainer().SetItem(slotIndex, draggedItem);
-                targetContainerUI.ForceUpdateUI(); 
-                draggedItem = null;
-                draggedItemIndex = -1;
-                sourceContainerUI = null;
-            }
-            else
-            {
-                // Slot is occupied, return the item to the original container
-                CancelDragging();
-            }
-        }
 
-    }
-    private void CancelDragging()
-    {
-        if (draggedItem != null)
-        {
-            // It will set it back to the original container
-            sourceContainerUI.GetContainer().SetItem(draggedItemIndex, draggedItem);
-            sourceContainerUI.ForceUpdateUI();
-            draggedItem = null;
-            draggedItemIndex = -1;
-            sourceContainerUI = null;
-        }
-    }
 }
 

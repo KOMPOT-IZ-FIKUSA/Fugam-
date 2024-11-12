@@ -55,6 +55,18 @@ public abstract class InteractableObject : MonoBehaviour
 
     protected virtual void Awake()
     {
+        outline = GetComponent<Outline>();
+        if (outline is null)
+        {
+            outline = gameObject.AddComponent<Outline>();
+            outline.OutlineColor = Color.yellow;
+            outline.OutlineWidth = 5;
+        }
+        playerController = FindObjectOfType<PlayerInteractController>();
+        if (playerController == null)
+        {
+            throw new MissingComponentException(typeof(PlayerInteractController).Name);
+        }
     }
 
     /// <summary>
@@ -63,30 +75,22 @@ public abstract class InteractableObject : MonoBehaviour
     protected virtual void Start()
     {
 
-        outline = GetComponent<Outline>();
-        if (outline is null)
-        {
-            outline = gameObject.AddComponent<Outline>();
-            outline.OutlineColor = Color.yellow;
-            outline.OutlineWidth = 5;
-        }
 
-        playerController = FindObjectOfType<PlayerInteractController>();
-        if (playerController == null)
-        {
-            throw new MissingComponentException(typeof(PlayerInteractController).Name);
-        }
+    }
+
+    protected virtual void OnEnable()
+    {
+
         playerController.StartTrackingObject(this);
     }
-    
-    protected virtual void Update()
-    {
-        
-    }
 
-    protected virtual void OnDestroy()
+    protected virtual void OnDisable()
     {
         playerController.StopTrackingObject(this);
+    }
+    protected virtual void Update()
+    {
+
     }
 
     public virtual void SetSelected(bool selected)

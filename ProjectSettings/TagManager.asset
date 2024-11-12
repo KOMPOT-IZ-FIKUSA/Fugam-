@@ -13,7 +13,7 @@ TagManager:
   - Water
   - UI
   - IgnorePlayer
-  - 
+  - IgnoreCollider
   - 
   - 
   - 
@@ -41,4 +41,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: New Layer 1
+    uniqueID: 1368102471
+    locked: 0
+  - name: New Layer 2
+    uniqueID: 3406037765
     locked: 0
