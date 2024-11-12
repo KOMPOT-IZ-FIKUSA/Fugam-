@@ -14,7 +14,7 @@ public class JournalUI : MonoBehaviour
     private float _toggleCooldown = 0;
 
     public bool IsShown { get { return _shown; } }
-
+    public bool canToggle = true;
     private void Awake()
     {
         _playerInteractController = FindObjectOfType<PlayerInteractController>();
@@ -41,6 +41,10 @@ public class JournalUI : MonoBehaviour
 
         string clipName;
 
+        if (!canToggle)
+        {
+            return;
+        }
         if (_shown)
         {
             clipName = "JournalClose";

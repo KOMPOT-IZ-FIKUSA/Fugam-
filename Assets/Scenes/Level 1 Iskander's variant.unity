@@ -72978,6 +72978,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 305347574081190980, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
+      propertyPath: canToggle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 305347574081190980, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
       propertyPath: _crosshair
       value: 
       objectReference: {fileID: 1230952372}
@@ -73009,6 +73013,10 @@ PrefabInstance:
       propertyPath: pausedBackground
       value: 
       objectReference: {fileID: 2115169495}
+    - target: {fileID: 3567001718617669198, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
+      propertyPath: _journalUI
+      value: 
+      objectReference: {fileID: 2115169496}
     - target: {fileID: 4398261582787060394, guid: d3922e82af3173c45a3ebf2786169c05, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2

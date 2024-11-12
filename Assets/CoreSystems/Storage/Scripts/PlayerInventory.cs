@@ -32,7 +32,6 @@ public class PlayerInventory : MonoBehaviour
     private HotbarContainerUI hotbarContainerUI;
     private JournalUI _journalUI;
 
-
     private bool IsJournalOpen => _journalUI.IsShown;
 
     public HotbarContainer GetHotbarContainer()
