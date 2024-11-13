@@ -9,6 +9,7 @@ public class ClueManager : MonoBehaviour
     
     [SerializeField] private GameObject enlargedCluePanel;
     [SerializeField] private GameObject clueInspectionPanel;
+    [SerializeField] private JournalUI _journalUI;
     
     private ClueData currentClue;
 
@@ -36,6 +37,7 @@ public class ClueManager : MonoBehaviour
         {
             enlargedCluePanel.GetComponent<Image>().sprite = currentClue.sprite;
             clueInspectionPanel.SetActive(true);
+            _journalUI.canToggle = false;
         }
     }
 
@@ -44,6 +46,8 @@ public class ClueManager : MonoBehaviour
         if (clueInspectionPanel != null)
         {
             clueInspectionPanel.SetActive(false);
+            _journalUI.canToggle = true;
+
         }
     }
 }
