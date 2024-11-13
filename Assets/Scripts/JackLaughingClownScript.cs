@@ -6,8 +6,6 @@ public class JackLaughingClownScript : MonoBehaviour
 {
     private AudioSource audioSource;
     private bool hasPlayed = false;
-
-    // Drag the second AudioClip here in the Inspector
     public AudioSource secondSoundClip;
 
     void Start()
