@@ -3,6 +3,7 @@ using System.Threading;
 using UnityEngine;
 using System.Linq;
 using System;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public class MoveRuller : InteractableObject
 {
@@ -20,6 +21,7 @@ public class MoveRuller : InteractableObject
 
     [Header("Cameras")] public GameObject mainCam;
     public GameObject lockCam;
+    public Light lockLight;
 
     private int _scroolRuller = 0;
     private int _selectedRullerIndex = 0;
@@ -102,6 +104,7 @@ public class MoveRuller : InteractableObject
     {
         lockCam.SetActive(true);
         mainCam.SetActive(false);
+        lockLight.gameObject.SetActive(true);
         _playerInteractController.SetUIPauseControls(true);
     }
 
@@ -109,6 +112,7 @@ public class MoveRuller : InteractableObject
     {
         lockCam.SetActive(false);
         mainCam.SetActive(true);
+        lockLight.gameObject.SetActive(false);
         _playerInteractController.SetUIPauseControls(false);
     }
 
