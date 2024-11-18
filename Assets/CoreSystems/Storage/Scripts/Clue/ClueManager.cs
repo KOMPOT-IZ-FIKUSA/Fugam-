@@ -9,7 +9,7 @@ public class ClueManager : MonoBehaviour
     
     [SerializeField] private GameObject enlargedCluePanel;
     [SerializeField] private GameObject clueInspectionPanel;
-    [SerializeField] private JournalUI _journalUI;
+    private JournalUI _journalUI;
     
     private ClueData currentClue;
 
@@ -19,6 +19,7 @@ public class ClueManager : MonoBehaviour
         {
             Instance = this;
             //DontDestroyOnLoad(gameObject);
+            _journalUI = FindObjectOfType<JournalUI>();
         }
         else
         {
