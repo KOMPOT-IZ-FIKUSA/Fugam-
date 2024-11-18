@@ -14,6 +14,7 @@ public class JournalUI : MonoBehaviour
     private float _toggleCooldown = 0;
 
     public bool IsShown { get { return _shown; } }
+    [HideInInspector]
     public bool canToggle = true;
     private void Awake()
     {

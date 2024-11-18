@@ -89,15 +89,12 @@ public class MoveRuller : InteractableObject
                 
             }
         }
-        else
-        {
-            _journalUI.canToggle = true;
-        }
 
         if (Input.GetKeyDown(KeyCode.Escape) && Application.isPlaying)
         {
             EscapeCamera();
             _isOpened = false;
+            _journalUI.canToggle = true;
         }
     }
 
