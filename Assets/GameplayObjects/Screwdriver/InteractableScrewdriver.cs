@@ -5,8 +5,15 @@ using UnityEngine;
 
 public class InteractableScrewdriver : InteractableObject
 {
+    private AudioSource CobwebDestroy;
     private PlayerInventory inventory;
     [SerializeField] public SlotItem screwdriverItemSource;
+    public GameObject Cobweb;
+    public GameObject EmptyObject; //when screwdriver destroys so cobweb sound can still play
+    private float destroyDelay = 0.2f; //delay for destroying objects
+    private float destroyDelay2 = 0.5f;
+
+
 
     public override List<InteractionOptionInstance> GetAvailabeleOptions()
     {
@@ -28,14 +35,25 @@ public class InteractableScrewdriver : InteractableObject
         {
             if (inventory.CanAddItem())
             {
+
                 inventory.AddItem(screwdriverItemSource.Copy());
-                Destroy(gameObject);
+                // Play destroy sound from the separate GameObject
+                AudioSource CobwebDestroy = EmptyObject.GetComponent<AudioSource>();
+                if (CobwebDestroy != null)
+                {
+                    CobwebDestroy.Play();
+                }
+                // Destroy cobweb and screwdriver objects
+                Destroy(Cobweb, destroyDelay);
+                Destroy(gameObject, destroyDelay2);
             }
         }
     }
 
+
     protected override void Start()
     {
+        CobwebDestroy = GetComponent<AudioSource>();
         base.Start();
         inventory = FindObjectOfType<PlayerInventory>();
         if (inventory == null)
