@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class GeneratorControl : MonoBehaviour
+public class GeneratorControl : InteractableObject
 {
     public RoomLightControl lightController;   // Reference to the RoomLightControl script that controls the lamps
     public Animator generatorAnimator;          // Reference to the generator's animator to play the animation
@@ -11,24 +12,68 @@ public class GeneratorControl : MonoBehaviour
 
     private bool playerInRange = false;         // Whether the player is within the generator's collider
 
-    void Start()
+    private bool lightsOn = false;
+    private string lightsHint = "The Fuse is dead!";
+    private InteractionUIController interactionUIController;
+    private PlayerInventory inventory;
+
+    [SerializeField] private SlotItem fuseItem;
+
+
+    public override List<InteractionOptionInstance> GetAvailabeleOptions()
     {
+        List<InteractionOptionInstance> interactionOptionInstances = new List<InteractionOptionInstance>();
+        if (!lightsOn)
+        {
+            interactionOptionInstances.Add(new InteractionOptionInstance(InteractionOption.USE, "Turn on the generator?"));
+        }
+        return interactionOptionInstances;
+    }
+
+    public override void Interact(InteractionOptionInstance option)
+    {
+        base.Interact(option);
+
+        SlotItem selectedItem = inventory.GetSelectedItem();
+
+        if (selectedItem != null && selectedItem.Equals(fuseItem))
+        {
+            TurnOnGenerator();
+            lightsOn = true;
+        }
+        else
+        {
+            interactionUIController.hints.enabled = true;
+            interactionUIController.hints.text = lightsHint;
+            interactionUIController.Invoke("ClearMessage", interactionUIController.hintDelay);
+        }
+    }
+
+    public override bool CanBeSelected()
+    {
+        return !lightsOn;
+    }
+    protected override void Start()
+    {
+        base.Start();
+        interactionUIController = FindObjectOfType<InteractionUIController>();
+        inventory = FindObjectOfType<PlayerInventory>();
+
         // Get the AudioSource components attached to the generator and spotlight (if available)
         generatorAudioSource = GetComponent<AudioSource>();
         if (lightController != null && lightController.redLamps.Length > 4)
         {
             spotlightAudioSource = lightController.redLamps[4].GetComponent<AudioSource>(); // Assuming the spotlight sound is on the 5th red lamp
         }
+
+
+    }
+    protected override void Update()
+    {
+        base.Update();
+
     }
 
-    void Update()
-    {
-        // Detect the player pressing the 'E' key while near the generator, but only if the generator is off
-        if (Input.GetKeyDown(KeyCode.E) && !generatorOn && playerInRange)
-        {
-            TurnOnGenerator();
-        }
-    }
 
     // Detect when the player enters the generator's trigger collider
     private void OnTriggerEnter(Collider other)
@@ -83,4 +128,6 @@ public class GeneratorControl : MonoBehaviour
             }
         }
     }
+
+   
 }

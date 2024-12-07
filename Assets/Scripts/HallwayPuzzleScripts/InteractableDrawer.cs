@@ -5,6 +5,7 @@ using UnityEngine;
 public class InteractableDrawer : InteractableObject
 {
     private InteractablePlanks planksbool;
+    private InteractionUIController interactionUIController;
     private Animation drawerAnim;
     private Rigidbody drawerRb;
 
@@ -36,6 +37,13 @@ public class InteractableDrawer : InteractableObject
                 isItOpened = true;
                 Destroy(this.gameObject, 2f);
             }
+            else
+            {
+                interactionUIController.hints.enabled = true;
+                interactionUIController.hints.text = "I Don't want to touch that if I don't have too!";
+                // Invoke Clear message after the delay
+                interactionUIController.Invoke("ClearMessage", interactionUIController.hintDelay);
+            }
                
         }
     }
@@ -45,7 +53,7 @@ public class InteractableDrawer : InteractableObject
         drawerRb = GetComponent<Rigidbody>();
         drawerAnim = GetComponent<Animation>();
         planksbool = FindObjectOfType<InteractablePlanks>();
-
+        interactionUIController = FindObjectOfType<InteractionUIController>();
     }
     protected override void Update()
     {
