@@ -1,9 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-using System;
-using static UnityEditor.Progress;
-using Unity.VisualScripting;
 
 /// <summary>
 /// The main class that sets up player inventory.
@@ -24,7 +19,7 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private KeyCode throwitemKey;
 
     [SerializeField] private KeyCode openJournalKey = KeyCode.J;
-    
+    [SerializeField] private KeyCode alternateOpenJournalKey = KeyCode.Escape; // alternate one
     private FirstPersonController firstPersonController;
     
     // Non-serializable camera and hotbarUI
@@ -109,10 +104,12 @@ public class PlayerInventory : MonoBehaviour
    };
     void Update()
     {
-        if (Input.GetKeyDown(openJournalKey))
+
+        if (Input.GetKeyDown(openJournalKey) || Input.GetKeyDown(alternateOpenJournalKey))
         {
             _journalUI.TryToggle();
         }
+
         // if journal is not open then hotbar input will work
         if (!IsJournalOpen)
         {
