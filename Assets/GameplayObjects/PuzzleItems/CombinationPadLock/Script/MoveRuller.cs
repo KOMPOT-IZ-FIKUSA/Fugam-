@@ -216,11 +216,9 @@ public class MoveRuller : InteractableObject
         }
 
         float animationSpeed = 180; // degrees per second
-        float absoluteDifference = Mathf.Abs(currentAngle - targetAngle);
-        if (absoluteDifference < 5)
+        if (Mathf.Abs(currentAngle - targetAngle) < 5)
         {
-            // Multiply by absolute difference to make the result close to zero (very slow movement) when the difference is close to zero
-            animationSpeed = animationSpeed / 10f * absoluteDifference; 
+            animationSpeed /= 10;
         }
 
         return currentAngle + increase * deltaTime * animationSpeed;

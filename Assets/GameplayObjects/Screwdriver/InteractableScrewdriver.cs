@@ -12,7 +12,6 @@ public class InteractableScrewdriver : InteractableObject
     public GameObject EmptyObject; //when screwdriver destroys so cobweb sound can still play
     private float destroyDelay = 0.2f; //delay for destroying objects
     private float destroyDelay2 = 0.5f;
-    private bool picked = false;
 
 
 
@@ -32,7 +31,7 @@ public class InteractableScrewdriver : InteractableObject
     public override void Interact(InteractionOptionInstance option)
     {
         base.Interact(option);
-        if (option.option == InteractionOption.PICK_UP && !picked)
+        if (option.option == InteractionOption.PICK_UP)
         {
             if (inventory.CanAddItem())
             {
@@ -47,7 +46,6 @@ public class InteractableScrewdriver : InteractableObject
                 // Destroy cobweb and screwdriver objects
                 Destroy(Cobweb, destroyDelay);
                 Destroy(gameObject, destroyDelay2);
-                picked = true;
             }
         }
     }
