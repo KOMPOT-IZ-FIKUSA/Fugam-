@@ -10,7 +10,8 @@ public enum InteractionOption
     OPEN,
     CLOSE,
     PULL,
-    ZOOM
+    ZOOM,
+    USE
 }
 
 /// <summary>
@@ -23,7 +24,8 @@ public class OptionsKeyMap
         {InteractionOption.OPEN, new NamedKey("E", KeyCode.E)},
         {InteractionOption.CLOSE, new NamedKey("E", KeyCode.E)},
         {InteractionOption.PULL, new NamedKey ("E", KeyCode.E)},
-        {InteractionOption.ZOOM, new NamedKey("E", KeyCode.E) }
+        {InteractionOption.ZOOM, new NamedKey("E", KeyCode.E) },
+        {InteractionOption.USE ,  new NamedKey("E", KeyCode.E) }
     };
 }
 
