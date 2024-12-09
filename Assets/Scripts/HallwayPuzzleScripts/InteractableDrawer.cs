@@ -10,6 +10,8 @@ public class InteractableDrawer : InteractableObject
     private Animation drawerAnim;
     private Rigidbody drawerRb;
 
+    private string crowbarBroke = "Damn, this crowbar is busted!";
+
     [SerializeField] private SlotItem Crowbar;
     private bool isItOpened = false;
     
@@ -40,6 +42,10 @@ public class InteractableDrawer : InteractableObject
                 isItOpened = true;
                 Destroy(this.gameObject, 2f);
                 inventory.GetHotbarContainer().DeleteItem(inventory.SelectedSlot);
+                interactionUIController.hints.enabled = true;
+                interactionUIController.hints.text = crowbarBroke;
+                // Invoke Clear message after the delay
+                interactionUIController.Invoke("ClearMessage", interactionUIController.hintDelay);
             }
             else if(selectedItem.Equals(Crowbar) && (!planksbool.topPlankPulled || !planksbool.bottomPlankPulled))
             {

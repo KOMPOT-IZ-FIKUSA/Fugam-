@@ -5,12 +5,13 @@ using UnityEngine;
 public class InteractableFuse : InteractableObject
 {
     private PlayerInventory inventory;
+    private SmashableSink smashableSink;
     [SerializeField] public SlotItem fuseItemSource;
     private bool pickedUpFuse = false;
     public override List<InteractionOptionInstance> GetAvailabeleOptions()
     {
         List<InteractionOptionInstance> options = new List<InteractionOptionInstance>();
-        if (inventory.CanAddItem())
+        if (inventory.CanAddItem() && smashableSink.isSmashed)
         {
             options.Add(new InteractionOptionInstance(InteractionOption.PICK_UP, "Pick up Fuse?"));
         }
@@ -34,11 +35,16 @@ public class InteractableFuse : InteractableObject
             }
         }
     }
+    public override bool CanBeSelected()
+    {
+        return !pickedUpFuse && smashableSink.isSmashed;
+    }
 
     protected override void Start()
     {
         base.Start();
         inventory = FindObjectOfType<PlayerInventory>();
+        smashableSink = FindObjectOfType<SmashableSink>();
     }
 
     protected override void Update()
