@@ -12,7 +12,7 @@ public class GeneratorControl : InteractableObject
 
     private bool playerInRange = false;         // Whether the player is within the generator's collider
 
-    private bool lightsOn = false;
+    public bool lightsOn = false;
     private string lightsHint = "The Fuse is dead!";
     private InteractionUIController interactionUIController;
     private PlayerInventory inventory;
@@ -39,6 +39,7 @@ public class GeneratorControl : InteractableObject
         if (selectedItem != null && selectedItem.Equals(fuseItem))
         {
             TurnOnGenerator();
+            inventory.GetHotbarContainer().DeleteItem(inventory.SelectedSlot);
             lightsOn = true;
         }
         else
