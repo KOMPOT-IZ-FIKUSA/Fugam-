@@ -40,7 +40,7 @@ public class PushableDrawers : InteractableObject
         pushDrawersAnim = GetComponent<Animation>();
         interactionUIController = FindObjectOfType<InteractionUIController>();
         inventory = FindObjectOfType<PlayerInventory>();
-        if (inventory != null)
+        if (inventory == null)
         {
             Debug.LogError("PlayerInventory not found");
         }
