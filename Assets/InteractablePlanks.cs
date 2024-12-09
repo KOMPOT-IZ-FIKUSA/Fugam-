@@ -9,6 +9,7 @@ public class InteractablePlanks : InteractableObject
     public bool topPlankPulled = false;
     public bool bottomPlankPulled = false;
     private string planksHint = "You need a tool to remove the planks!";
+    private string crowbarBroke = "Damn, this crowbar is busted!";
     private InteractionUIController interactionUIController;
     private PlayerInventory inventory;
 
@@ -34,25 +35,31 @@ public class InteractablePlanks : InteractableObject
         {
             if (selectedItem != null && selectedItem.Equals(Crowbar))  // Check if selected item is screwdriver
             {
+                
                 if (this.gameObject.tag == "TopPlank" && !topPlankPulled)
                 {
+                    
                     topPlankPulled = true;
                     myPlankAnimations.Play("PlankTopAnim");
                     plankRb.isKinematic = false;
+                   
                 }
+                
                 else if (this.gameObject.tag == "BottomPlank" && !bottomPlankPulled)
                 {
+                    
                     bottomPlankPulled = true;
                     myPlankAnimations.Play("PlankBottomAnim");
                     plankRb.isKinematic = false;
                 }
-            }
-            else
-            {
-                interactionUIController.hints.enabled = true;
-                interactionUIController.hints.text = planksHint;
-                // Invoke Clear message after the delay
-                interactionUIController.Invoke("ClearMessage", interactionUIController.hintDelay);
+                else
+                {
+                    interactionUIController.hints.enabled = true;
+                    interactionUIController.hints.text = planksHint;
+                    // Invoke Clear message after the delay
+                    interactionUIController.Invoke("ClearMessage", interactionUIController.hintDelay);
+                }
+                
             }
         }
     }
