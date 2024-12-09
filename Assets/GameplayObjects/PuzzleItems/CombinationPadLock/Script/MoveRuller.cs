@@ -67,7 +67,6 @@ public class MoveRuller : InteractableObject
         base.Update();
         if (_isOpened)
         {
-            _journalUI.canToggle = false;
             if (IsSolved)
             {
                 if (!_keyGiven)
@@ -96,12 +95,12 @@ public class MoveRuller : InteractableObject
         {
             EscapeCamera();
             _isOpened = false;
-            _journalUI.canToggle = true;
         }
     }
 
     public void LockCameras()
     {
+        _journalUI.canToggle = false;
         lockCam.SetActive(true);
         mainCam.SetActive(false);
         lockLight.gameObject.SetActive(true);
@@ -110,6 +109,7 @@ public class MoveRuller : InteractableObject
 
     public void EscapeCamera()
     {
+        _journalUI.canToggle = true;
         lockCam.SetActive(false);
         mainCam.SetActive(true);
         lockLight.gameObject.SetActive(false);
@@ -215,10 +215,11 @@ public class MoveRuller : InteractableObject
             }
         }
 
+        float absoluteDifference = Mathf.Abs(currentAngle - targetAngle);
         float animationSpeed = 180; // degrees per second
-        if (Mathf.Abs(currentAngle - targetAngle) < 5)
+        if (absoluteDifference < 5)
         {
-            animationSpeed /= 10;
+            animationSpeed = animationSpeed / 10f * absoluteDifference;
         }
 
         return currentAngle + increase * deltaTime * animationSpeed;

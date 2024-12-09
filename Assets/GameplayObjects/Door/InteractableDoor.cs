@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// A class to handle a door.
@@ -42,10 +43,14 @@ public class InteractableDoor : InteractableObject
             //Checks if it is equal to a key
             if (selectedItem != null && selectedItem.Equals(key))
             {
-                doorAnim.Play("DoorAnim");
-                doorOpened = true;
+                //doorAnim.Play("DoorAnim");
+                //doorOpened = true;
                 doorUnlocked = true;
                 inventory.GetHotbarContainer().SetItem(inventory.SelectedSlot, null);
+
+                BlackScreenFade transition = FindAnyObjectByType<BlackScreenFade>();
+                transition.FadeOut();
+                transition.OnFinished = () => { SceneManager.LoadScene(2); };
             }
             else if(doorUnlocked == true)
             {

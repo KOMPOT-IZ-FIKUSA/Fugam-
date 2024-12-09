@@ -52,12 +52,19 @@ public abstract class InteractableObject : MonoBehaviour
 
     protected virtual void Awake()
     {
-        outline = GetComponent<Outline>();
-        if (outline is null)
+
+        try
         {
-            outline = gameObject.AddComponent<Outline>();
-            outline.OutlineColor = Color.yellow;
-            outline.OutlineWidth = 5;
+            outline = GetComponent<Outline>();
+            if (outline is null)
+            {
+                outline = gameObject.AddComponent<Outline>();
+                outline.OutlineColor = Color.yellow;
+                outline.OutlineWidth = 5;
+            }
+        } catch (System.Exception ex)
+        {
+            //Debug.LogError(ex);
         }
         playerController = FindObjectOfType<PlayerInteractController>();
         if (playerController == null)

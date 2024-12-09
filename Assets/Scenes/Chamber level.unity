@@ -20962,6 +20962,53 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: ec5cb2e3dff903f478a552f37540398c, type: 3}
   m_PrefabInstance: {fileID: 1519830682}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1203114141
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1203114143}
+  - component: {fileID: 1203114142}
+  m_Layer: 0
+  m_Name: transition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1203114142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203114141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4614a88809d0d1d448cc1d60f07187d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FadeInOnEnable: 1
+  Black: {fileID: 21300000, guid: 064c82b64c4332d469d81e87801be510, type: 3}
+  FadeTime: 1.5
+--- !u!4 &1203114143
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203114141}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5206051, y: 11.441672, z: 5.427428}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1217169897 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100002, guid: 905ad21e346dbeb40ba8b17f8fad8179, type: 3}
@@ -25584,15 +25631,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3404402356410622241, guid: 852a11fecc1877149be52139ea40a3be, type: 3}
       propertyPath: CorrectPassword.Array.data[1]
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3404402356410622241, guid: 852a11fecc1877149be52139ea40a3be, type: 3}
       propertyPath: CorrectPassword.Array.data[2]
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3404402356410622241, guid: 852a11fecc1877149be52139ea40a3be, type: 3}
       propertyPath: CorrectPassword.Array.data[3]
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3404402356410622242, guid: 852a11fecc1877149be52139ea40a3be, type: 3}
       propertyPath: openLockClip
@@ -73886,3 +73933,4 @@ SceneRoots:
   - {fileID: 2115169494}
   - {fileID: 1732626857}
   - {fileID: 1724724825}
+  - {fileID: 1203114143}

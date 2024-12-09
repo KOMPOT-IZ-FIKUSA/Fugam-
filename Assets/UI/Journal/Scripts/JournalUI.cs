@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,7 +45,6 @@ public class JournalUI : MonoBehaviour
         _toggleCooldown = 1;
 
         string clipName;
-
         if (!canToggle)
         {
             return;
