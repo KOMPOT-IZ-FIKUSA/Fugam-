@@ -34,12 +34,12 @@ public abstract class SlotContainerUI : MonoBehaviour
         if (SlotsTransforms.Length != container.GetCapability())
         {
             // Error example: 'Found 0 slot position objects for 9 slots in the container.'
-            Debug.LogError($"Error: Found {SlotsTransforms.Length} slot position objects for {container.GetCapability()} slots in the container.");
+           // Debug.LogError($"Error: Found {SlotsTransforms.Length} slot position objects for {container.GetCapability()} slots in the container.");
         }
 
         if (index < 0 || index >= SlotsTransforms.Length)
         {
-            Debug.LogError($"Invalid index {index}. Must be between 0 and {SlotsTransforms.Length - 1}");
+            //Debug.LogError($"Invalid index {index}. Must be between 0 and {SlotsTransforms.Length - 1}");
             return Rect.zero; // It returns a default value or handle this case appropriately.
         }
         RectTransform rectTransform = SlotsTransforms[index].GetComponent<RectTransform>();
@@ -130,7 +130,7 @@ public abstract class SlotContainerUI : MonoBehaviour
         {
             if (SlotsTransforms[i] == null)
             {
-                Debug.LogError($"Hotbar slot {i} is null");
+                //Debug.LogError($"Hotbar slot {i} is null");
             }
         }
     }

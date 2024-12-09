@@ -108,6 +108,7 @@ public class PlayerInventory : MonoBehaviour
         if (Input.GetKeyDown(openJournalKey) || Input.GetKeyDown(alternateOpenJournalKey))
         {
             _journalUI.TryToggle();
+            
         }
 
         // if journal is not open then hotbar input will work

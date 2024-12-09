@@ -9,6 +9,9 @@ public class JournalUI : MonoBehaviour
     [SerializeField] private Animation _animation;
     [SerializeField] private PlayerInteractController _playerInteractController;
     [SerializeField] private GameObject _crosshair;
+    [SerializeField] private AudioSource JournalSource;
+    [SerializeField] private AudioClip OpenJournalClip;
+    [SerializeField] private AudioClip CloseJournalClip;
 
     private bool _shown = false;
     private float _toggleCooldown = 0;
@@ -48,6 +51,8 @@ public class JournalUI : MonoBehaviour
         }
         if (_shown)
         {
+            JournalSource.PlayOneShot(CloseJournalClip);
+
             clipName = "JournalClose";
             _shown = false;
             Cursor.lockState = CursorLockMode.Locked;
@@ -55,9 +60,12 @@ public class JournalUI : MonoBehaviour
             _playerInteractController.SetUIPauseControls(false);
         } else
         {
+            JournalSource.PlayOneShot(OpenJournalClip);
+
             clipName = "JournalOpen";
             _shown = true;
             _playerInteractController.SetUIPauseControls(true);
+
         }
         _animation.Play(clipName);
         Invoke("_setCursor", _animation.GetClip(clipName).length / 2);
