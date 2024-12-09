@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clueName: 
   clueDescription: 
-  clueMessage: 
+  clueMessage: This seems to be important. I'll keep it.
   sprite: {fileID: 21300000, guid: e4df85f2b6c3a004891e5fd35645f279, type: 3}
