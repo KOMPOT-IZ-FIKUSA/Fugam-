@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ExitDoor : InteractableObject
 {
@@ -31,6 +32,9 @@ public class ExitDoor : InteractableObject
                 interactionUIController.hints.enabled = true;
                 interactionUIController.hints.text = "YOU ESCAPED!";
                 interactionUIController.Invoke("ClearMessage", interactionUIController.hintDelay);
+                BlackScreenFade transition = FindAnyObjectByType<BlackScreenFade>();
+                transition.FadeOut();
+                transition.OnFinished = () => { SceneManager.LoadScene(0); };
             }
             else
             {

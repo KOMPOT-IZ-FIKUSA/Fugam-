@@ -7,7 +7,11 @@ public class MenuHandler : MonoBehaviour
 {
     [SerializeField] GameObject settings;
     [SerializeField] GameObject menu;
-  
+
+    public void LoadScene(int Index)
+    {
+        SceneManager.LoadScene(Index);
+    }
     public void StartGame()
     {
         SceneManager.LoadScene(1); // loads the scene 1 that is going to be the chamber
