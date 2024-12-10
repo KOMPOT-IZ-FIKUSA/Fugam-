@@ -35,7 +35,7 @@ public class InteractableDrawer : InteractableObject
 
         if (option.option == InteractionOption.PULL && !isItOpened)
         {
-            if (selectedItem.Equals(Crowbar) && (planksbool.topPlankPulled || planksbool.bottomPlankPulled))
+            if (selectedItem != null && selectedItem.Equals(Crowbar) && (planksbool.topPlankPulled || planksbool.bottomPlankPulled))
             {
                 drawerAnim.Play("DrawerAnim");
                 drawerRb.isKinematic = false;
@@ -44,27 +44,29 @@ public class InteractableDrawer : InteractableObject
                 inventory.GetHotbarContainer().DeleteItem(inventory.SelectedSlot);
                 interactionUIController.hints.enabled = true;
                 interactionUIController.hints.text = crowbarBroke;
-                // Invoke Clear message after the delay
                 interactionUIController.Invoke("ClearMessage", interactionUIController.hintDelay);
             }
-            else if(selectedItem.Equals(Crowbar) && (!planksbool.topPlankPulled || !planksbool.bottomPlankPulled))
+            else if (selectedItem != null && selectedItem.Equals(Crowbar) && (!planksbool.topPlankPulled || !planksbool.bottomPlankPulled))
             {
                 interactionUIController.hints.enabled = true;
-                interactionUIController.hints.text = "I Don't want to touch that if I don't have too!";
-                // Invoke Clear message after the delay
+                interactionUIController.hints.text = "I Don't want to touch that if I don't have to!";
                 interactionUIController.Invoke("ClearMessage", interactionUIController.hintDelay);
             }
-            else if(!selectedItem.Equals(Crowbar) && (planksbool.topPlankPulled || planksbool.bottomPlankPulled))
+            else if ((selectedItem == null || !selectedItem.Equals(Crowbar)) && (planksbool.topPlankPulled || planksbool.bottomPlankPulled))
             {
                 interactionUIController.hints.enabled = true;
                 interactionUIController.hints.text = "Maybe with the crowbar?!";
-                // Invoke Clear message after the delay
                 interactionUIController.Invoke("ClearMessage", interactionUIController.hintDelay);
             }
-           
-           
+            else
+            {
+                interactionUIController.hints.enabled = true;
+                interactionUIController.hints.text = "I Don't want to touch that if I don't have to!";
+                interactionUIController.Invoke("ClearMessage", interactionUIController.hintDelay);
+            }
         }
     }
+
     protected override void Start()
     {
         base.Start();

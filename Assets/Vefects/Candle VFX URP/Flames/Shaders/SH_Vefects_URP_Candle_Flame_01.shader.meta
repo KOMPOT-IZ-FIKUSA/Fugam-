@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: b9c229bc1b573894aaebdde5bca7247e
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _FlameTexture: {fileID: 2800000, guid: 3d7dd642a5acab84594e789377168cba, type: 3}
+  - _DistortionTexture: {fileID: 2800000, guid: c41456e9fec361b4db55c9fc66883c07,
+      type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -18,6 +18,7 @@ public class MoveRuller : InteractableObject
     private PlayerInteractController _playerInteractController;
     private Animation _openLockAnimation;
     private JournalUI _journalUI;
+    InteractionUIController interactionUIController; //INTERACTIONUI for our hint message
 
     [Header("Cameras")] public GameObject mainCam;
     public GameObject lockCam;
@@ -85,6 +86,7 @@ public class MoveRuller : InteractableObject
             }
             else
             {
+               
                 MoveRulles();
                 RotateRullers();
                 
@@ -120,6 +122,7 @@ public class MoveRuller : InteractableObject
     {
         EscapeCamera();
         Destroy(gameObject);
+
     }
 
 
